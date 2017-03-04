@@ -1,9 +1,10 @@
 package nju.quadra.quantra.utils;
 
-import org.apache.commons.math.DimensionMismatchException;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.stat.descriptive.MultivariateSummaryStatistics;
-import org.apache.commons.math.stat.regression.SimpleRegression;
+
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import java.util.Arrays;
 
@@ -63,13 +64,27 @@ public class StatisticUtil {
      * @param list
      * @return
      */
-    public static double VAR(double[] list) {
+    public static double VAR_SAMPLE(double[] list) {
         double mean = MEAN(list);
         return 1.0 / (list.length - 1) * DEVSQ(list);
     }
 
-    public static double STD(double[] list) {
-        return Math.sqrt(VAR(list));
+    /**
+     * Biased variance
+     * @param list
+     * @return
+     */
+    public static double VAR_TOTAL(double[] list) {
+        double mean = MEAN(list);
+        return 1.0 / (list.length) * DEVSQ(list);
+    }
+
+    public static double STD_SAMPLE(double[] list) {
+        return Math.sqrt(VAR_SAMPLE(list));
+    }
+
+    public static double STD_TOTAL(double[] list) {
+        return Math.sqrt(VAR_TOTAL(list));
     }
 
     private static double covLikeSum(double[] x, double[] y, double sigmax, double sigmay) {
@@ -119,13 +134,13 @@ public class StatisticUtil {
      * @return
      */
     public static double RELATE(double[][] list) {
-        double stdx = STD(list[0]);
-        double stdy = STD(list[1]);
+        double stdx = STD_SAMPLE(list[0]);
+        double stdy = STD_SAMPLE(list[1]);
         return covLikeSum(list[0], list[1], stdx, stdy);
     }
 
     public static double BETA(double[] a, double[] m) {
-        return COV(new double[][]{a, m}) / VAR(m);
+        return COV(new double[][]{a, m}) / VAR_SAMPLE(m);
     }
 
 }

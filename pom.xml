@@ -44,9 +44,9 @@
             <version>3.2.0</version>
         </dependency>
         <dependency>
-            <groupId>org.kie.modules</groupId>
-            <artifactId>org-apache-commons-math</artifactId>
-            <version>6.5.0.Final</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
         </dependency>
     </dependencies>
 </project>
