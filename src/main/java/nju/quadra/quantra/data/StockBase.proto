@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_package = "nju.quadra.quantra.data";
+option java_outer_classname = "StockBaseProtos";
+
+message StockBase {
+    repeated StockInfo info = 1;
+
+    message StockInfo {
+        uint32 serial = 1;
+        string date = 2;
+        float open = 3;
+        float high = 4;
+        float low = 5;
+        float close = 6;
+        uint32 volume = 7;
+        float adjClose = 8;
+        uint32 code = 9;
+        string name = 10;
+        string market = 11;
+    }
+}
