@@ -9,7 +9,6 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.data.StockData;
-import nju.quadra.quantra.ui.chart.QuantraKChart;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,10 +29,12 @@ public class QuantraKChartDemo extends Application {
         NumberAxis yAxis = new NumberAxis();
         yAxis.setForceZeroInRange(false);
         QuantraKChart kChart = new QuantraKChart(xAxis, yAxis);
-        kChart.setTitle("深发展A 2014/04");
+        kChart.setTitle("深发展A 2014/03");
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().addAll(stream.map(info -> new XYChart.Data<String, Number>(info.getDate(), info.getOpen(), info)).collect(Collectors.toList()));
+        for (XYChart.Data<String, Number> data : stream.map(info -> new XYChart.Data<String, Number>(info.getDate(), info.getOpen(), info)).collect(Collectors.toList())) {
+            series.getData().add(0, data);
+        }
         kChart.setData(FXCollections.observableArrayList(series));
 
         stage.setScene(new Scene(kChart, 800, 450));

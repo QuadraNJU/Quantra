@@ -61,8 +61,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         if (getData() == null) {
             return;
         }
-        for (int i = getData().size() - 1; i >= 0; i--) {
-            Series<String, Number> series = getData().get(i);
+        for (Series<String, Number> series : getData()) {
             Iterator<Data<String, Number>> iter = getDisplayedDataIterator(series);
             while (iter.hasNext()) {
                 Data<String, Number> item = iter.next();
