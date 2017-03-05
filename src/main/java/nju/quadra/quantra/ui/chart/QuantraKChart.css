@@ -1,0 +1,26 @@
+.chart, .chart * {
+    -fx-background-color: black;
+    -fx-text-fill: whitesmoke;
+    -fx-tick-label-fill: whitesmoke;
+    -fx-vertical-grid-lines-visible: false;
+}
+.candlestick-bar {
+    -fx-background-color: whitesmoke;
+    -fx-background-insets: 0,1,2;
+}
+.candlestick-bar.close-above-open {
+    -fx-background-color: #990e0e;
+}
+.candlestick-bar.open-above-close {
+    -fx-background-color: #19b34c;
+}
+.candlestick-line {
+    -fx-stroke: whitesmoke;
+    -fx-stroke-width: 2px;
+}
+.candlestick-line.close-above-open {
+    -fx-stroke: #990e0e;
+}
+.candlestick-line.open-above-close {
+    -fx-stroke: #19b34c;
+}

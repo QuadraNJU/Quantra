@@ -16,9 +16,8 @@ public class StockData {
 
     public static List<StockInfo> getList() {
         if (base == null) {
-            FileInputStream is = null;
             try {
-                is = new FileInputStream(DATA_FILE);
+                FileInputStream is = new FileInputStream(DATA_FILE);
                 base = StockBaseProtos.StockBase.parseFrom(is);
                 is.close();
             } catch (Exception e) {
