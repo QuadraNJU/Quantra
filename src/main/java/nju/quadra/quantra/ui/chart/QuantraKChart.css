@@ -1,8 +1,23 @@
-.chart, .chart * {
+.chart {
     -fx-background-color: black;
-    -fx-text-fill: whitesmoke;
-    -fx-tick-label-fill: whitesmoke;
     -fx-vertical-grid-lines-visible: false;
+}
+.chart-title {
+    -fx-text-fill: whitesmoke;
+}
+.chart-plot-background {
+    -fx-background-color: black;
+}
+.axis {
+    -fx-tick-label-fill: whitesmoke;
+}
+.chart .line {
+    -fx-stroke: whitesmoke;
+}
+.tooltip {
+    -fx-background-color: rgba(0, 0, 140, .5);
+    -fx-text-fill: whitesmoke;
+    -fx-padding: 0;
 }
 .candlestick-bar {
     -fx-background-color: whitesmoke;
@@ -15,8 +30,7 @@
     -fx-background-color: #19b34c;
 }
 .candlestick-line {
-    -fx-stroke: whitesmoke;
-    -fx-stroke-width: 2px;
+    -fx-stroke-width: 3px;
 }
 .candlestick-line.close-above-open {
     -fx-stroke: #990e0e;
