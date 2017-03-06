@@ -117,8 +117,7 @@ public class StatisticUtilTest {
     public void testLogReturn() {
         List<StockInfo> list = StockData.getList();
         List<StockInfo> stock1 = list.stream().filter(u -> u.getCode() == 1).collect(Collectors.toList());
-        List<StockInfo> stock2 = list.stream().filter(u -> u.getCode() == 10).collect(Collectors.toList());
 
-        StatisticUtil.LOG_RETURN(stock1, stock2);
+        StatisticUtil.LOG_RETURN(stock1);
     }
 }
