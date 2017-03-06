@@ -1,12 +1,18 @@
 package nju.quadra.quantra.utils;
 
 
+import nju.quadra.quantra.data.StockBaseProtos.StockBase.*;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by RaUkonn on 2017/3/4.
@@ -67,6 +73,10 @@ public class StatisticUtil {
     public static double VAR_SAMPLE(double[] list) {
         double mean = MEAN(list);
         return 1.0 / (list.length - 1) * DEVSQ(list);
+    }
+
+    public static double VAR_SAMPLE(List<Double> list) {
+        return VAR_SAMPLE(list.stream().mapToDouble(u -> u.doubleValue()).toArray());
     }
 
     /**
@@ -141,6 +151,24 @@ public class StatisticUtil {
 
     public static double BETA(double[] a, double[] m) {
         return COV(new double[][]{a, m}) / VAR_SAMPLE(m);
+    }
+
+    public static List<Object> LOG_RETURN(List<StockInfo> stock1, List<StockInfo> stock2) {
+        List<Double> logStock1 = stock1.stream().map(u -> Math.log(u.getClose() / u.getOpen()))
+                .collect(Collectors.toList());
+        List<Double> logStock2 = stock2.stream().map(u -> Math.log(u.getClose() / u.getOpen()))
+                .collect(Collectors.toList());
+
+        double var1 = VAR_SAMPLE(logStock1);
+        double var2 = VAR_SAMPLE(logStock2);
+
+        List<Object> result = new ArrayList<>();
+        result.add(logStock1);
+        result.add(logStock2);
+        result.add(var1);
+        result.add(var2);
+        System.out.print(result);
+        return result;
     }
 
 }

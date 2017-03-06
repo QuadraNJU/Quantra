@@ -1,10 +1,14 @@
 package nju.quadra.quantra.data;
 
+import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.utils.StatisticUtil;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.sqrt;
 
@@ -107,5 +111,14 @@ public class StatisticUtilTest {
                 {3.0/4, 0.67}
         };
         Assert.assertEquals(-1, StatisticUtil.RELATE(list), 0.01);
+    }
+
+    @Test
+    public void testLogReturn() {
+        List<StockInfo> list = StockData.getList();
+        List<StockInfo> stock1 = list.stream().filter(u -> u.getCode() == 1).collect(Collectors.toList());
+        List<StockInfo> stock2 = list.stream().filter(u -> u.getCode() == 10).collect(Collectors.toList());
+
+        StatisticUtil.LOG_RETURN(stock1, stock2);
     }
 }
