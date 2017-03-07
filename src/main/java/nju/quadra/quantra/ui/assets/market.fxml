@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="20.0" layoutY="14.0" text="XXXX/XX/XX" textFill="WHITESMOKE">
+      <Label fx:id="labelDate" layoutX="20.0" layoutY="14.0" text="XXXX/XX/XX" textFill="WHITESMOKE">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <JFXDatePicker defaultColor="#eceff1" layoutX="797.0" layoutY="21.0" />
+      <JFXDatePicker fx:id="picker" defaultColor="#eceff1" layoutX="797.0" layoutY="21.0" />
       <HBox layoutX="20.0" layoutY="68.0" prefHeight="30.0" prefWidth="960.0" />
       <GridPane layoutX="20.0" layoutY="118.0" prefHeight="700.0" prefWidth="960.0">
         <columnConstraints>
@@ -45,12 +45,12 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <JFXTreeTableView layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
+                  <JFXTreeTableView fx:id="tableRising1" layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
                       <columns>
-                          <JFXTreeTableColumn text="代码" />
-                          <JFXTreeTableColumn text="名称" />
-                          <JFXTreeTableColumn text="收盘价" />
-                          <JFXTreeTableColumn text="涨幅" />
+                          <JFXTreeTableColumn fx:id="columnRising1Code" text="代码" />
+                          <JFXTreeTableColumn fx:id="columnRising1Name" text="名称" />
+                          <JFXTreeTableColumn fx:id="columnRising1Close" text="收盘价" />
+                          <JFXTreeTableColumn fx:id="columnRising1RisingRate" text="涨幅" />
                       </columns>
                   </JFXTreeTableView>
                </children>
@@ -58,22 +58,22 @@
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <MaterialDesignIconView fill="#eceff1" glyphName="TRENDING_UP" layoutY="42.0" size="48.0" />
-                  <Label layoutX="53.0" layoutY="8.0" text="今日涨停" textFill="WHITESMOKE">
+                  <Label layoutX="53.0" layoutY="8.0" text="涨幅超过5%" textFill="WHITESMOKE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="155.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
+                  <Label fx:id="labelRisingOverFivePer" layoutX="187.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <JFXTreeTableView layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
+                  <JFXTreeTableView fx:id="tableRising2" layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
                      <columns>
-                        <JFXTreeTableColumn text="代码" />
-                        <JFXTreeTableColumn text="名称" />
-                        <JFXTreeTableColumn text="收盘价" />
-                        <JFXTreeTableColumn text="涨幅" />
+                         <JFXTreeTableColumn fx:id="columnRising2Code" text="代码" />
+                         <JFXTreeTableColumn fx:id="columnRising2Name" text="名称" />
+                         <JFXTreeTableColumn fx:id="columnRising2Close" text="收盘价" />
+                         <JFXTreeTableColumn fx:id="columnRising2RisingRate" text="涨幅" />
                      </columns>
                   </JFXTreeTableView>
                </children>
@@ -81,22 +81,22 @@
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                <children>
                   <MaterialDesignIconView fill="#eceff1" glyphName="TRENDING_UP" layoutY="42.0" size="48.0" />
-                  <Label layoutX="53.0" layoutY="8.0" text="今日涨停" textFill="WHITESMOKE">
+                  <Label layoutX="53.0" layoutY="8.0" text="正向指数超过5%" textFill="WHITESMOKE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="155.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
+                  <Label fx:id="labelOverLastFivePer" layoutX="237.0" layoutY="11.0" prefHeight="26.0" prefWidth="64.0" text="(123)" textFill="WHITESMOKE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <JFXTreeTableView layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
+                  <JFXTreeTableView fx:id="tableRising3" layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
                      <columns>
-                        <JFXTreeTableColumn text="代码" />
-                        <JFXTreeTableColumn text="名称" />
-                        <JFXTreeTableColumn text="收盘价" />
-                        <JFXTreeTableColumn text="涨幅" />
+                         <JFXTreeTableColumn fx:id="columnRising3Code" text="代码" />
+                         <JFXTreeTableColumn fx:id="columnRising3Name" text="名称" />
+                         <JFXTreeTableColumn fx:id="columnRising3Close" text="收盘价" />
+                         <JFXTreeTableColumn fx:id="columnRising3RisingRate" text="涨幅" />
                      </columns>
                   </JFXTreeTableView>
                </children>
@@ -109,39 +109,39 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="155.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
+                  <Label fx:id="labelFallingLimit" layoutX="155.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <JFXTreeTableView layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
+                  <JFXTreeTableView fx:id="tableFalling1" layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
                      <columns>
-                        <JFXTreeTableColumn text="代码" />
-                        <JFXTreeTableColumn text="名称" />
-                        <JFXTreeTableColumn text="收盘价" />
-                        <JFXTreeTableColumn text="涨幅" />
+                         <JFXTreeTableColumn fx:id="columnFalling1Code" text="代码" />
+                         <JFXTreeTableColumn fx:id="columnFalling1Name" text="名称" />
+                         <JFXTreeTableColumn fx:id="columnFalling1Close" text="收盘价" />
+                         <JFXTreeTableColumn fx:id="columnFalling1RisingRate" text="涨幅" />
                      </columns>
                   </JFXTreeTableView>
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label layoutX="53.0" layoutY="8.0" text="今日涨停" textFill="WHITESMOKE">
+                  <Label layoutX="53.0" layoutY="8.0" text="跌幅超过5%" textFill="WHITESMOKE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="155.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
+                  <Label fx:id="labelFallingOverFivePer" layoutX="188.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <JFXTreeTableView layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
+                  <JFXTreeTableView fx:id="tableFalling2" layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
                      <columns>
-                        <JFXTreeTableColumn text="代码" />
-                        <JFXTreeTableColumn text="名称" />
-                        <JFXTreeTableColumn text="收盘价" />
-                        <JFXTreeTableColumn text="涨幅" />
+                         <JFXTreeTableColumn fx:id="columnFalling2Code" text="代码" />
+                         <JFXTreeTableColumn fx:id="columnFalling2Name" text="名称" />
+                         <JFXTreeTableColumn fx:id="columnFalling2Close" text="收盘价" />
+                         <JFXTreeTableColumn fx:id="columnFalling2RisingRate" text="涨幅" />
                      </columns>
                   </JFXTreeTableView>
                   <MaterialDesignIconView fill="#eceff1" glyphName="TRENDING_DOWN" layoutY="44.0" size="48.0" />
@@ -150,22 +150,22 @@
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
                   <MaterialDesignIconView fill="#eceff1" glyphName="TRENDING_DOWN" layoutY="42.0" size="48.0" />
-                  <Label layoutX="53.0" layoutY="8.0" text="今日跌停" textFill="WHITESMOKE">
+                  <Label layoutX="53.0" layoutY="8.0" text="负向指数超过5%" textFill="WHITESMOKE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="155.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
+                  <Label fx:id="labelUnderLastFivePer" layoutX="242.0" layoutY="12.0" text="(123)" textFill="WHITESMOKE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <JFXTreeTableView layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
+                  <JFXTreeTableView fx:id="tableFalling3" layoutY="48.0" prefHeight="302.0" prefWidth="320.0">
                      <columns>
-                        <JFXTreeTableColumn text="代码" />
-                        <JFXTreeTableColumn text="名称" />
-                        <JFXTreeTableColumn text="收盘价" />
-                        <JFXTreeTableColumn text="涨幅" />
+                         <JFXTreeTableColumn fx:id="columnFalling3Code" text="代码" />
+                         <JFXTreeTableColumn fx:id="columnFalling3Name" text="名称" />
+                         <JFXTreeTableColumn fx:id="columnFalling3Close" text="收盘价" />
+                         <JFXTreeTableColumn fx:id="columnFalling3RisingRate" text="涨幅" />
                      </columns>
                   </JFXTreeTableView>
                </children>
