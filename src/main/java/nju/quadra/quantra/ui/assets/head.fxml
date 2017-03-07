@@ -5,20 +5,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXButton layoutX="770.0" layoutY="33.0" text="市场" textFill="WHITE">
+      <JFXButton layoutX="770.0" layoutY="33.0" text="市场" textFill="WHITESMOKE">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="830.0" layoutY="33.0" text="股票列表" textFill="WHITE">
+      <JFXButton layoutX="830.0" layoutY="33.0" text="股票列表" textFill="WHITESMOKE">
          <font>
             <Font size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="926.0" layoutY="33.0" text="对比" textFill="WHITE">
+      <JFXButton layoutX="926.0" layoutY="33.0" text="对比" textFill="WHITESMOKE">
          <font>
             <Font size="18.0" />
          </font>
