@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="19.0" layoutY="119.0">
+         <children>
+            <Pane prefHeight="500.0" prefWidth="960.0" />
+            <HBox prefWidth="960.0">
+               <children>
+                  <JFXButton text="VOL" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton text="MACD" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton text="KDJ" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton text="BOLL" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton text="PSY" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Pane prefHeight="200.0" prefWidth="960.0" />
+         </children>
+      </VBox>
+      <Pane layoutX="929.0" layoutY="80.0" prefHeight="200.0" prefWidth="40.0" />
+      <HBox layoutX="14.0" layoutY="14.0" spacing="10.0">
+         <children>
+            <VBox>
+               <children>
+                  <MaterialDesignIconView fill="#eceff1" glyphName="STAR_OUTLINE" size="24" />
+                  <MaterialDesignIconView fill="#eceff1" glyphName="PLUS" size="24" />
+               </children>
+            </VBox>
+            <Label text="深发展A" textFill="WHITESMOKE">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Pane>
+               <children>
+                  <Label text="12.34" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="27.0" text="0.9%" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <MaterialDesignIconView fill="#eceff1" glyphName="TRIANGLE" layoutY="42.0" size="16.0" />
+               </children>
+            </Pane>
+            <VBox>
+               <children>
+                  <Label text="不知道写什么" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label text="不知道写什么" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="104.0" layoutY="73.0" spacing="10.0">
+         <children>
+            <JFXDatePicker defaultColor="#eceff1" />
+            <Label text="-" textFill="WHITESMOKE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXDatePicker defaultColor="#eceff1" />
+         </children>
+      </HBox>
+      <Label layoutX="20.0" layoutY="77.0" text="日期选择" textFill="WHITESMOKE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
