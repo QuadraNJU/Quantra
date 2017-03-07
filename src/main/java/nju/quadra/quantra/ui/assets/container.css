@@ -1,0 +1,7 @@
+.root-stack {
+    -fx-background-color: #455A64;
+}
+
+.scroll-pane, .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}

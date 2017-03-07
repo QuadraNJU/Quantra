@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import nju.quadra.quantra.ui.controller.MarketVC;
 
 /**
  * Created by adn55 on 2017/3/8.
@@ -33,7 +32,7 @@ public class UIContainer extends Stage {
     }
 
     private void loadContent(Node node) {
-        contentPane.getChildren().setAll(node);
+        contentPane.getChildren().add(node);
     }
 
     @FXML

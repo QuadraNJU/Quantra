@@ -1,10 +1,7 @@
-package nju.quadra.quantra.ui.controller;
+package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,35 +17,25 @@ import java.util.List;
  */
 public class MarketVC extends Parent {
     @FXML
-    Label labelDate, labelRisingLimit, labelFallingLimit, labelRisingOverFivePer, labelFallingOverFivePer;
+    private Label labelDate, labelRisingLimit, labelFallingLimit, labelRisingOverFivePer, labelFallingOverFivePer, labelOverLastFivePer, labelUnderLastFivePer;
     @FXML
-    Label labelOverLastFivePer, labelUnderLastFivePer;
+    private JFXDatePicker picker;
     @FXML
-    JFXDatePicker picker;
+    private JFXTreeTableView tableRising1, tableRising2, tableRising3;
     @FXML
-    JFXTreeTableView tableRising1, tableRising2, tableRising3;
-    @FXML
-    JFXTreeTableView tableFalling1, tableFalling2, tableFalling3;
-    @FXML
-    JFXTreeTableColumn columnRising1Code, columnRising1Name, columnRising1Close, columnRising1RisingRate;
-    @FXML
-    JFXTreeTableColumn columnRising2Code, columnRising2Name, columnRising2Close, columnRising2RisingRate;
-    @FXML
-    JFXTreeTableColumn columnRising3Code, columnRising3Name, columnRising3Close, columnRising3RisingRate;
-    @FXML
-    JFXTreeTableColumn columnFalling1Code, columnFalling1Name, columnFalling1Close, columnFalling1RisingRate;
-    @FXML
-    JFXTreeTableColumn columnFalling2Code, columnFalling2Name, columnFalling2Close, columnFalling2RisingRate;
-    @FXML
-    JFXTreeTableColumn columnFalling3Code, columnFalling3Name, columnFalling3Close, columnFalling3RisingRate;
+    private JFXTreeTableView tableFalling1, tableFalling2, tableFalling3;
 
     private String currentDate;
 
     public MarketVC() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("nju/quadra/quantra/ui/assets/market.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/market.fxml"));
+        loader.setController(this);
+        getChildren().add(loader.load());
         currentDate = StockData.getList().get(0).getDate();
 
-        loadingLists(currentDate);
+
+
+//        loadingLists(currentDate);
     }
 
 
@@ -102,24 +89,11 @@ public class MarketVC extends Parent {
 
         labelRisingLimit.setText("(" + stockRisingLimit.size() + ")");
         labelFallingLimit.setText("(" + stockFallingLimit.size() + ")");
-        labelFallingOverFivePer.setText("(" + stockFallingOverFivePer + ")");
-        labelRisingOverFivePer.setText("(" + stockRisingOverFivePer + ")");
-        labelOverLastFivePer.setText("(" + stockOverLastFivePer + ")");
-        labelUnderLastFivePer.setText("(" + stockUnderLastFivePer + ")");
+        labelFallingOverFivePer.setText("(" + stockFallingOverFivePer.size() + ")");
+        labelRisingOverFivePer.setText("(" + stockRisingOverFivePer.size() + ")");
+        labelOverLastFivePer.setText("(" + stockOverLastFivePer.size() + ")");
+        labelUnderLastFivePer.setText("(" + stockUnderLastFivePer.size() + ")");
 
     }
 
-    class StockItem extends RecursiveTreeObject<StockItem> {
-        IntegerProperty code;
-        StringProperty name;
-        DoubleProperty close;
-        DoubleProperty risingRate;
-
-        public StockItem(int code, String name, double close, double risingRate) {
-            this.code = new SimpleIntegerProperty(code);
-            this.name = new SimpleStringProperty(name);
-            this.close = new SimpleDoubleProperty(close);
-            this.risingRate = new SimpleDoubleProperty(risingRate);
-        }
-    }
 }

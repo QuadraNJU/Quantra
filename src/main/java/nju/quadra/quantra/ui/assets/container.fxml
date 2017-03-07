@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,10 +12,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane fx:id="rootStack" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane style="-fx-background-color: #455A64;">
+      <BorderPane maxWidth="1000.0" minHeight="600.0" prefWidth="1000.0">
          <top>
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
                <children>
@@ -51,11 +51,12 @@
             </Pane>
          </top>
          <center>
-            <Pane fx:id="contentPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ScrollPane hbarPolicy="NEVER">
                <BorderPane.margin>
                   <Insets top="10.0" />
                </BorderPane.margin>
-            </Pane>
+               <Pane fx:id="contentPane" />
+            </ScrollPane>
          </center>
       </BorderPane>
    </children>
