@@ -154,17 +154,16 @@ public class StatisticUtil {
         return COV(new double[][]{a, m}) / VAR_SAMPLE(m);
     }
 
-    public static List<Object> LOG_RETURN(List<StockInfo> stock) {
+    public static List<Double> DAILY_LOG_RETURN(List<StockInfo> stock) {
         List<Double> logReturn = IntStream
                 .range(1, stock.size())
                 .mapToObj(i -> Math.log(stock.get(i).getAdjClose() / stock.get(i - 1).getAdjClose()))
                 .collect(Collectors.toList());
-        double var = VAR_SAMPLE(logReturn);
-        List<Object> result = new ArrayList<>();
-        result.add(logReturn);
-        result.add(var);
+        return logReturn;
+    }
 
-        return result;
+    public static double DAILY_LOG_RETURN_VAR(List<StockInfo> stock) {
+        return VAR_SAMPLE(DAILY_LOG_RETURN(stock));
     }
 
 }

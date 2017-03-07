@@ -118,6 +118,8 @@ public class StatisticUtilTest {
         List<StockInfo> list = StockData.getList();
         List<StockInfo> stock1 = list.stream().filter(u -> u.getCode() == 1).collect(Collectors.toList());
 
-        StatisticUtil.LOG_RETURN(stock1);
+        System.out.println(StatisticUtil.DAILY_LOG_RETURN(stock1));
+        System.out.println(StatisticUtil.DAILY_LOG_RETURN_VAR(stock1));
+
     }
 }
