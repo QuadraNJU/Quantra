@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXDatePicker defaultColor="#eceff1" layoutX="803.0" layoutY="14.0" />
+      <VBox layoutX="20.0" layoutY="58.0" spacing="10.0">
+         <children>
+            <JFXTreeTableView prefHeight="400.0" prefWidth="960.0" />
+            <Pane>
+               <children>
+                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_DOUBLE_LEFT" layoutX="322.0" layoutY="32.0" size="32.0" text="" />
+                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_LEFT" layoutX="390.0" layoutY="33.0" size="32.0" />
+                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_RIGHT" layoutX="539.0" layoutY="32.0" size="32.0" text="" />
+                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_DOUBLE_RIGHT" layoutX="606.0" layoutY="33.0" size="32.0" />
+                  <JFXTextField alignment="BOTTOM_CENTER" focusColor="WHITE" layoutX="447.0" layoutY="5.0" prefHeight="30.0" prefWidth="32.0" promptText="1" unFocusColor="#979797">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </JFXTextField>
+                  <Label layoutX="480.0" layoutY="9.0" text="/ 50" textAlignment="CENTER" textFill="WHITESMOKE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
+</Pane>
