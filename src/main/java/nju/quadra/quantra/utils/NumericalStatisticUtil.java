@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 /**
  * Created by RaUkonn on 2017/3/4.
  */
-public class StatisticUtil {
+public class NumericalStatisticUtil {
     public static double MEAN(double[] list) { return Arrays.stream(list).average().getAsDouble(); }
 
     /**
@@ -154,16 +154,8 @@ public class StatisticUtil {
         return COV(new double[][]{a, m}) / VAR_SAMPLE(m);
     }
 
-    public static List<Double> DAILY_LOG_RETURN(List<StockInfo> stock) {
-        List<Double> logReturn = IntStream
-                .range(1, stock.size())
-                .mapToObj(i -> Math.log(stock.get(i).getAdjClose() / stock.get(i - 1).getAdjClose()))
-                .collect(Collectors.toList());
-        return logReturn;
-    }
 
-    public static double DAILY_LOG_RETURN_VAR(List<StockInfo> stock) {
-        return VAR_SAMPLE(DAILY_LOG_RETURN(stock));
-    }
+
+
 
 }
