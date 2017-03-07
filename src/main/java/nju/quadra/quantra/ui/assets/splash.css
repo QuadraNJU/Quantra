@@ -1,0 +1,4 @@
+.jfx-spinner .arc {
+    -fx-stroke: whitesmoke;
+    -fx-stroke-width: 5px;
+}

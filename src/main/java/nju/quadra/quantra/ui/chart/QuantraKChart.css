@@ -21,7 +21,6 @@
 }
 .candlestick-bar {
     -fx-background-color: whitesmoke;
-    -fx-background-insets: 0,1,2;
 }
 .candlestick-bar.close-above-open {
     -fx-background-color: #990e0e;

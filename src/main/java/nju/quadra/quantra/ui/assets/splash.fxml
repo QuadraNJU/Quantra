@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="stackPane" stylesheets="@splash.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Pane>
+            <children>
+                <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/splash.png" />
+                    </image>
+                </ImageView>
+                <Pane layoutX="225.0" layoutY="220.0">
+                    <children>
+                        <Label layoutY="66.0" text="正在加载数据，请稍后" textFill="WHITESMOKE" />
+                        <JFXSpinner layoutX="47.0" radius="24.0" startingAngle="0.0" />
+                    </children>
+                </Pane>
+            </children>
+        </Pane>
+        <JFXDialog fx:id="errorDialog" overlayClose="false" onDialogClosed="#onErrorDialogClosed">
+            <JFXDialogLayout>
+                <heading>
+                    <Text>数据加载失败</Text>
+                </heading>
+                <body>
+                    <Text>请检查数据文件是否存在，然后重新打开本应用。</Text>
+                </body>
+                <actions>
+                    <JFXButton onAction="#onOkButtonAction">确定</JFXButton>
+                </actions>
+            </JFXDialogLayout>
+        </JFXDialog>
+    </children>
+</StackPane>
