@@ -1,6 +1,7 @@
 package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.JFXDecorator;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Created by adn55 on 2017/3/8.
@@ -32,16 +35,18 @@ public class UIContainer extends Stage {
     }
 
     private void loadContent(Node node) {
-        contentPane.getChildren().setAll(node);
+        Platform.runLater(() -> contentPane.getChildren().setAll(node));
     }
 
     @FXML
     private void onMarketPageAction() {
-        try {
-            loadContent(new MarketVC());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                loadContent(new MarketVC());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
 }

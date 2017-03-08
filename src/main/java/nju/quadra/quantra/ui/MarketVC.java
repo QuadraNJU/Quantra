@@ -1,47 +1,31 @@
 package nju.quadra.quantra.ui;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by RaUkonn on 2017/3/7.
  */
-public class MarketVC extends Parent {
+public class MarketVC extends Pane {
 
     @FXML
     private GridPane gridPane;
 
-    public MarketVC() {
+    public MarketVC() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/market.fxml"));
+        loader.setRoot(this);
         loader.setController(this);
-        new Thread(() -> {
-            try {
-                Parent root = loader.load();
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 2; j++) {
-                        MarketMiniListVC miniList = new MarketMiniListVC(true, "今日涨停", new ArrayList<>());
-                        int finalI = i;
-                        int finalJ = j;
-                        Platform.runLater(() -> {
-                            gridPane.add(miniList, finalI, finalJ);
-                        });
-                    }
-                }
-                Platform.runLater(() -> {
-                    getChildren().add(root);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        loader.load();
+        MarketMiniListVC miniList = new MarketMiniListVC(true, "今日涨停", StockData.getList());
+        gridPane.add(miniList, 0, 0);
 //        loadingLists(currentDate);
     }
 
