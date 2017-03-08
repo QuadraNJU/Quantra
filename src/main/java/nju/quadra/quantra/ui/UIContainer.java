@@ -32,7 +32,7 @@ public class UIContainer extends Stage {
     }
 
     private void loadContent(Node node) {
-        contentPane.getChildren().add(node);
+        contentPane.getChildren().setAll(node);
     }
 
     @FXML
