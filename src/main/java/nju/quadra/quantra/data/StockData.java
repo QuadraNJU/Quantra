@@ -15,6 +15,7 @@ public class StockData {
     private static final String DATA_FILE = "stock_data.protobuf";
     private static StockBase base;
     public static int size;
+    public static String latest;
 
     public static List<StockInfo> getList() {
         if (base == null) {
@@ -23,6 +24,7 @@ public class StockData {
                 base = StockBaseProtos.StockBase.parseFrom(is);
                 is.close();
                 size = base.getInfoList().size();
+                latest = base.getInfoList().get(0).getDate();
             } catch (Exception e) {
                 e.printStackTrace();
             }

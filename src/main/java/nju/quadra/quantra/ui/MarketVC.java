@@ -147,7 +147,7 @@ public class MarketVC extends Pane {
                         @Override
                         public void updateItem(LocalDate item, boolean empty) {
                             super.updateItem(item, empty);
-                            if (item.isAfter(picker.getValue())) {
+                            if (item.isAfter(DateUtil.parseLocalDate(StockData.latest))) {
                                 setDisable(true);
                                 setStyle("-fx-background-color: #ffc0cb;");
                             }
