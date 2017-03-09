@@ -10,10 +10,7 @@ import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,30 +77,33 @@ public class MarketVC extends Pane {
         List<Double> overLastFivePerRate = new ArrayList<>();
         List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
         List<Double> underLastFivePerRate = new ArrayList<>();
-        for(int i = 0; i < StockData.getList().size() - 1; i++) {
+        for (int i = 0; i < StockData.getList().size() - 1; i++) {
             StockBaseProtos.StockBase.StockInfo curr = StockData.getList().get(i);
-            StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(i+1);
+            StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(i + 1);
 
-            if(curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
-                double rate = (curr.getClose() - last.getClose()) / last.getClose();
+            if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
+                double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
                 double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
-                if(rate >= 0.1) {
+                if (rate >= 0.1) {
                     stockRisingLimit.add(curr);
                     risingLimitRate.add(rate);
-                } else if(rate <= -0.1) {
-                    stockFallingLimit.add(curr);
-                    fallingLimitRate.add(rate);
-                } else if(rate > 0.05) {
+                } else if (rate > 0.05) {
                     stockRisingOverFivePer.add(curr);
                     risingOverFivePerRate.add(rate);
-                } else if(rate < -0.05) {
+                }
+
+                if (rate <= -0.1) {
+                    stockFallingLimit.add(curr);
+                    fallingLimitRate.add(rate);
+                } else if (rate < -0.05) {
                     stockFallingOverFivePer.add(curr);
                     fallingOverFivePerRate.add(rate);
                 }
-                if(otherRate > 0.05) {
+
+                if (otherRate > 0.05) {
                     stockOverLastFivePer.add(curr);
                     overLastFivePerRate.add(otherRate);
-                }else if(otherRate < -0.05) {
+                } else if (otherRate < -0.05) {
                     stockUnderLastFivePer.add(curr);
                     underLastFivePerRate.add(otherRate);
                 }
@@ -113,7 +113,7 @@ public class MarketVC extends Pane {
         risingLimit.setListView(stockRisingLimit, risingLimitRate);
         fallingLimit.setListView(stockFallingLimit, fallingLimitRate);
         risingOverFivePer.setListView(stockRisingOverFivePer, risingOverFivePerRate);
-        fallingOverFivePer.setListView(stockFallingLimit, fallingOverFivePerRate);
+        fallingOverFivePer.setListView(stockFallingOverFivePer, fallingOverFivePerRate);
         overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate);
         underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
     }
