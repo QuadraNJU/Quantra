@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane maxWidth="1000.0" minHeight="600.0" prefWidth="1000.0">
          <top>
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox layoutX="764.0" layoutY="33.0">
+                  <HBox layoutX="784.0" layoutY="33.0">
                      <children>
                         <JFXButton onAction="#onMarketPageAction" text="市场" textFill="WHITESMOKE">
                            <font>
@@ -38,12 +38,12 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <JFXTextField focusColor="WHITE" layoutX="548.0" layoutY="36.0" promptText="搜索股票" unFocusColor="#979797">
+                  <JFXTextField focusColor="WHITE" layoutX="578.0" layoutY="36.0" promptText="搜索股票" unFocusColor="#979797">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="30.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/logo.png" />
                      </image>

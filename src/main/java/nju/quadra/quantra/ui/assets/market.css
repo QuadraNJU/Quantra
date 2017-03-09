@@ -3,3 +3,8 @@
     -fx-text-fill: whitesmoke;
     -fx-padding: 0;
 }
+
+.jfx-date-picker .jfx-text-field {
+    -fx-text-fill: whitesmoke;
+    -jfx-unfocus-color: grey;
+}

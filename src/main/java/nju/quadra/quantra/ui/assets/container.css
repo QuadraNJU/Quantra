@@ -6,6 +6,10 @@
     -fx-background-color: transparent;
 }
 
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+}
+
 .jfx-spinner .arc {
     -fx-stroke: whitesmoke;
     -fx-stroke-width: 10px;
