@@ -3,11 +3,14 @@ package nju.quadra.quantra.ui;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
@@ -15,9 +18,12 @@ import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static nju.quadra.quantra.utils.DateUtil.localDateToString;
@@ -36,7 +42,7 @@ public class MarketVC extends Pane {
     private String currentDate;
 
     @FXML
-    private GridPane gridPane;
+    private GridPane gridPane, gridTemp;
     @FXML
     private Label labelDate;
     @FXML
@@ -65,6 +71,7 @@ public class MarketVC extends Pane {
     private void loadLists(String date) {
         UIContainer.showLoading();
         new Thread(() -> {
+            int[] cnts = new int[3];
             List<StockBaseProtos.StockBase.StockInfo> stockRisingLimit = new ArrayList<>();
             List<Double> risingLimitRate = new ArrayList<>();
             List<StockBaseProtos.StockBase.StockInfo> stockFallingLimit = new ArrayList<>();
@@ -86,23 +93,31 @@ public class MarketVC extends Pane {
                 if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
                     double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
                     double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
-                    if (rate > 0.05) {
-                        stockRisingOverFivePer.add(curr);
-                        risingOverFivePerRate.add(rate);
-                        if (rate >= 0.1) {
-                            stockRisingLimit.add(curr);
-                            risingLimitRate.add(rate);
+                    if(rate > 0) {
+                        if (rate > 0.05) {
+                            stockRisingOverFivePer.add(curr);
+                            risingOverFivePerRate.add(rate);
+                            if (rate >= 0.1) {
+                                stockRisingLimit.add(curr);
+                                risingLimitRate.add(rate);
+                            }
                         }
+                        cnts[0] ++;
+                    }else if(rate < 0) {
+                        if (rate < -0.05) {
+                            stockFallingOverFivePer.add(curr);
+                            fallingOverFivePerRate.add(rate);
+                            if (rate <= -0.1) {
+                                stockFallingLimit.add(curr);
+                                fallingLimitRate.add(rate);
+                            }
+                        }
+                        cnts[2] ++;
+                    } else {
+                        cnts[1] ++;
                     }
 
-                    if (rate < -0.05) {
-                        stockFallingOverFivePer.add(curr);
-                        fallingOverFivePerRate.add(rate);
-                        if (rate <= -0.1) {
-                            stockFallingLimit.add(curr);
-                            fallingLimitRate.add(rate);
-                        }
-                    }
+
 
                     if (otherRate > 0.05) {
                         stockOverLastFivePer.add(curr);
@@ -127,9 +142,36 @@ public class MarketVC extends Pane {
                 fallingOverFivePer.setListView(stockFallingOverFivePer, fallingOverFivePerRate);
                 overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate);
                 underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
+
+                Format f = new DecimalFormat(".##");
+                double risingPer = (double)cnts[0] / Arrays.stream(cnts).sum();
+                double balancingPer = (double)cnts[2] / Arrays.stream(cnts).sum();
+                double fallingPer = 1 - risingPer - balancingPer;
+                gridTemp.getChildren().clear();
+                gridTemp.add(getCenterLabel(f.format(risingPer * 100) + '%',"-fx-background-color: #ff0000;"), 0, 0);
+                gridTemp.add(getCenterLabel(f.format(balancingPer * 100) + '%', "-fx-background-color: #ffff00;"), 1, 0);
+                gridTemp.add(getCenterLabel( f.format(fallingPer * 100) + '%', "-fx-background-color: #00ff00;"), 2, 0);
+                gridTemp.getColumnConstraints().setAll(getColumn(risingPer), getColumn(balancingPer), getColumn(fallingPer));
                 UIContainer.hideLoading();
             });
         }).start();
+    }
+
+    private ColumnConstraints getColumn(double precent) {
+        ColumnConstraints constraints = new ColumnConstraints();
+        constraints.setPercentWidth(precent * 100);
+        return constraints;
+    }
+
+    private GridPane getCenterLabel(String text, String styleSheet) {
+        GridPane pane = new GridPane();
+        pane.setStyle(styleSheet);
+        Label label = new Label(text);
+        label.setTextFill(Paint.valueOf("black"));
+        label.setPrefHeight(30);
+        pane.add(label, 0, 0);
+        GridPane.setHalignment(label, HPos.RIGHT);
+        return pane;
     }
 
     public void onActionDateChange() {

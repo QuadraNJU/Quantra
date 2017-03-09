@@ -17,7 +17,16 @@
          </font>
       </Label>
       <JFXDatePicker fx:id="picker" defaultColor="#eceff1" layoutX="265.0" layoutY="20.0" onAction="#onActionDateChange" />
-      <HBox layoutX="20.0" layoutY="68.0" prefHeight="30.0" prefWidth="960.0" />
+      <GridPane fx:id="gridTemp" layoutX="20.0" layoutY="68.0" prefHeight="30.0" prefWidth="960.0" >
+          <columnConstraints>
+              <ColumnConstraints hgrow="ALWAYS" />
+              <ColumnConstraints hgrow="ALWAYS" />
+              <ColumnConstraints hgrow="ALWAYS" />
+          </columnConstraints>
+          <rowConstraints>
+              <RowConstraints />
+          </rowConstraints>
+      </GridPane>
       <GridPane fx:id="gridPane" hgap="50.0" layoutX="20.0" layoutY="118.0" prefWidth="960.0" vgap="20.0">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" />
