@@ -5,13 +5,14 @@ import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by adn55 on 2017/3/3.
  */
 public class StockData {
 
-    private static final String DATA_FILE = "stock_data.protobuf";
+    private static final String DATA_FILE = "/Users/RaUkonn/IdeaProjects/Quantra/src/main/java/nju/quadra/quantra/data/stock_data.protobuf";
     private static StockBase base;
 
     public static List<StockInfo> getList() {
