@@ -34,10 +34,10 @@
             </HBox>
             <GridPane>
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" />
-                  <ColumnConstraints hgrow="SOMETIMES" />
-                  <ColumnConstraints hgrow="SOMETIMES" />
-                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="20" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="30" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="25" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="25" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
@@ -53,6 +53,6 @@
       </VBox>
    </top>
    <center>
-      <JFXListView fx:id="listView" BorderPane.alignment="CENTER" />
+      <JFXListView fx:id="listView" verticalGap="5" BorderPane.alignment="CENTER" />
    </center>
 </fx:root>

@@ -23,8 +23,9 @@ public class MarketVC extends Pane {
     private MarketMiniListVC fallingLimit = new MarketMiniListVC(false, "今日跌停");
     private MarketMiniListVC risingOverFivePer = new MarketMiniListVC(true, "上涨超5%");
     private MarketMiniListVC fallingOverFivePer = new MarketMiniListVC(false, "下跌超5%");
-    private MarketMiniListVC overLastFivePer = new MarketMiniListVC(true, "上期指数超5%", true);
-    private MarketMiniListVC underLastFivePer = new MarketMiniListVC(false, "上期指数超-5%", true);
+    private MarketMiniListVC underLastFivePer = new MarketMiniListVC(true, "上期指数超-5%", "指数");
+    private MarketMiniListVC overLastFivePer = new MarketMiniListVC(false, "上期指数超5%", "指数");
+
     @FXML
     private GridPane gridPane;
     private String currentDate;
@@ -40,11 +41,11 @@ public class MarketVC extends Pane {
         loader.load();
         currentDate = StockData.getList().get(0).getDate();
         gridPane.add(risingLimit, 0, 0);
-        gridPane.add(fallingLimit, 0, 1);
-        gridPane.add(risingOverFivePer, 1, 0);
+        gridPane.add(fallingLimit, 1, 0);
+        gridPane.add(risingOverFivePer, 0, 1);
         gridPane.add(fallingOverFivePer, 1, 1);
-        gridPane.add(overLastFivePer, 2, 0);
-        gridPane.add(underLastFivePer, 2, 1);
+        gridPane.add(underLastFivePer, 0, 2);
+        gridPane.add(overLastFivePer, 1, 2);
         labelDate.setText(dateParser(currentDate));
         loadingLists(currentDate);
         picker.setPromptText(dateParser(currentDate));
@@ -77,27 +78,31 @@ public class MarketVC extends Pane {
         List<Double> overLastFivePerRate = new ArrayList<>();
         List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
         List<Double> underLastFivePerRate = new ArrayList<>();
-        for (int i = 0; i < StockData.getList().size() - 1; i++) {
-            StockBaseProtos.StockBase.StockInfo curr = StockData.getList().get(i);
-            StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(i + 1);
+
+        StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(0);
+        for (int i = 1; i < StockData.size; i++) {
+            StockBaseProtos.StockBase.StockInfo curr = last;
+            last = StockData.getList().get(i);
 
             if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
                 double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
                 double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
-                if (rate >= 0.1) {
-                    stockRisingLimit.add(curr);
-                    risingLimitRate.add(rate);
-                } else if (rate > 0.05) {
+                if (rate > 0.05) {
                     stockRisingOverFivePer.add(curr);
                     risingOverFivePerRate.add(rate);
+                    if (rate >= 0.1) {
+                        stockRisingLimit.add(curr);
+                        risingLimitRate.add(rate);
+                    }
                 }
 
-                if (rate <= -0.1) {
-                    stockFallingLimit.add(curr);
-                    fallingLimitRate.add(rate);
-                } else if (rate < -0.05) {
+                if (rate < -0.05) {
                     stockFallingOverFivePer.add(curr);
                     fallingOverFivePerRate.add(rate);
+                    if (rate <= -0.1) {
+                        stockFallingLimit.add(curr);
+                        fallingLimitRate.add(rate);
+                    }
                 }
 
                 if (otherRate > 0.05) {
