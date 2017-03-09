@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
@@ -59,5 +60,10 @@
             </ScrollPane>
          </center>
       </BorderPane>
+      <Pane fx:id="loadingPane" maxWidth="1000.0" prefWidth="1000.0">
+         <children>
+            <JFXSpinner layoutX="446.0" layoutY="150.0" radius="50.0" startingAngle="0.0" />
+         </children>
+      </Pane>
    </children>
 </StackPane>

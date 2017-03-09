@@ -1,8 +1,8 @@
 package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.JFXDatePicker;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -12,6 +12,7 @@ import javafx.util.Callback;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.utils.DateUtil;
+import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -32,20 +33,17 @@ public class MarketVC extends Pane {
     private MarketMiniListVC fallingOverFivePer = new MarketMiniListVC(false, "下跌超5%");
     private MarketMiniListVC underLastFivePer = new MarketMiniListVC(true, "上期指数超-5%", "指数");
     private MarketMiniListVC overLastFivePer = new MarketMiniListVC(false, "上期指数超5%", "指数");
+    private String currentDate;
 
     @FXML
     private GridPane gridPane;
-    private String currentDate;
     @FXML
     private Label labelDate;
     @FXML
     private JFXDatePicker picker;
 
     public MarketVC() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/market.fxml"));
-        loader.setRoot(this);
-        loader.setController(this);
-        loader.load();
+        FXUtil.loadFXML(this, getClass().getResource("assets/market.fxml"));
         currentDate = StockData.getList().get(0).getDate();
         gridPane.add(risingLimit, 0, 0);
         gridPane.add(fallingLimit, 1, 0);
@@ -54,87 +52,90 @@ public class MarketVC extends Pane {
         gridPane.add(underLastFivePer, 0, 2);
         gridPane.add(overLastFivePer, 1, 2);
         labelDate.setText(dateParser(currentDate));
-        loadingLists(currentDate);
+        loadLists(currentDate);
         picker.setDayCellFactory(dayCellFactory);
         picker.setValue(DateUtil.parseLocalDate(currentDate));
-
     }
-
 
     private String dateParser(String dateFromDataset) {
         String[] dateList = dateFromDataset.split("/");
         return "20" + dateList[2] + "/" + dateList[0] + "/" + dateList[1];
     }
 
-    private void loadingLists(String date) {
-        risingLimit.cleanListView();
-        fallingLimit.cleanListView();
-        risingOverFivePer.cleanListView();
-        fallingOverFivePer.cleanListView();
-        overLastFivePer.cleanListView();
-        underLastFivePer.cleanListView();
+    private void loadLists(String date) {
+        UIContainer.showLoading();
+        new Thread(() -> {
+            List<StockBaseProtos.StockBase.StockInfo> stockRisingLimit = new ArrayList<>();
+            List<Double> risingLimitRate = new ArrayList<>();
+            List<StockBaseProtos.StockBase.StockInfo> stockFallingLimit = new ArrayList<>();
+            List<Double> fallingLimitRate = new ArrayList<>();
+            List<StockBaseProtos.StockBase.StockInfo> stockRisingOverFivePer = new ArrayList<>();
+            List<Double> risingOverFivePerRate = new ArrayList<>();
+            List<StockBaseProtos.StockBase.StockInfo> stockFallingOverFivePer = new ArrayList<>();
+            List<Double> fallingOverFivePerRate = new ArrayList<>();
+            List<StockBaseProtos.StockBase.StockInfo> stockOverLastFivePer = new ArrayList<>();
+            List<Double> overLastFivePerRate = new ArrayList<>();
+            List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
+            List<Double> underLastFivePerRate = new ArrayList<>();
 
-        List<StockBaseProtos.StockBase.StockInfo> stockRisingLimit = new ArrayList<>();
-        List<Double> risingLimitRate = new ArrayList<>();
-        List<StockBaseProtos.StockBase.StockInfo> stockFallingLimit = new ArrayList<>();
-        List<Double> fallingLimitRate = new ArrayList<>();
-        List<StockBaseProtos.StockBase.StockInfo> stockRisingOverFivePer = new ArrayList<>();
-        List<Double> risingOverFivePerRate = new ArrayList<>();
-        List<StockBaseProtos.StockBase.StockInfo> stockFallingOverFivePer = new ArrayList<>();
-        List<Double> fallingOverFivePerRate = new ArrayList<>();
-        List<StockBaseProtos.StockBase.StockInfo> stockOverLastFivePer = new ArrayList<>();
-        List<Double> overLastFivePerRate = new ArrayList<>();
-        List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
-        List<Double> underLastFivePerRate = new ArrayList<>();
+            StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(0);
+            for (int i = 1; i < StockData.size; i++) {
+                StockBaseProtos.StockBase.StockInfo curr = last;
+                last = StockData.getList().get(i);
 
-        StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(0);
-        for (int i = 1; i < StockData.size; i++) {
-            StockBaseProtos.StockBase.StockInfo curr = last;
-            last = StockData.getList().get(i);
-
-            if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
-                double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
-                double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
-                if (rate > 0.05) {
-                    stockRisingOverFivePer.add(curr);
-                    risingOverFivePerRate.add(rate);
-                    if (rate >= 0.1) {
-                        stockRisingLimit.add(curr);
-                        risingLimitRate.add(rate);
+                if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
+                    double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
+                    double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
+                    if (rate > 0.05) {
+                        stockRisingOverFivePer.add(curr);
+                        risingOverFivePerRate.add(rate);
+                        if (rate >= 0.1) {
+                            stockRisingLimit.add(curr);
+                            risingLimitRate.add(rate);
+                        }
                     }
-                }
 
-                if (rate < -0.05) {
-                    stockFallingOverFivePer.add(curr);
-                    fallingOverFivePerRate.add(rate);
-                    if (rate <= -0.1) {
-                        stockFallingLimit.add(curr);
-                        fallingLimitRate.add(rate);
+                    if (rate < -0.05) {
+                        stockFallingOverFivePer.add(curr);
+                        fallingOverFivePerRate.add(rate);
+                        if (rate <= -0.1) {
+                            stockFallingLimit.add(curr);
+                            fallingLimitRate.add(rate);
+                        }
                     }
-                }
 
-                if (otherRate > 0.05) {
-                    stockOverLastFivePer.add(curr);
-                    overLastFivePerRate.add(otherRate);
-                } else if (otherRate < -0.05) {
-                    stockUnderLastFivePer.add(curr);
-                    underLastFivePerRate.add(otherRate);
+                    if (otherRate > 0.05) {
+                        stockOverLastFivePer.add(curr);
+                        overLastFivePerRate.add(otherRate);
+                    } else if (otherRate < -0.05) {
+                        stockUnderLastFivePer.add(curr);
+                        underLastFivePerRate.add(otherRate);
+                    }
                 }
             }
-        }
 
-        risingLimit.setListView(stockRisingLimit, risingLimitRate);
-        fallingLimit.setListView(stockFallingLimit, fallingLimitRate);
-        risingOverFivePer.setListView(stockRisingOverFivePer, risingOverFivePerRate);
-        fallingOverFivePer.setListView(stockFallingOverFivePer, fallingOverFivePerRate);
-        overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate);
-        underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
+            Platform.runLater(() -> {
+                risingLimit.cleanListView();
+                fallingLimit.cleanListView();
+                risingOverFivePer.cleanListView();
+                fallingOverFivePer.cleanListView();
+                overLastFivePer.cleanListView();
+                underLastFivePer.cleanListView();
+                risingLimit.setListView(stockRisingLimit, risingLimitRate);
+                fallingLimit.setListView(stockFallingLimit, fallingLimitRate);
+                risingOverFivePer.setListView(stockRisingOverFivePer, risingOverFivePerRate);
+                fallingOverFivePer.setListView(stockFallingOverFivePer, fallingOverFivePerRate);
+                overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate);
+                underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
+                UIContainer.hideLoading();
+            });
+        }).start();
     }
 
     public void onActionDateChange() {
         LocalDate date = picker.getValue();
         currentDate = localDateToString(date);
-        loadingLists(currentDate);
+        loadLists(currentDate);
         labelDate.setText(dateParser(currentDate));
     }
 

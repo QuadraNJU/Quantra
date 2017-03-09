@@ -1,6 +1,5 @@
 package nju.quadra.quantra.ui;
 
-import com.jfoenix.controls.JFXDecorator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,15 +19,19 @@ public class UIContainer extends Stage {
     @FXML
     private StackPane rootStack;
     @FXML
-    private Pane contentPane;
+    private Pane contentPane, loadingPane;
+    @FXML
+    private static Pane contentPaneS, loadingPaneS;
+
+    private static int loadingCount = 0;
 
     public UIContainer() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/container.fxml"));
             loader.setController(this);
-            JFXDecorator decorator = new JFXDecorator(this, loader.load());
-            decorator.setMaximized(true);
-            this.setScene(new Scene(decorator));
+            this.setScene(new Scene(loader.load()));
+            contentPaneS = contentPane;
+            loadingPaneS = loadingPane;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,11 +41,28 @@ public class UIContainer extends Stage {
         Platform.runLater(() -> contentPane.getChildren().setAll(node));
     }
 
+    public static void showLoading() {
+        contentPaneS.setVisible(false);
+        loadingPaneS.setVisible(true);
+        loadingCount++;
+    }
+
+    public static void hideLoading() {
+        loadingCount--;
+        if (loadingCount <= 0) {
+            loadingCount = 0;
+            loadingPaneS.setVisible(false);
+            contentPaneS.setVisible(true);
+        }
+    }
+
     @FXML
     private void onMarketPageAction() {
         new Thread(() -> {
             try {
+                showLoading();
                 loadContent(new MarketVC());
+                hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
             }

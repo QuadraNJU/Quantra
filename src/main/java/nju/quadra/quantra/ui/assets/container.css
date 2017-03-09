@@ -5,3 +5,8 @@
 .scroll-pane, .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
+
+.jfx-spinner .arc {
+    -fx-stroke: whitesmoke;
+    -fx-stroke-width: 10px;
+}
