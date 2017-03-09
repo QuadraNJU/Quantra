@@ -2,6 +2,7 @@ package nju.quadra.quantra.data;
 
 import nju.quadra.quantra.data.StockBaseProtos.StockBase;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
+import nju.quadra.quantra.utils.DateUtil;
 
 import java.io.FileInputStream;
 import java.util.List;

@@ -3,16 +3,23 @@ package nju.quadra.quantra.ui;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
+import nju.quadra.quantra.utils.DateUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+
+import static nju.quadra.quantra.utils.DateUtil.localDateToString;
 
 /**
  * Created by RaUkonn on 2017/3/7.
@@ -48,7 +55,8 @@ public class MarketVC extends Pane {
         gridPane.add(overLastFivePer, 1, 2);
         labelDate.setText(dateParser(currentDate));
         loadingLists(currentDate);
-        picker.setPromptText(dateParser(currentDate));
+        picker.setDayCellFactory(dayCellFactory);
+        picker.setValue(DateUtil.parseLocalDate(currentDate));
 
     }
 
@@ -130,10 +138,24 @@ public class MarketVC extends Pane {
         labelDate.setText(dateParser(currentDate));
     }
 
-    private String localDateToString(LocalDate date) {
-        return String.valueOf(date.getMonthValue())
-                + '/' + String.valueOf(date.getDayOfMonth())
-                + '/' + String.valueOf(date.getYear()).substring(2, 4);
-    }
+    final Callback<DatePicker, DateCell> dayCellFactory =
+            new Callback<DatePicker, DateCell>() {
+                @Override
+                public DateCell call(final DatePicker datePicker) {
+                    return new DateCell() {
+                        @Override
+                        public void updateItem(LocalDate item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (item.isAfter(picker.getValue())) {
+                                setDisable(true);
+                                setStyle("-fx-background-color: #ffc0cb;");
+                            }
+                            long p = ChronoUnit.DAYS.between(
+                                    picker.getValue(), item
+                            );
+                        }
+                    };
+                }
+            };
 
 }
