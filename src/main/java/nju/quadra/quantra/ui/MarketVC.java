@@ -10,6 +10,10 @@ import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.chrono.Chronology;
+import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +42,6 @@ public class MarketVC extends Pane {
         loader.setController(this);
         loader.load();
         currentDate = StockData.getList().get(0).getDate();
-
-//        gridPane.add(risingLimit, 0, 0);
-//        gridPane.add(fallingLimit, 1, 0);
-//        gridPane.add(risingOverFivePer, 0, 1);
-//        gridPane.add(fallingOverFivePer, 1, 1);
-//        gridPane.add(overLastFivePer, 0, 2);
-//        gridPane.add(underLastFivePer, 1, 2);
         gridPane.add(risingLimit, 0, 0);
         gridPane.add(fallingLimit, 0, 1);
         gridPane.add(risingOverFivePer, 1, 0);
@@ -53,6 +50,8 @@ public class MarketVC extends Pane {
         gridPane.add(underLastFivePer, 2, 1);
         labelDate.setText(dateParser(currentDate));
         loadingLists(currentDate);
+        picker.setPromptText(dateParser(currentDate));
+
     }
 
 
@@ -62,6 +61,13 @@ public class MarketVC extends Pane {
     }
 
     private void loadingLists(String date) {
+        risingLimit.cleanListView();
+        fallingLimit.cleanListView();
+        risingOverFivePer.cleanListView();
+        fallingOverFivePer.cleanListView();
+        overLastFivePer.cleanListView();
+        underLastFivePer.cleanListView();
+
         List<StockBaseProtos.StockBase.StockInfo> stockRisingLimit = new ArrayList<>();
         List<Double> risingLimitRate = new ArrayList<>();
         List<StockBaseProtos.StockBase.StockInfo> stockFallingLimit = new ArrayList<>();
@@ -110,7 +116,19 @@ public class MarketVC extends Pane {
         fallingOverFivePer.setListView(stockFallingLimit, fallingOverFivePerRate);
         overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate);
         underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
+    }
 
+    public void onActionDateChange() {
+        LocalDate date = picker.getValue();
+        currentDate = localDateToString(date);
+        loadingLists(currentDate);
+        labelDate.setText(dateParser(currentDate));
+    }
+
+    private String localDateToString(LocalDate date) {
+        return String.valueOf(date.getMonthValue())
+                + '/' + String.valueOf(date.getDayOfMonth())
+                + '/' + String.valueOf(date.getYear()).substring(2, 4);
     }
 
 }

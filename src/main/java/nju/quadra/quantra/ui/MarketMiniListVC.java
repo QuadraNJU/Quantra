@@ -56,11 +56,17 @@ public class MarketMiniListVC extends BorderPane {
 
     public void setListView(List<StockBaseProtos.StockBase.StockInfo> infoList, List<Double> rateList) {
         int n = infoList.size();
+        labelCount.setText("(" + infoList.size() + ")");
+
         if (n == 0) return;
         for (int i = 0; i < n; i++) {
             listView.getItems().add(getLine(infoList.get(i), rateList.get(i)));
         }
-        labelCount.setText("(" + infoList.size() + ")");
+    }
+
+    public void cleanListView() {
+        int length = listView.getItems().size();
+        listView.getItems().remove(0, length);
     }
 
     private GridPane getLine(StockBaseProtos.StockBase.StockInfo info, Double rate) {

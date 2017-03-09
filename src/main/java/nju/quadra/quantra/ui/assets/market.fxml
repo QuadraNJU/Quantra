@@ -16,7 +16,7 @@
             <Font size="32.0" />
          </font>
       </Label>
-      <JFXDatePicker fx:id="picker" defaultColor="#eceff1" layoutX="265.0" layoutY="20.0" />
+      <JFXDatePicker fx:id="picker" defaultColor="#eceff1" layoutX="265.0" layoutY="20.0" onAction="#onActionDateChange" />
       <HBox layoutX="20.0" layoutY="68.0" prefHeight="30.0" prefWidth="960.0" />
       <GridPane fx:id="gridPane" layoutX="20.0" layoutY="118.0" prefHeight="700.0" prefWidth="960.0">
         <columnConstraints>
