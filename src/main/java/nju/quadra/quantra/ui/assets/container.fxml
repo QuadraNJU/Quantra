@@ -60,7 +60,7 @@
             </ScrollPane>
          </center>
       </BorderPane>
-      <Pane fx:id="loadingPane" maxWidth="1000.0" prefWidth="1000.0">
+      <Pane fx:id="loadingPane" maxWidth="1000.0" prefWidth="1000.0" visible="false">
          <children>
             <JFXSpinner layoutX="446.0" layoutY="150.0" radius="50.0" startingAngle="0.0" />
          </children>
