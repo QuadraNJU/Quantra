@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class StockData {
 
-    private static final String DATA_FILE = "/Users/RaUkonn/IdeaProjects/Quantra/src/main/java/nju/quadra/quantra/data/stock_data.protobuf";
+    private static final String DATA_FILE = "stock_data.protobuf";
     private static StockBase base;
 
     public static List<StockInfo> getList() {
