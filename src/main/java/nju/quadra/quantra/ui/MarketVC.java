@@ -20,8 +20,8 @@ import nju.quadra.quantra.utils.FXUtil;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,7 +93,7 @@ public class MarketVC extends Pane {
                 if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
                     double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
                     double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
-                    if(rate > 0) {
+                    if (rate > 0) {
                         if (rate > 0.05) {
                             stockRisingOverFivePer.add(curr);
                             risingOverFivePerRate.add(rate);
@@ -102,8 +102,8 @@ public class MarketVC extends Pane {
                                 risingLimitRate.add(rate);
                             }
                         }
-                        cnts[0] ++;
-                    }else if(rate < 0) {
+                        cnts[0]++;
+                    } else if (rate < 0) {
                         if (rate < -0.05) {
                             stockFallingOverFivePer.add(curr);
                             fallingOverFivePerRate.add(rate);
@@ -112,11 +112,10 @@ public class MarketVC extends Pane {
                                 fallingLimitRate.add(rate);
                             }
                         }
-                        cnts[2] ++;
+                        cnts[2]++;
                     } else {
-                        cnts[1] ++;
+                        cnts[1]++;
                     }
-
 
 
                     if (otherRate > 0.05) {
@@ -144,13 +143,13 @@ public class MarketVC extends Pane {
                 underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
 
                 Format f = new DecimalFormat(".##");
-                double risingPer = (double)cnts[0] / Arrays.stream(cnts).sum();
-                double balancingPer = (double)cnts[2] / Arrays.stream(cnts).sum();
+                double risingPer = (double) cnts[0] / Arrays.stream(cnts).sum();
+                double balancingPer = (double) cnts[2] / Arrays.stream(cnts).sum();
                 double fallingPer = 1 - risingPer - balancingPer;
                 gridTemp.getChildren().clear();
-                gridTemp.add(getCenterLabel(f.format(risingPer * 100) + '%',"-fx-background-color: #ff0000;"), 0, 0);
+                gridTemp.add(getCenterLabel(f.format(risingPer * 100) + '%', "-fx-background-color: #ff0000;"), 0, 0);
                 gridTemp.add(getCenterLabel(f.format(balancingPer * 100) + '%', "-fx-background-color: #ffff00;"), 1, 0);
-                gridTemp.add(getCenterLabel( f.format(fallingPer * 100) + '%', "-fx-background-color: #00ff00;"), 2, 0);
+                gridTemp.add(getCenterLabel(f.format(fallingPer * 100) + '%', "-fx-background-color: #00ff00;"), 2, 0);
                 gridTemp.getColumnConstraints().setAll(getColumn(risingPer), getColumn(balancingPer), getColumn(fallingPer));
                 UIContainer.hideLoading();
             });
@@ -189,13 +188,12 @@ public class MarketVC extends Pane {
                         @Override
                         public void updateItem(LocalDate item, boolean empty) {
                             super.updateItem(item, empty);
-                            if (item.isAfter(DateUtil.parseLocalDate(StockData.latest))) {
+                            if (item.isAfter(DateUtil.parseLocalDate(StockData.latest))
+                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY
+                                    || item.getDayOfWeek() == DayOfWeek.SATURDAY) {
                                 setDisable(true);
                                 setStyle("-fx-background-color: #ffc0cb;");
                             }
-                            long p = ChronoUnit.DAYS.between(
-                                    picker.getValue(), item
-                            );
                         }
                     };
                 }
