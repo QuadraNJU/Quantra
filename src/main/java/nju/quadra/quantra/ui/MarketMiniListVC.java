@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import nju.quadra.quantra.data.StockBaseProtos;
+import nju.quadra.quantra.data.StockData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class MarketMiniListVC extends BorderPane {
         }
         labelTitle.setText(title);
         labelCount.setText("(" + infoList.size() + ")");
-        setListView(infoList, rateList);
+        setListView(infoList, rateList, StockData.latest);
     }
 
     public MarketMiniListVC(boolean up, String title) throws IOException {
@@ -50,11 +51,20 @@ public class MarketMiniListVC extends BorderPane {
         labelRateName.setText(rateName);
     }
 
-    public void setListView(List<StockBaseProtos.StockBase.StockInfo> infoList, List<Double> rateList) {
+    public void setListView(List<StockBaseProtos.StockBase.StockInfo> infoList, List<Double> rateList, String date) {
         int n = infoList.size();
         labelCount.setText("(" + infoList.size() + ")");
         for (int i = 0; i < n; i++) {
-            listView.getItems().add(getLine(infoList.get(i), rateList.get(i)));
+            StockBaseProtos.StockBase.StockInfo stock = infoList.get(i);
+            GridPane line = getLine(stock, rateList.get(i));
+            line.setOnMouseClicked(event -> {
+                try {
+                    UIContainer.loadContent(new StockVC(stock, date));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            listView.getItems().add(line);
         }
     }
 
@@ -69,7 +79,7 @@ public class MarketMiniListVC extends BorderPane {
         line.addColumn(2, getCenterLabel(Float.toString(info.getClose())));
         line.addColumn(3, getCenterLabel(Math.floor(rate * 1000) / 10.0 + " %"));
         line.getColumnConstraints().setAll(getColumn(20), getColumn(30), getColumn(25), getColumn(25));
-        line.setMouseTransparent(true);
+        //line.setMouseTransparent(true);
         return line;
     }
 

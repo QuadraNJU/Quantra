@@ -37,8 +37,8 @@ public class UIContainer extends Stage {
         }
     }
 
-    private void loadContent(Node node) {
-        Platform.runLater(() -> contentPane.getChildren().setAll(node));
+    public static void loadContent(Node node) {
+        Platform.runLater(() -> contentPaneS.getChildren().setAll(node));
     }
 
     public static void showLoading() {

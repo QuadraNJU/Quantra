@@ -129,12 +129,12 @@ public class MarketVC extends Pane {
                 fallingOverFivePer.cleanListView();
                 overLastFivePer.cleanListView();
                 underLastFivePer.cleanListView();
-                risingLimit.setListView(stockRisingLimit, risingLimitRate);
-                fallingLimit.setListView(stockFallingLimit, fallingLimitRate);
-                risingOverFivePer.setListView(stockRisingOverFivePer, risingOverFivePerRate);
-                fallingOverFivePer.setListView(stockFallingOverFivePer, fallingOverFivePerRate);
-                overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate);
-                underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate);
+                risingLimit.setListView(stockRisingLimit, risingLimitRate, date);
+                fallingLimit.setListView(stockFallingLimit, fallingLimitRate, date);
+                risingOverFivePer.setListView(stockRisingOverFivePer, risingOverFivePerRate, date);
+                fallingOverFivePer.setListView(stockFallingOverFivePer, fallingOverFivePerRate, date);
+                overLastFivePer.setListView(stockOverLastFivePer, overLastFivePerRate, date);
+                underLastFivePer.setListView(stockUnderLastFivePer, underLastFivePerRate, date);
 
                 labelDate.setText(dateParser(date));
                 Format f = new DecimalFormat("#.##");

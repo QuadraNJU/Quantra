@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" type="Pane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="19.0" layoutY="119.0">
          <children>
-            <Pane prefHeight="500.0" prefWidth="960.0" />
+            <Pane fx:id="paneK" prefHeight="500.0" prefWidth="960.0" />
             <HBox prefWidth="960.0">
                <children>
                   <JFXButton text="VOL" textFill="WHITESMOKE">
@@ -59,19 +59,19 @@
                   <MaterialDesignIconView fill="#eceff1" glyphName="PLUS" size="24" />
                </children>
             </VBox>
-            <Label text="深发展A" textFill="WHITESMOKE">
+            <Label fx:id="labelName" text="深发展A" textFill="WHITESMOKE">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
             <Pane>
                <children>
-                  <Label text="12.34" textFill="WHITESMOKE">
+                  <Label fx:id="labelPrice" text="12.34" textFill="WHITESMOKE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="17.0" layoutY="27.0" text="0.9%" textFill="WHITESMOKE">
+                  <Label fx:id="labelRate" layoutX="17.0" layoutY="27.0" text="0.9%" textFill="WHITESMOKE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -97,13 +97,13 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="104.0" layoutY="73.0" spacing="10.0">
          <children>
-            <JFXDatePicker defaultColor="#eceff1" />
+            <JFXDatePicker fx:id="dateStart" defaultColor="#eceff1" />
             <Label text="-" textFill="WHITESMOKE">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <JFXDatePicker defaultColor="#eceff1" />
+            <JFXDatePicker fx:id="dateEnd" defaultColor="#eceff1" />
          </children>
       </HBox>
       <Label layoutX="20.0" layoutY="77.0" text="日期选择" textFill="WHITESMOKE">
@@ -112,4 +112,4 @@
          </font>
       </Label>
    </children>
-</Pane>
+</fx:root>
