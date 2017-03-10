@@ -1,6 +1,8 @@
 package nju.quadra.quantra.ui;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -65,4 +67,10 @@ public class StockVC extends Pane{
         }
         paneK.setCenter(QuantraKChart.createFrom(linkList));
     }
+
+    @FXML
+    private void onShortcutAction(ActionEvent t) {
+        dateStart.setValue(dateEnd.getValue().minusDays(Integer.parseInt(((JFXButton) t.getSource()).getText().replace("日", ""))));
+    }
+
 }
