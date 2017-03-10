@@ -29,12 +29,23 @@ public class StockVC extends Pane{
     @FXML
     private BorderPane paneK;
 
+    private StockBaseProtos.StockBase.StockInfo stockInfo;
+
     public StockVC(StockBaseProtos.StockBase.StockInfo stockInfo, String date) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stock.fxml"));
+        this.stockInfo = stockInfo;
         labelName.setText(stockInfo.getName());
         labelPrice.setText(String.valueOf(stockInfo.getClose()));
         dateEnd.setValue(DateUtil.parseLocalDate(date));
         dateStart.setValue(dateEnd.getValue().minusDays(30));
+        updateRate();
+        dateStart.valueProperty().addListener(observable -> updateRate());
+        dateEnd.valueProperty().addListener(observable -> updateRate());
+        dateStart.setDayCellFactory(DateUtil.dayCellFactory);
+        dateEnd.setDayCellFactory(DateUtil.dayCellFactory);
+    }
+
+    private void updateRate(){
         List<StockBaseProtos.StockBase.StockInfo> stockList = StockData.getList();
         LinkedList<StockBaseProtos.StockBase.StockInfo> linkList = new LinkedList<>();
         for (int i = 0; i < StockData.size-1; i++) {

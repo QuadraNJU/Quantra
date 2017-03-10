@@ -31,6 +31,8 @@ public class QuantraKChart extends XYChart<String, Number> {
     private QuantraKChart(Axis<String> xAxis, Axis<Number> yAxis) {
         super(xAxis, yAxis);
         this.getStylesheets().setAll(getClass().getResource("QuantraKChart.css").toString());
+        this.setMaxWidth(Double.POSITIVE_INFINITY);
+        this.setMaxHeight(Double.POSITIVE_INFINITY);
         // Create lines
         getPlotChildren().addAll(horiLine, vertLine, plotArea, toolTip);
         horiLine.getStyleClass().add("line");

@@ -55,7 +55,7 @@ public class MarketVC extends Pane {
         });
         picker.setValue(DateUtil.parseLocalDate(StockData.getList().get(0).getDate()));
         //loadLists(StockData.getList().get(0).getDate());
-        picker.setDayCellFactory(dayCellFactory);
+        picker.setDayCellFactory(DateUtil.dayCellFactory);
     }
 
     private String dateParser(String dateFromDataset) {
@@ -150,24 +150,5 @@ public class MarketVC extends Pane {
             });
         }).start();
     }
-
-    private final Callback<DatePicker, DateCell> dayCellFactory =
-            new Callback<DatePicker, DateCell>() {
-                @Override
-                public DateCell call(final DatePicker datePicker) {
-                    return new DateCell() {
-                        @Override
-                        public void updateItem(LocalDate item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (item.isAfter(DateUtil.parseLocalDate(StockData.latest))
-                                    || item.getDayOfWeek() == DayOfWeek.SUNDAY
-                                    || item.getDayOfWeek() == DayOfWeek.SATURDAY) {
-                                setDisable(true);
-                                setStyle("-fx-background-color: #ffc0cb; -fx-background-radius: 50%;");
-                            }
-                        }
-                    };
-                }
-            };
 
 }
