@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0"
+         style="-fx-background-color: #455A64;" type="Pane" xmlns="http://javafx.com/javafx/8.0.121"
+         xmlns:fx="http://javafx.com/fxml/1">
+
+    <children>
+        <GridPane alignment="TOP_CENTER" prefWidth="1000.0">
+            <Label text="股票对比">
+                <font>
+                    <Font size="36.0"/>
+                </font>
+            </Label>
+        </GridPane>
+
+        <GridPane fx:id="gridStocks" alignment="TOP_CENTER" gridLinesVisible="true" layoutY="35.0" prefWidth="1000.0">
+        </GridPane>
+    </children>
+</fx:root>

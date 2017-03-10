@@ -2,9 +2,9 @@ package nju.quadra.quantra.data;
 
 import nju.quadra.quantra.data.StockBaseProtos.StockBase;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
-import nju.quadra.quantra.utils.DateUtil;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +30,14 @@ public class StockData {
             }
         }
         return base.getInfoList();
+    }
+
+    public static List<StockInfo> getByCode(int code) {
+        List<StockInfo> result = new ArrayList<>();
+        for (StockInfo i : getList()) {
+            if (i.getCode() == code) result.add(i);
+        }
+        return result;
     }
 
 }

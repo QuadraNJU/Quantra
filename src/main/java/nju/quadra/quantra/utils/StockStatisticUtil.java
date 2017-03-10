@@ -1,7 +1,6 @@
 package nju.quadra.quantra.utils;
 
 import nju.quadra.quantra.data.StockBaseProtos;
-import nju.quadra.quantra.data.StockData;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,4 +71,15 @@ public class StockStatisticUtil {
 //        //TODO:after finish getting by info...
 //        List<StockBaseProtos.StockBase.StockInfo> list = StockData.getList().subList(info.getSerial(), info.getSerial() + 12);
 //    }
+
+    public static List<Double> RISING_RATE(List<StockBaseProtos.StockBase.StockInfo> stock) {
+        List<Double> result;
+        int n = stock.size();
+        result = IntStream.range(1, n)
+                .mapToDouble(i -> (stock.get(i).getAdjClose() - stock.get(i - 1).getAdjClose())
+                        / stock.get(i - 1).getAdjClose())
+                .boxed()
+                .collect(Collectors.toList());
+        return result;
+    }
 }
