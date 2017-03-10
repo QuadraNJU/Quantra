@@ -29,6 +29,7 @@
 }
 .candlestick-line {
     -fx-stroke-width: 3px;
+    -fx-stroke: whitesmoke;
 }
 .candlestick-line.close-above-open {
     -fx-stroke: #990e0e;

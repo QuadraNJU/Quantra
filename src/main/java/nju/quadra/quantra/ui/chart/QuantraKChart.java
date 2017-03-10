@@ -48,12 +48,6 @@ public class QuantraKChart extends XYChart<String, Number> {
         yTip.resize(50, 30);
         yTip.setVisible(false);
         // Bind mouse events
-        plotArea.setOnMouseEntered(event -> {
-            horiLine.setVisible(true);
-            vertLine.setVisible(true);
-            toolTip.setVisible(true);
-            yTip.setVisible(true);
-        });
         plotArea.setOnMouseExited(event -> {
             horiLine.setVisible(false);
             vertLine.setVisible(false);
@@ -85,6 +79,10 @@ public class QuantraKChart extends XYChart<String, Number> {
                     }
                 }
             }
+            horiLine.setVisible(true);
+            vertLine.setVisible(true);
+            toolTip.setVisible(true);
+            yTip.setVisible(true);
         });
     }
 

@@ -59,7 +59,7 @@ public class MarketMiniListVC extends BorderPane {
             GridPane line = getLine(stock, rateList.get(i));
             line.setOnMouseClicked(event -> {
                 try {
-                    UIContainer.loadContent(new StockVC(stock, date));
+                    UIContainer.loadContent(new StockVC(stock.getCode(), date));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
