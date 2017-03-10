@@ -3,6 +3,7 @@ package nju.quadra.quantra.ui;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
@@ -13,7 +14,6 @@ import nju.quadra.quantra.utils.FXUtil;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,14 +27,14 @@ public class StockVC extends Pane{
     @FXML
     private JFXDatePicker dateStart,dateEnd;
     @FXML
-    private Pane paneK;
+    private BorderPane paneK;
 
     public StockVC(StockBaseProtos.StockBase.StockInfo stockInfo, String date) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stock.fxml"));
         labelName.setText(stockInfo.getName());
         labelPrice.setText(String.valueOf(stockInfo.getClose()));
         dateEnd.setValue(DateUtil.parseLocalDate(date));
-        dateStart.setValue(dateEnd.getValue().minusDays(15));
+        dateStart.setValue(dateEnd.getValue().minusDays(30));
         List<StockBaseProtos.StockBase.StockInfo> stockList = StockData.getList();
         LinkedList<StockBaseProtos.StockBase.StockInfo> linkList = new LinkedList<>();
         for (int i = 0; i < StockData.size-1; i++) {
@@ -52,6 +52,6 @@ public class StockVC extends Pane{
                 }
             }
         }
-        paneK.getChildren().setAll(QuantraKChart.createFrom(linkList));
+        paneK.setCenter(QuantraKChart.createFrom(linkList));
     }
 }

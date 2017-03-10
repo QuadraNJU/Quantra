@@ -8,7 +8,6 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Line;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
@@ -190,8 +189,8 @@ public class QuantraKChart extends XYChart<String, Number> {
     class Candle extends Group {
         private Line highLowLine = new Line();
         private Region bar = new Region();
-        private boolean openAboveClose = true;
-        private Tooltip tooltip = new Tooltip();
+        private boolean openAboveClose = false;
+        private boolean closeAboveOpen = false;
 
         Candle() {
             setAutoSizeChildren(false);
@@ -201,6 +200,7 @@ public class QuantraKChart extends XYChart<String, Number> {
 
         void update(double closeOffset, double highOffset, double lowOffset, double candleWidth) {
             openAboveClose = closeOffset > 0;
+            closeAboveOpen = closeOffset < 0;
             updateStyleClasses();
             highLowLine.setStartY(highOffset);
             highLowLine.setEndY(lowOffset);
@@ -212,11 +212,14 @@ public class QuantraKChart extends XYChart<String, Number> {
             } else {
                 bar.resizeRelocate(-candleWidth / 2, closeOffset, candleWidth, closeOffset * -1);
             }
+            if (bar.getHeight() < 1) {
+                bar.resize(bar.getWidth(), 1);
+            }
         }
 
         private void updateStyleClasses() {
-            highLowLine.getStyleClass().setAll("candlestick-line", openAboveClose ? "open-above-close" : "close-above-open");
-            bar.getStyleClass().setAll("candlestick-bar", openAboveClose ? "open-above-close" : "close-above-open");
+            highLowLine.getStyleClass().setAll("candlestick-line", openAboveClose ? "open-above-close" : (closeAboveOpen ? "close-above-open" : ""));
+            bar.getStyleClass().setAll("candlestick-bar", openAboveClose ? "open-above-close" : (closeAboveOpen ? "close-above-open" : ""));
         }
     }
 

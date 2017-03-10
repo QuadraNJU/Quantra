@@ -1,12 +1,11 @@
 .chart {
-    -fx-background-color: black;
     -fx-vertical-grid-lines-visible: false;
 }
 .chart-title {
     -fx-text-fill: whitesmoke;
 }
 .chart-plot-background {
-    -fx-background-color: black;
+    -fx-background-color: transparent;
 }
 .axis {
     -fx-tick-label-fill: whitesmoke;

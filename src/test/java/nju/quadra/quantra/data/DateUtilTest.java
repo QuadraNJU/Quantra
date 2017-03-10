@@ -11,7 +11,7 @@ import java.time.LocalDate;
  */
 public class DateUtilTest {
     @Test
-    public void testReadProtobuf() {
+    public void testCompare() {
         String date1 = "5/2/14";
         String date2 = "5/2/14";
         Assert.assertEquals(0, DateUtil.compare(date1, date2));
