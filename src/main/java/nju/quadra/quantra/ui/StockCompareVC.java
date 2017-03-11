@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by RaUkonn on 2017/3/10.
  */
 public class StockCompareVC extends Pane {
-    private static List<Integer> chosenStocks = new ArrayList<>();
+    public static List<Integer> chosenStocks = new ArrayList<>();
     @FXML
     private GridPane gridStocks;
 
@@ -22,8 +23,16 @@ public class StockCompareVC extends Pane {
         load();
     }
 
-    public static void addToList(int code) {
-        chosenStocks.add(code);
+    public static int addToList(int code) {
+        if(chosenStocks.size() < 2) {
+            chosenStocks.add(code);
+            return 0;
+        }
+        return -1;
+    }
+
+    public static void removeFromList(int code) {
+        chosenStocks.removeIf(u -> u == code);
     }
 
     private void load() throws IOException {

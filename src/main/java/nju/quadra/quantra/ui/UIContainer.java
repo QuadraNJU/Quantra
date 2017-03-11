@@ -75,8 +75,6 @@ public class UIContainer extends Stage {
             try {
                 showLoading();
                 //todo:我能怎么办我也很绝望啊
-                StockCompareVC.addToList(2);
-                StockCompareVC.addToList(300012);
                 loadContent(new StockCompareVC());
                 hideLoading();
             } catch (IOException e) {

@@ -14,7 +14,7 @@ import java.util.List;
  * Created by RaUkonn on 2017/3/10.
  */
 public class RisingAndFallingChart extends LineChart<String, Number> {
-    private static int maxShowLength = 20;
+    private static int maxShowLength = 50;
 
     public RisingAndFallingChart(Axis<String> xAxis, Axis<Number> yAxis) {
         super(xAxis, yAxis);
@@ -35,6 +35,7 @@ public class RisingAndFallingChart extends LineChart<String, Number> {
         // Create chart
         RisingAndFallingChart chart = new RisingAndFallingChart(xAxis, yAxis);
         chart.setData(FXCollections.observableArrayList(series));
+        chart.setTitle(infoList.get(0).getName() + "近" + maxShowLength + "天涨幅趋势");
         return chart;
     }
 }

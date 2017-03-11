@@ -17,8 +17,8 @@
          <children>
             <VBox>
                <children>
-                  <MaterialDesignIconView fill="#eceff1" glyphName="STAR_OUTLINE" size="24" />
-                  <MaterialDesignIconView fill="#eceff1" glyphName="PLUS" size="24" />
+                  <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24"/>
+                  <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" size="24" onMouseClicked="#onPlusClickedAction"/>
                </children>
             </VBox>
             <Label fx:id="labelName" text="深发展A" textFill="WHITESMOKE">

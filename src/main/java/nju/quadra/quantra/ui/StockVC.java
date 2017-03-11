@@ -2,12 +2,18 @@ package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.ui.chart.QuantraKChart;
@@ -15,6 +21,9 @@ import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -32,6 +41,8 @@ public class StockVC extends Pane {
     private JFXDatePicker dateStart, dateEnd;
     @FXML
     private BorderPane paneK;
+    @FXML
+    private MaterialDesignIconView iconStar, iconPlus;
 
     private List<StockBaseProtos.StockBase.StockInfo> infoList;
 
@@ -46,6 +57,7 @@ public class StockVC extends Pane {
         updateInfo();
         dateStart.valueProperty().addListener(observable -> updateInfo());
         dateEnd.valueProperty().addListener(observable -> updateInfo());
+        iconPlus.setFill(StockCompareVC.chosenStocks.contains(code)? Color.RED: Color.valueOf("#eceff1"));
     }
 
     private void updateInfo() {
@@ -81,5 +93,12 @@ public class StockVC extends Pane {
         }
         dateStart.setValue(newDate);
     }
+
+    @FXML
+    private void onPlusClickedAction(MouseEvent t) {
+        int code = infoList.get(0).getCode();
+        CommonEventController.onPlusClickedEvent(t, code);
+    }
+
 
 }
