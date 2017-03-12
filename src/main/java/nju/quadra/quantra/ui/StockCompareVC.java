@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +16,11 @@ public class StockCompareVC extends Pane {
     public static List<Integer> chosenStocks = new ArrayList<>();
     @FXML
     private GridPane gridStocks;
+    private static GridPane gridStocksS;
 
     public StockCompareVC() throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompare.fxml"));
+        gridStocksS = gridStocks;
         load();
     }
 
@@ -35,10 +36,10 @@ public class StockCompareVC extends Pane {
         chosenStocks.removeIf(u -> u == code);
     }
 
-    private void load() throws IOException {
-        gridStocks.getChildren().clear();
+    public static void load() throws IOException {
+        gridStocksS.getChildren().clear();
         for (int i = 0; i < chosenStocks.size(); i++) {
-            gridStocks.add(new StockCompareItemVC(chosenStocks.get(i)), i, 0);
+            gridStocksS.add(new StockCompareItemVC(chosenStocks.get(i)), i, 0);
         }
     }
 

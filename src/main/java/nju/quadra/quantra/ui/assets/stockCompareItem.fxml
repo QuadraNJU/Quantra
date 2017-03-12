@@ -4,14 +4,26 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <fx:root type="FlowPane" fx:id="flowCharts" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8.0.121"
          xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0"
-               GridPane.rowIndex="0">
-            <font>
-                <Font size="36.0"/>
-            </font>
-        </Label>
+        <HBox>
+            <VBox>
+                <children>
+                    <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24"/>
+                    <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" size="24" onMouseClicked="#onPlusClickedAction"/>
+                </children>
+            </VBox>
+            <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0"
+                   GridPane.rowIndex="0">
+                <font>
+                    <Font size="36.0"/>
+                </font>
+            </Label>
+        </HBox>
+
     </children>
 </fx:root>

@@ -24,7 +24,7 @@ public class CommonEventController {
             tp.setText("已移出比较队列");
             StockCompareVC.removeFromList(code);
         }
-        tp.show(icon, t.getScreenX(), t.getScreenX());
+        tp.show(icon, t.getScreenX(), t.getScreenY());
     }
 
 }
