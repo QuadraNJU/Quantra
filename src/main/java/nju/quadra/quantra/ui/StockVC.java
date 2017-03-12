@@ -5,15 +5,12 @@ import com.jfoenix.controls.JFXDatePicker;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.ui.chart.QuantraKChart;
@@ -21,9 +18,6 @@ import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -77,7 +71,9 @@ public class StockVC extends Pane {
                 }
             }
         }
-        paneK.setCenter(QuantraKChart.createFrom(linkList));
+        QuantraKChart kChart = QuantraKChart.createFrom(linkList);
+        kChart.addPath("AdjClose", linkList.stream().map(StockBaseProtos.StockBase.StockInfo::getAdjClose).collect(Collectors.toList()));
+        paneK.setCenter(kChart);
     }
 
     @FXML
@@ -87,11 +83,12 @@ public class StockVC extends Pane {
 
     @FXML
     private void onKChartScroll(ScrollEvent t) {
-        LocalDate newDate = dateStart.getValue().plusDays((long) t.getDeltaY());
+        LocalDate newDate = dateStart.getValue().plusDays(t.getDeltaY() < 0 ? -15 : 15);
         if (newDate.compareTo(dateEnd.getValue()) > 0) {
             newDate = dateEnd.getValue();
         }
         dateStart.setValue(newDate);
+        t.consume();
     }
 
     @FXML

@@ -1,6 +1,7 @@
 package nju.quadra.quantra.ui.chart;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.chart.Axis;
@@ -9,7 +10,11 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 
 import java.util.ArrayList;
@@ -102,6 +107,16 @@ public class QuantraKChart extends XYChart<String, Number> {
         return kChart;
     }
 
+    public void addPath(String name, List<Number> numbers) {
+        Series<String, Number> series = new Series<>();
+        ObservableList<Data<String, Number>> list = getData().get(0).getData();
+        int size = Math.min(list.size(), numbers.size());
+        for (int i = 0; i < size && i < size; i++) {
+            series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
+        }
+        getData().add(series);
+    }
+
     @Override
     protected void dataItemAdded(Series<String, Number> series, int itemIndex, Data<String, Number> item) {
         Node candle = item.getNode();
@@ -128,8 +143,15 @@ public class QuantraKChart extends XYChart<String, Number> {
 
     @Override
     protected void seriesAdded(Series<String, Number> series, int seriesIndex) {
-        for (int i = series.getData().size() - 1; i >= 0; i--) {
-            dataItemAdded(series, i, series.getData().get(i));
+        if (seriesIndex == 0) {
+            for (int i = series.getData().size() - 1; i >= 0; i--) {
+                dataItemAdded(series, i, series.getData().get(i));
+            }
+        } else {
+            Path path = new Path();
+            path.setStroke(Color.WHITE);
+            series.setNode(path);
+            getPlotChildren().add(path);
         }
     }
 
@@ -162,21 +184,33 @@ public class QuantraKChart extends XYChart<String, Number> {
             return;
         }
         for (Series<String, Number> series : getData()) {
+            if (series.getNode() != null) {
+                ((Path) series.getNode()).getElements().clear();
+            }
             Iterator<Data<String, Number>> iter = getDisplayedDataIterator(series);
             while (iter.hasNext()) {
                 Data<String, Number> item = iter.next();
                 double x = getXAxis().getDisplayPosition(getCurrentDisplayedXValue(item));
                 double y = getYAxis().getDisplayPosition(getCurrentDisplayedYValue(item));
-                Candle candle = (Candle) item.getNode();
-                StockInfo info = (StockInfo) item.getExtraValue();
-                if (candle != null && info != null) {
-                    double closePos = getYAxis().getDisplayPosition(info.getClose());
-                    double highPos = getYAxis().getDisplayPosition(info.getHigh());
-                    double lowPos = getYAxis().getDisplayPosition(info.getLow());
-                    double candleWidth = ((CategoryAxis) getXAxis()).getCategorySpacing() * .9;
-                    candle.update(closePos - y, highPos - y, lowPos - y, candleWidth);
-                    candle.setLayoutX(x);
-                    candle.setLayoutY(y);
+                if (series.getNode() != null) {
+                    Path path = (Path) series.getNode();
+                    if (path.getElements().isEmpty()) {
+                        path.getElements().add(new MoveTo(x, getYAxis().getDisplayPosition(item.getYValue())));
+                    } else {
+                        path.getElements().add(new LineTo(x, getYAxis().getDisplayPosition(item.getYValue())));
+                    }
+                } else {
+                    Candle candle = (Candle) item.getNode();
+                    StockInfo info = (StockInfo) item.getExtraValue();
+                    if (candle != null && info != null) {
+                        double closePos = getYAxis().getDisplayPosition(info.getClose());
+                        double highPos = getYAxis().getDisplayPosition(info.getHigh());
+                        double lowPos = getYAxis().getDisplayPosition(info.getLow());
+                        double candleWidth = ((CategoryAxis) getXAxis()).getCategorySpacing() * .9;
+                        candle.update(closePos - y, highPos - y, lowPos - y, candleWidth);
+                        candle.setLayoutX(x);
+                        candle.setLayoutY(y);
+                    }
                 }
             }
         }

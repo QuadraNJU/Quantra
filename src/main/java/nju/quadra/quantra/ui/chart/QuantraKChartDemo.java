@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.data.StockData;
 
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by adn55 on 2017/3/4.
@@ -18,8 +18,9 @@ public class QuantraKChartDemo extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         new Thread(() -> {
-            Stream<StockInfo> stream = StockData.getList().stream().filter(info -> info.getDate().startsWith("3/") && info.getDate().endsWith("/14") && info.getCode() == 1);
-            QuantraKChart kChart = QuantraKChart.createFrom(stream.collect(Collectors.toList()));
+            List<StockInfo> infoList = StockData.getList().stream().filter(info -> info.getDate().startsWith("3/") && info.getDate().endsWith("/14") && info.getCode() == 1).collect(Collectors.toList());
+            QuantraKChart kChart = QuantraKChart.createFrom(infoList);
+            kChart.addPath("AdjClose", infoList.stream().map(StockInfo::getAdjClose).collect(Collectors.toList()));
             Platform.runLater(() -> {
                 stage.setTitle("Graph Test");
                 stage.setScene(new Scene(kChart, 800, 450));
