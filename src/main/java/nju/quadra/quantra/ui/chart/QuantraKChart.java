@@ -44,7 +44,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         vertLine.getStyleClass().add("line");
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.resize(120, 60);
+        toolTip.resize(120, 160);
         toolTip.setMouseTransparent(true);
         toolTip.setVisible(false);
         // Create Ytip
@@ -60,15 +60,15 @@ public class QuantraKChart extends XYChart<String, Number> {
             yTip.setVisible(false);
         });
         plotArea.setOnMouseMoved(event -> {
-            horiLine.relocate(0, event.getY());
-            String xValue = xAxis.getValueForDisplay(event.getX());
             double yPos = event.getY();
             yTip.setText(yAxis.getValueForDisplay(yPos).toString());
             yTip.relocate(5, yPos - 10);
+            horiLine.relocate(0, event.getY());
+            String xValue = xAxis.getValueForDisplay(event.getX());
             if (xValue != null) {
-                Iterator<Data<String, Number>> dataIterator = getDisplayedDataIterator(getData().get(0));
-                while (dataIterator.hasNext()) {
-                    StockInfo info = (StockInfo) dataIterator.next().getExtraValue();
+                int size = getData().get(0).getData().size();
+                for (int i = 0; i < size; i++) {
+                    StockInfo info = (StockInfo) getData().get(0).getData().get(i).getExtraValue();
                     if (info != null && info.getDate().equals(xValue)) {
                         double xPos = xAxis.getDisplayPosition(xValue);
                         vertLine.relocate(xPos, 0);
@@ -79,7 +79,13 @@ public class QuantraKChart extends XYChart<String, Number> {
                             yPos -= toolTip.getHeight() + 20;
                         }
                         toolTip.relocate(xPos + 10, yPos + 10);
-                        toolTip.setText(xValue + "\n开: " + info.getOpen() + " 收: " + info.getClose() + "\n高: " + info.getHigh() + " 低: " + info.getLow());
+                        String tip = xValue + "\n开: " + info.getOpen() + " 收: " + info.getClose() + "\n高: " + info.getHigh() + " 低: " + info.getLow();
+                        for (Series<String, Number> series : getData()) {
+                            if (series.getNode() != null) {
+                                tip += "\n" + series.getName() + ": " + series.getData().get(i).getYValue();
+                            }
+                        }
+                        toolTip.setText(tip);
                         break;
                     }
                 }
@@ -112,10 +118,13 @@ public class QuantraKChart extends XYChart<String, Number> {
         ObservableList<Data<String, Number>> list = getData().get(0).getData();
         int size = Math.min(list.size(), numbers.size());
         for (int i = 0; i < size && i < size; i++) {
-            series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
+            if (numbers.get(i) != null) {
+                series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
+            }
         }
         Path path = new Path();
         path.setStroke(color);
+        path.setStrokeWidth(2);
         series.setNode(path);
         series.setName(name);
         getData().add(series);
@@ -129,11 +138,6 @@ public class QuantraKChart extends XYChart<String, Number> {
             item.setNode(candle);
         }
         getPlotChildren().add(candle);
-        // Make sure that lines are at the front
-        horiLine.toFront();
-        vertLine.toFront();
-        plotArea.toFront();
-        toolTip.toFront();
     }
 
     @Override
@@ -171,12 +175,17 @@ public class QuantraKChart extends XYChart<String, Number> {
     protected void updateAxisRange() {
         super.updateAxisRange();
         List<Number> yData = new ArrayList<>();
-        for (Series<String, Number> series : getData()) {
-            for (Data item : series.getData()) {
-                StockInfo info = (StockInfo) item.getExtraValue();
-                if (info != null) {
-                    yData.add(info.getLow());
-                    yData.add(info.getHigh());
+        for (int i = getData().size() - 1; i >= 0; i--) {
+            Series<String, Number> series = getData().get(i);
+            for (Data<String, Number> item : series.getData()) {
+                if (i > 0) {
+                    yData.add(item.getYValue());
+                } else {
+                    StockInfo info = (StockInfo) item.getExtraValue();
+                    if (info != null) {
+                        yData.add(info.getLow());
+                        yData.add(info.getHigh());
+                    }
                 }
             }
         }
@@ -223,6 +232,11 @@ public class QuantraKChart extends XYChart<String, Number> {
         horiLine.setEndX(getWidth());
         vertLine.setEndY(getHeight());
         plotArea.resize(getWidth(), getHeight());
+        // Make sure that lines are at the front
+        horiLine.toFront();
+        vertLine.toFront();
+        plotArea.toFront();
+        toolTip.toFront();
     }
 
     class Candle extends Group {
