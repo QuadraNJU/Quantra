@@ -10,7 +10,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -107,13 +107,17 @@ public class QuantraKChart extends XYChart<String, Number> {
         return kChart;
     }
 
-    public void addPath(String name, List<Number> numbers) {
+    public void addPath(String name, Paint color, List<Number> numbers) {
         Series<String, Number> series = new Series<>();
         ObservableList<Data<String, Number>> list = getData().get(0).getData();
         int size = Math.min(list.size(), numbers.size());
         for (int i = 0; i < size && i < size; i++) {
             series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
         }
+        Path path = new Path();
+        path.setStroke(color);
+        series.setNode(path);
+        series.setName(name);
         getData().add(series);
     }
 
@@ -143,22 +147,23 @@ public class QuantraKChart extends XYChart<String, Number> {
 
     @Override
     protected void seriesAdded(Series<String, Number> series, int seriesIndex) {
-        if (seriesIndex == 0) {
+        if (series.getNode() == null) {
             for (int i = series.getData().size() - 1; i >= 0; i--) {
                 dataItemAdded(series, i, series.getData().get(i));
             }
         } else {
-            Path path = new Path();
-            path.setStroke(Color.WHITE);
-            series.setNode(path);
-            getPlotChildren().add(path);
+            getPlotChildren().add(series.getNode());
         }
     }
 
     @Override
     protected void seriesRemoved(Series<String, Number> series) {
-        for (Data<String, Number> item : series.getData()) {
-            dataItemRemoved(item, series);
+        if (series.getNode() == null) {
+            for (Data<String, Number> item : series.getData()) {
+                dataItemRemoved(item, series);
+            }
+        } else {
+            getPlotChildren().remove(series.getNode());
         }
     }
 

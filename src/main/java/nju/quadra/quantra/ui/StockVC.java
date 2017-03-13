@@ -72,7 +72,7 @@ public class StockVC extends Pane {
             }
         }
         QuantraKChart kChart = QuantraKChart.createFrom(linkList);
-        kChart.addPath("AdjClose", linkList.stream().map(StockBaseProtos.StockBase.StockInfo::getAdjClose).collect(Collectors.toList()));
+        kChart.addPath("AdjClose", Color.YELLOW, linkList.stream().map(StockBaseProtos.StockBase.StockInfo::getAdjClose).collect(Collectors.toList()));
         paneK.setCenter(kChart);
     }
 
