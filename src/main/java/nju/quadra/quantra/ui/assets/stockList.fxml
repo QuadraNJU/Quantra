@@ -2,20 +2,31 @@
 
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXDatePicker defaultColor="#eceff1" layoutX="803.0" layoutY="14.0" />
+      <JFXDatePicker fx:id="datePicker" defaultColor="#eceff1" layoutX="803.0" layoutY="14.0" />
       <VBox layoutX="20.0" layoutY="58.0" spacing="10.0">
          <children>
-            <JFXTreeTableView prefHeight="400.0" prefWidth="960.0" />
+            <TableView fx:id="table" prefHeight="400.0" prefWidth="960.0">
+               <columns>
+                  <TableColumn text="代码" />
+                  <TableColumn text="名称" />
+                  <TableColumn text="今收" />
+                  <TableColumn text="今开" />
+                  <TableColumn text="最高" />
+                  <TableColumn text="最低" />
+                  <TableColumn text="交易量" />
+                  <TableColumn text="市场" />
+               </columns>
+            </TableView>
             <Pane>
                <children>
                   <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_DOUBLE_LEFT" layoutX="322.0" layoutY="32.0" size="32.0" text="" />
@@ -37,4 +48,4 @@
          </children>
       </VBox>
    </children>
-</Pane>
+</fx:root>

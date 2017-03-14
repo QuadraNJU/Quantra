@@ -76,6 +76,19 @@ public class UIContainer extends Stage {
     }
 
     @FXML
+    private void onStockListAction() {
+        new Thread(() -> {
+            try {
+                showLoading();
+                loadContent(new StockListVC());
+                hideLoading();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @FXML
     private void onCompareAction() {
         new Thread(() -> {
             try {
