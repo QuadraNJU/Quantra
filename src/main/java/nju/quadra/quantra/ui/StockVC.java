@@ -80,7 +80,7 @@ public class StockVC extends VBox {
         LinkedList<Number> ma30List = new LinkedList<>();
         LinkedList<Number> ma60List = new LinkedList<>();
         for (int i = 0; i < size; i++) {
-            if (infoList.get(i).getToday().getDate().equals(DateUtil.localDateToString(dateEnd.getValue()))) {
+            if (DateUtil.parseLocalDate(infoList.get(i).getToday().getDate()).compareTo(dateEnd.getValue()) <= 0) {
                 labelPrice.setText(String.valueOf(infoList.get(i).getToday().getClose()));
                 if (infoList.get(i).getYesterday() != null) {
                     double rate = StockStatisticUtil.RATE(infoList.get(i));
@@ -136,9 +136,22 @@ public class StockVC extends VBox {
         kChart.setHiddenPaths(hiddenMAList);
     }
 
+    private double kChartDragX, kChartXGap;
+
+    @FXML
+    private void onKChartDragStart(MouseEvent t) {
+        kChartDragX = t.getX();
+        kChartXGap = kChart.getXGap();
+    }
+
     @FXML
     private void onKChartDrag(MouseEvent t) {
-        System.out.println(t.getX());
+        double dX = t.getX() - kChartDragX;
+        if (dX > kChartXGap || dX < -kChartXGap) {
+            dateEnd.setValue(dateEnd.getValue().minusDays(2 * (long) (dX / kChartXGap)));
+            dateStart.setValue(dateStart.getValue().minusDays(2 * (long) (dX / kChartXGap)));
+            kChartDragX = t.getX();
+        }
     }
 
     @FXML

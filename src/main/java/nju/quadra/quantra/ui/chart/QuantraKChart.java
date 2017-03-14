@@ -138,6 +138,10 @@ public class QuantraKChart extends XYChart<String, Number> {
         }
     }
 
+    public double getXGap() {
+        return ((CategoryAxis) getXAxis()).getCategorySpacing();
+    }
+
     @Override
     protected void dataItemAdded(Series<String, Number> series, int itemIndex, Data<String, Number> item) {
         Node candle = item.getNode();
