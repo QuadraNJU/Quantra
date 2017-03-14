@@ -108,6 +108,7 @@ public class StockVC extends VBox {
         paneK.setCenter(kChart);
     }
 
+
     private Double MA(int startPos, int days) {
         if (startPos + days <= infoList.size()) {
             return StockStatisticUtil.SMA(infoList.subList(startPos, startPos + days));
