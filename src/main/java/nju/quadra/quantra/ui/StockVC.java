@@ -2,6 +2,7 @@ package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
@@ -21,6 +22,7 @@ import nju.quadra.quantra.utils.StockStatisticUtil;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * Created by MECHREVO on 2017/3/10.
  */
-public class StockVC extends Pane {
+public class StockVC extends VBox {
 
     @FXML
     private Label labelName, labelPrice, labelRate;
@@ -42,6 +44,8 @@ public class StockVC extends Pane {
 
     private List<StockBaseProtos.StockBase.StockInfo> infoList;
     private int size;
+    private QuantraKChart kChart;
+    private ArrayList<String> hiddenMAList = new ArrayList<>();
     private static int code;
 
     public StockVC(int code, String date) throws IOException {
@@ -95,16 +99,16 @@ public class StockVC extends Pane {
                 }
             }
         }
-        QuantraKChart kChart = QuantraKChart.createFrom(linkList);
+        kChart = QuantraKChart.createFrom(linkList);
         kChart.addPath("MA5", Color.WHITE, ma5List);
         kChart.addPath("MA10", Color.YELLOW, ma10List);
-        kChart.addPath("MA20", Color.MEDIUMPURPLE, ma20List);
+        kChart.addPath("MA20", Color.LIGHTPINK, ma20List);
         kChart.addPath("MA30", Color.LIGHTGREEN, ma30List);
         kChart.addPath("MA60", Color.LIGHTBLUE, ma60List);
         paneK.setCenter(kChart);
     }
 
-    private Number MA(int startPos, int days) {
+    private Double MA(int startPos, int days) {
         if (startPos + days <= infoList.size()) {
             return StockStatisticUtil.SMA(infoList.subList(startPos, startPos + days));
         } else {
@@ -115,6 +119,17 @@ public class StockVC extends Pane {
     @FXML
     private void onShortcutAction(ActionEvent t) {
         dateStart.setValue(dateEnd.getValue().minusDays(Integer.parseInt(((JFXButton) t.getSource()).getText().replace("日", ""))));
+    }
+
+    @FXML
+    private void onMAToggle(ActionEvent t) {
+        JFXToggleButton toggle = (JFXToggleButton) t.getSource();
+        if (toggle.isSelected()) {
+            hiddenMAList.remove(toggle.getText());
+        } else {
+            hiddenMAList.add(toggle.getText());
+        }
+        kChart.setHiddenPaths(hiddenMAList);
     }
 
     @FXML

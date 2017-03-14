@@ -130,6 +130,14 @@ public class QuantraKChart extends XYChart<String, Number> {
         getData().add(series);
     }
 
+    public void setHiddenPaths(List<String> hiddenPaths) {
+        for (Series<String, Number> series : getData()) {
+            if (series.getNode() != null) {
+                series.getNode().setVisible(!hiddenPaths.contains(series.getName()));
+            }
+        }
+    }
+
     @Override
     protected void dataItemAdded(Series<String, Number> series, int itemIndex, Data<String, Number> item) {
         Node candle = item.getNode();
