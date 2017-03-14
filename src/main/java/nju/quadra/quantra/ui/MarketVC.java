@@ -3,12 +3,9 @@ package nju.quadra.quantra.ui;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.utils.DateUtil;
@@ -17,8 +14,6 @@ import nju.quadra.quantra.utils.FXUtil;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +49,6 @@ public class MarketVC extends Pane {
             loadLists(DateUtil.localDateToString(newValue));
         });
         picker.setValue(DateUtil.parseLocalDate(StockData.getList().get(0).getDate()));
-        //loadLists(StockData.getList().get(0).getDate());
         picker.setDayCellFactory(DateUtil.dayCellFactory);
     }
 

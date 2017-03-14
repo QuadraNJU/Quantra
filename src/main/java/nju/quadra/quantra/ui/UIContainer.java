@@ -1,12 +1,10 @@
 package nju.quadra.quantra.ui;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -94,6 +92,7 @@ public class UIContainer extends Stage {
             try {
                 showLoading();
                 loadContent(new StockCompareVC());
+                paneCompare.setVisible(false);
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -116,6 +115,8 @@ public class UIContainer extends Stage {
     private void onCompareCleanAction() throws IOException {
         StockCompareVC.chosenStocks.clear();
         loadCompareList();
+        StockCompareVC.load();
+        paneCompare.setVisible(true);
     }
 
     public static void loadCompareList() throws IOException {
