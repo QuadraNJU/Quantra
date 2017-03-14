@@ -34,7 +34,7 @@ public class SplashVC extends Stage {
             this.setScene(new Scene(root));
             this.initStyle(StageStyle.TRANSPARENT);
             new Thread(() -> {
-                if (StockData.getList().size() > 0) {
+                if (StockData.getPtrList().size() > 0) {
                     Platform.runLater(() -> {
                         new UIContainer().show();
                         this.close();

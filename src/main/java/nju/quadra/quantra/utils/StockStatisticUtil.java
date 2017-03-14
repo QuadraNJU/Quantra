@@ -1,6 +1,7 @@
 package nju.quadra.quantra.utils;
 
 import nju.quadra.quantra.data.StockBaseProtos;
+import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,14 @@ import static nju.quadra.quantra.utils.NumericalStatisticUtil.VAR_SAMPLE;
  * Created by RaUkonn on 2017/3/7.
  */
 public class StockStatisticUtil {
+    public static double RATE(StockInfoPtr ptr) {
+        if (ptr.getYesterday() != null) {
+            return (ptr.getToday().getAdjClose() - ptr.getYesterday().getAdjClose()) / ptr.getYesterday().getAdjClose();
+        } else {
+            return Double.NaN;
+        }
+    }
+
     public static List<Double> DAILY_LOG_RETURN(List<StockBaseProtos.StockBase.StockInfo> stock) {
         List<Double> logReturn = IntStream
                 .range(1, stock.size())
@@ -34,37 +43,28 @@ public class StockStatisticUtil {
     }
 
 
-    public static double SMA(List<StockBaseProtos.StockBase.StockInfo> stock) {
-        return stock.stream().mapToDouble(StockBaseProtos.StockBase.StockInfo::getClose).average().getAsDouble();
+    public static double SMA(List<StockInfoPtr> stock) {
+        return stock.stream().mapToDouble(ptr -> ptr.getToday().getClose()).average().getAsDouble();
     }
 
-
-    public static double BOLL_MID(List<StockBaseProtos.StockBase.StockInfo> stock) {
-        return SMA(stock);
-    }
-
-    public static double BOLL_UPPER(List<StockBaseProtos.StockBase.StockInfo> stock, int k) {
-        return BOLL_MID(stock) + k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(StockBaseProtos.StockBase.StockInfo::getClose)
+    public static double BOLL_UPPER(List<StockInfoPtr> stock, int k) {
+        return SMA(stock) + k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
+                .mapToDouble(ptr -> ptr.getToday().getClose())
                 .toArray());
     }
 
-    public static double BOLL_UPPER(List<StockBaseProtos.StockBase.StockInfo> stock) {
-        return BOLL_MID(stock) + 2 * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(StockBaseProtos.StockBase.StockInfo::getClose)
+    public static double BOLL_UPPER(List<StockInfoPtr> stock) {
+        return BOLL_UPPER(stock, 2);
+    }
+
+    public static double BOLL_LOWER(List<StockInfoPtr> stock, int k) {
+        return SMA(stock) - k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
+                .mapToDouble(ptr -> ptr.getToday().getClose())
                 .toArray());
     }
 
-    public static double BOLL_LOWER(List<StockBaseProtos.StockBase.StockInfo> stock, int k) {
-        return BOLL_MID(stock) - k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(StockBaseProtos.StockBase.StockInfo::getClose)
-                .toArray());
-    }
-
-    public static double BOLL_LOWER(List<StockBaseProtos.StockBase.StockInfo> stock) {
-        return BOLL_MID(stock) - 2 * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(StockBaseProtos.StockBase.StockInfo::getClose)
-                .toArray());
+    public static double BOLL_LOWER(List<StockInfoPtr> stock) {
+        return BOLL_LOWER(stock, 2);
     }
 
 //    public static double DIF(StockBaseProtos.StockBase.StockInfo info) {

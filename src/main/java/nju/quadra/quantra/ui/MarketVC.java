@@ -3,22 +3,19 @@ package nju.quadra.quantra.ui;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
+import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
+import nju.quadra.quantra.utils.StockStatisticUtil;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,30 +77,26 @@ public class MarketVC extends Pane {
             List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
             List<Double> underLastFivePerRate = new ArrayList<>();
 
-            StockBaseProtos.StockBase.StockInfo last = StockData.getList().get(0);
-            for (int i = 1; i < StockData.size; i++) {
-                StockBaseProtos.StockBase.StockInfo curr = last;
-                last = StockData.getList().get(i);
-
-                if (curr.getDate().equals(date) && last.getCode() == curr.getCode()) {
-                    double rate = (curr.getAdjClose() - last.getAdjClose()) / last.getAdjClose();
-                    double otherRate = (curr.getOpen() - curr.getClose()) / last.getClose();
+            for (StockInfoPtr ptr : StockData.getByDate(date)) {
+                if (ptr.getYesterday() != null) {
+                    double rate = StockStatisticUtil.RATE(ptr);
+                    double otherRate = (ptr.getToday().getOpen() - ptr.getToday().getClose()) / ptr.getYesterday().getClose();
                     if (rate > 0) {
                         if (rate > 0.05) {
-                            stockRisingOverFivePer.add(curr);
+                            stockRisingOverFivePer.add(ptr.getToday());
                             risingOverFivePerRate.add(rate);
                             if (rate >= 0.1) {
-                                stockRisingLimit.add(curr);
+                                stockRisingLimit.add(ptr.getToday());
                                 risingLimitRate.add(rate);
                             }
                         }
                         cnts[0]++;
                     } else if (rate < 0) {
                         if (rate < -0.05) {
-                            stockFallingOverFivePer.add(curr);
+                            stockFallingOverFivePer.add(ptr.getToday());
                             fallingOverFivePerRate.add(rate);
                             if (rate <= -0.1) {
-                                stockFallingLimit.add(curr);
+                                stockFallingLimit.add(ptr.getToday());
                                 fallingLimitRate.add(rate);
                             }
                         }
@@ -113,10 +106,10 @@ public class MarketVC extends Pane {
                     }
 
                     if (otherRate > 0.05) {
-                        stockOverLastFivePer.add(curr);
+                        stockOverLastFivePer.add(ptr.getToday());
                         overLastFivePerRate.add(otherRate);
                     } else if (otherRate < -0.05) {
-                        stockUnderLastFivePer.add(curr);
+                        stockUnderLastFivePer.add(ptr.getToday());
                         underLastFivePerRate.add(otherRate);
                     }
                 }
