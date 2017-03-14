@@ -1,49 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css"
-           xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane maxWidth="1000.0" minHeight="600.0" prefWidth="1000.0">
             <top>
-                <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                      prefWidth="1000.0" BorderPane.alignment="CENTER">
+                <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
                     <children>
                         <HBox layoutX="784.0" layoutY="33.0">
                             <children>
                                 <JFXButton onAction="#onMarketPageAction" text="市场" textFill="WHITESMOKE">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton text="股票列表" textFill="WHITESMOKE">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton onAction="#onComparePageAction" text="对比" textFill="WHITESMOKE">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                             </children>
                         </HBox>
-                        <JFXTextField focusColor="WHITE" layoutX="578.0" layoutY="36.0" promptText="搜索股票"
-                                      unFocusColor="#979797">
+                        <JFXTextField focusColor="WHITE" layoutX="578.0" layoutY="36.0" promptText="搜索股票" unFocusColor="#979797">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                         </JFXTextField>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="29.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/logo.png"/>
+                                <Image url="@../images/logo.png" />
                             </image>
                         </ImageView>
                     </children>
@@ -52,16 +55,35 @@
             <center>
                 <ScrollPane hbarPolicy="NEVER">
                     <BorderPane.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </BorderPane.margin>
-                    <Pane fx:id="contentPane"/>
+                    <Pane fx:id="contentPane" />
                 </ScrollPane>
             </center>
         </BorderPane>
+
         <Pane fx:id="loadingPane" maxWidth="1000.0" prefWidth="1000.0" visible="false">
             <children>
-                <JFXSpinner layoutX="446.0" layoutY="150.0" radius="50.0" startingAngle="0.0"/>
+                <JFXSpinner layoutX="446.0" layoutY="150.0" radius="50.0" startingAngle="0.0" />
             </children>
         </Pane>
+
+      <Pane fx:id="paneCompare" maxWidth="1000.0" prefWidth="1000.0" visible="false" onMouseClicked="#onCompareCancelAction">
+         <children>
+              <VBox layoutX="834.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                  <children>
+                      <VBox fx:id="paneCompareList"/>
+                      <HBox spacing="10.0">
+                          <children>
+                              <JFXButton text="对比" onAction="#onCompareAction"/>
+                              <JFXButton text="清空" onAction="#onCompareCleanAction"/>
+                              <JFXButton text="取消" onAction="#onCompareCancelAction"/>
+                          </children>
+                      </HBox>
+                  </children>
+              </VBox>
+         </children>
+      </Pane>
+
     </children>
 </StackPane>

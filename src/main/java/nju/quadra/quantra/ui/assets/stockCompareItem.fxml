@@ -14,7 +14,7 @@
             <VBox>
                 <children>
                     <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24"/>
-                    <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" size="24" onMouseClicked="#onPlusClickedAction"/>
+                    <MaterialDesignIconView fx:id="iconPlus" fill="red" glyphName="PLUS" size="24" onMouseClicked="#onPlusClickedAction"/>
                 </children>
             </VBox>
             <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0"

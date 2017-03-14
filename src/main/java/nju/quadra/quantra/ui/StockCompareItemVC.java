@@ -24,8 +24,8 @@ public class StockCompareItemVC extends FlowPane {
     @FXML
     private FlowPane flowCharts;
     @FXML
-    private MaterialDesignIconView iconPlus;
-    private int curCode;
+    private static int code;
+
 
     public StockCompareItemVC(int code) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompareItem.fxml"));
@@ -34,13 +34,12 @@ public class StockCompareItemVC extends FlowPane {
         labelName.setText(list.get(0).getName());
         flowCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
         flowCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
-        curCode = code;
-        iconPlus.setFill(StockCompareVC.chosenStocks.contains(code)? Color.RED: Color.valueOf("#eceff1"));
+        this.code = code;
     }
 
     @FXML
     private void onPlusClickedAction(MouseEvent t) throws IOException{
-        CommonEventController.onPlusClickedEvent(t, curCode);
+        CommonEventController.onPlusClickedEvent(t, code);
         StockCompareVC.load();
     }
 }

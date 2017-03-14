@@ -1,12 +1,15 @@
 package nju.quadra.quantra.ui;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,10 +22,12 @@ public class UIContainer extends Stage {
     @FXML
     private StackPane rootStack;
     @FXML
-    private Pane contentPane, loadingPane;
+    private Pane contentPane, loadingPane, paneCompare;
     @FXML
     private static Pane contentPaneS, loadingPaneS;
-
+    @FXML
+    private VBox paneCompareList;
+    public static VBox paneCompareListS;
     private static int loadingCount = 0;
 
     public UIContainer() {
@@ -32,6 +37,7 @@ public class UIContainer extends Stage {
             this.setScene(new Scene(loader.load()));
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
+            paneCompareListS = paneCompareList;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,11 +76,10 @@ public class UIContainer extends Stage {
     }
 
     @FXML
-    private void onComparePageAction() {
+    private void onCompareAction() {
         new Thread(() -> {
             try {
                 showLoading();
-                //todo:我能怎么办我也很绝望啊
                 loadContent(new StockCompareVC());
                 hideLoading();
             } catch (IOException e) {
@@ -83,4 +88,27 @@ public class UIContainer extends Stage {
         }).start();
     }
 
+    @FXML
+    private void onComparePageAction() throws IOException {
+        loadCompareList();
+        paneCompare.setVisible(true);
+    }
+
+    @FXML
+    private void onCompareCancelAction() {
+        paneCompare.setVisible(false);
+    }
+
+    @FXML
+    private void onCompareCleanAction() throws IOException {
+        StockCompareVC.chosenStocks.clear();
+        loadCompareList();
+    }
+
+    public static void loadCompareList() throws IOException {
+        paneCompareListS.getChildren().clear();
+        for (int i = 0; i < StockCompareVC.chosenStocks.size(); i++) {
+            paneCompareListS.getChildren().add(new CompareSmallWindowItemVC(StockCompareVC.chosenStocks.get(i)));
+        }
+    }
 }
