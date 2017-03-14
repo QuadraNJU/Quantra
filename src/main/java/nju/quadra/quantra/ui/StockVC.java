@@ -38,14 +38,17 @@ public class StockVC extends Pane {
     private BorderPane paneK;
     @FXML
     private MaterialDesignIconView iconStar, iconPlus;
+    private static MaterialDesignIconView iconPlusS;
 
     private List<StockBaseProtos.StockBase.StockInfo> infoList;
     private int size;
+    private static int code;
 
     public StockVC(int code, String date) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stock.fxml"));
         infoList = StockData.getList().stream().filter(info -> info.getCode() == code).collect(Collectors.toList());
         size = infoList.size();
+        this.code = code;
         labelName.setText(infoList.get(0).getName());
         dateStart.setDayCellFactory(DateUtil.dayCellFactory);
         dateEnd.setDayCellFactory(DateUtil.dayCellFactory);
@@ -54,7 +57,12 @@ public class StockVC extends Pane {
         updateInfo();
         dateStart.valueProperty().addListener(observable -> updateInfo());
         dateEnd.valueProperty().addListener(observable -> updateInfo());
-        iconPlus.setFill(StockCompareVC.chosenStocks.contains(code) ? Color.RED : Color.valueOf("#eceff1"));
+        iconPlusS = iconPlus;
+        setIconPlusColor();
+    }
+
+    public static void setIconPlusColor() {
+        iconPlusS.setFill(StockCompareVC.chosenStocks.contains(code) ? Color.RED : Color.valueOf("#eceff1"));
     }
 
     private void updateInfo() {
