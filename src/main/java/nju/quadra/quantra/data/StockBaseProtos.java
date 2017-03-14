@@ -122,87 +122,74 @@ public final class StockBaseProtos {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>uint32 serial = 1;</code>
+       * <code>optional uint32 serial = 1;</code>
        */
       int getSerial();
 
       /**
-       * <code>string date = 2;</code>
+       * <code>optional string date = 2;</code>
        */
       java.lang.String getDate();
       /**
-       * <code>string date = 2;</code>
+       * <code>optional string date = 2;</code>
        */
       com.google.protobuf.ByteString
           getDateBytes();
 
       /**
-       * <code>float open = 3;</code>
+       * <code>optional float open = 3;</code>
        */
       float getOpen();
 
       /**
-       * <code>float high = 4;</code>
+       * <code>optional float high = 4;</code>
        */
       float getHigh();
 
       /**
-       * <code>float low = 5;</code>
+       * <code>optional float low = 5;</code>
        */
       float getLow();
 
       /**
-       * <code>float close = 6;</code>
+       * <code>optional float close = 6;</code>
        */
       float getClose();
 
       /**
-       * <code>uint32 volume = 7;</code>
+       * <code>optional uint32 volume = 7;</code>
        */
       int getVolume();
 
       /**
-       * <code>float adjClose = 8;</code>
+       * <code>optional float adjClose = 8;</code>
        */
       float getAdjClose();
 
       /**
-       * <code>uint32 code = 9;</code>
+       * <code>optional uint32 code = 9;</code>
        */
       int getCode();
 
       /**
-       * <code>string name = 10;</code>
+       * <code>optional string name = 10;</code>
        */
       java.lang.String getName();
       /**
-       * <code>string name = 10;</code>
+       * <code>optional string name = 10;</code>
        */
       com.google.protobuf.ByteString
           getNameBytes();
 
       /**
-       * <code>string market = 11;</code>
+       * <code>optional string market = 11;</code>
        */
       java.lang.String getMarket();
       /**
-       * <code>string market = 11;</code>
+       * <code>optional string market = 11;</code>
        */
       com.google.protobuf.ByteString
           getMarketBytes();
-
-      /**
-       * <code>.StockBase.StockInfo next = 12;</code>
-       */
-      boolean hasNext();
-      /**
-       * <code>.StockBase.StockInfo next = 12;</code>
-       */
-      nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo getNext();
-      /**
-       * <code>.StockBase.StockInfo next = 12;</code>
-       */
-      nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfoOrBuilder getNextOrBuilder();
     }
     /**
      * Protobuf type {@code StockBase.StockInfo}
@@ -312,19 +299,6 @@ public final class StockBaseProtos {
                 market_ = s;
                 break;
               }
-              case 98: {
-                nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.Builder subBuilder = null;
-                if (next_ != null) {
-                  subBuilder = next_.toBuilder();
-                }
-                next_ = input.readMessage(nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.parser(), extensionRegistry);
-                if (subBuilder != null) {
-                  subBuilder.mergeFrom(next_);
-                  next_ = subBuilder.buildPartial();
-                }
-
-                break;
-              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -351,7 +325,7 @@ public final class StockBaseProtos {
       public static final int SERIAL_FIELD_NUMBER = 1;
       private int serial_;
       /**
-       * <code>uint32 serial = 1;</code>
+       * <code>optional uint32 serial = 1;</code>
        */
       public int getSerial() {
         return serial_;
@@ -360,7 +334,7 @@ public final class StockBaseProtos {
       public static final int DATE_FIELD_NUMBER = 2;
       private volatile java.lang.Object date_;
       /**
-       * <code>string date = 2;</code>
+       * <code>optional string date = 2;</code>
        */
       public java.lang.String getDate() {
         java.lang.Object ref = date_;
@@ -375,7 +349,7 @@ public final class StockBaseProtos {
         }
       }
       /**
-       * <code>string date = 2;</code>
+       * <code>optional string date = 2;</code>
        */
       public com.google.protobuf.ByteString
           getDateBytes() {
@@ -394,7 +368,7 @@ public final class StockBaseProtos {
       public static final int OPEN_FIELD_NUMBER = 3;
       private float open_;
       /**
-       * <code>float open = 3;</code>
+       * <code>optional float open = 3;</code>
        */
       public float getOpen() {
         return open_;
@@ -403,7 +377,7 @@ public final class StockBaseProtos {
       public static final int HIGH_FIELD_NUMBER = 4;
       private float high_;
       /**
-       * <code>float high = 4;</code>
+       * <code>optional float high = 4;</code>
        */
       public float getHigh() {
         return high_;
@@ -412,7 +386,7 @@ public final class StockBaseProtos {
       public static final int LOW_FIELD_NUMBER = 5;
       private float low_;
       /**
-       * <code>float low = 5;</code>
+       * <code>optional float low = 5;</code>
        */
       public float getLow() {
         return low_;
@@ -421,7 +395,7 @@ public final class StockBaseProtos {
       public static final int CLOSE_FIELD_NUMBER = 6;
       private float close_;
       /**
-       * <code>float close = 6;</code>
+       * <code>optional float close = 6;</code>
        */
       public float getClose() {
         return close_;
@@ -430,7 +404,7 @@ public final class StockBaseProtos {
       public static final int VOLUME_FIELD_NUMBER = 7;
       private int volume_;
       /**
-       * <code>uint32 volume = 7;</code>
+       * <code>optional uint32 volume = 7;</code>
        */
       public int getVolume() {
         return volume_;
@@ -439,7 +413,7 @@ public final class StockBaseProtos {
       public static final int ADJCLOSE_FIELD_NUMBER = 8;
       private float adjClose_;
       /**
-       * <code>float adjClose = 8;</code>
+       * <code>optional float adjClose = 8;</code>
        */
       public float getAdjClose() {
         return adjClose_;
@@ -448,7 +422,7 @@ public final class StockBaseProtos {
       public static final int CODE_FIELD_NUMBER = 9;
       private int code_;
       /**
-       * <code>uint32 code = 9;</code>
+       * <code>optional uint32 code = 9;</code>
        */
       public int getCode() {
         return code_;
@@ -457,7 +431,7 @@ public final class StockBaseProtos {
       public static final int NAME_FIELD_NUMBER = 10;
       private volatile java.lang.Object name_;
       /**
-       * <code>string name = 10;</code>
+       * <code>optional string name = 10;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -472,7 +446,7 @@ public final class StockBaseProtos {
         }
       }
       /**
-       * <code>string name = 10;</code>
+       * <code>optional string name = 10;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -491,7 +465,7 @@ public final class StockBaseProtos {
       public static final int MARKET_FIELD_NUMBER = 11;
       private volatile java.lang.Object market_;
       /**
-       * <code>string market = 11;</code>
+       * <code>optional string market = 11;</code>
        */
       public java.lang.String getMarket() {
         java.lang.Object ref = market_;
@@ -506,7 +480,7 @@ public final class StockBaseProtos {
         }
       }
       /**
-       * <code>string market = 11;</code>
+       * <code>optional string market = 11;</code>
        */
       public com.google.protobuf.ByteString
           getMarketBytes() {
@@ -520,27 +494,6 @@ public final class StockBaseProtos {
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
-      }
-
-      public static final int NEXT_FIELD_NUMBER = 12;
-      private nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo next_;
-      /**
-       * <code>.StockBase.StockInfo next = 12;</code>
-       */
-      public boolean hasNext() {
-        return next_ != null;
-      }
-      /**
-       * <code>.StockBase.StockInfo next = 12;</code>
-       */
-      public nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo getNext() {
-        return next_ == null ? nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.getDefaultInstance() : next_;
-      }
-      /**
-       * <code>.StockBase.StockInfo next = 12;</code>
-       */
-      public nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfoOrBuilder getNextOrBuilder() {
-        return getNext();
       }
 
       private byte memoizedIsInitialized = -1;
@@ -587,9 +540,6 @@ public final class StockBaseProtos {
         }
         if (!getMarketBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 11, market_);
-        }
-        if (next_ != null) {
-          output.writeMessage(12, getNext());
         }
       }
 
@@ -639,10 +589,6 @@ public final class StockBaseProtos {
         if (!getMarketBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, market_);
         }
-        if (next_ != null) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(12, getNext());
-        }
         memoizedSize = size;
         return size;
       }
@@ -691,11 +637,6 @@ public final class StockBaseProtos {
             .equals(other.getName());
         result = result && getMarket()
             .equals(other.getMarket());
-        result = result && (hasNext() == other.hasNext());
-        if (hasNext()) {
-          result = result && getNext()
-              .equals(other.getNext());
-        }
         return result;
       }
 
@@ -705,7 +646,7 @@ public final class StockBaseProtos {
           return memoizedHashCode;
         }
         int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (19 * hash) + getDescriptorForType().hashCode();
         hash = (37 * hash) + SERIAL_FIELD_NUMBER;
         hash = (53 * hash) + getSerial();
         hash = (37 * hash) + DATE_FIELD_NUMBER;
@@ -733,10 +674,6 @@ public final class StockBaseProtos {
         hash = (53 * hash) + getName().hashCode();
         hash = (37 * hash) + MARKET_FIELD_NUMBER;
         hash = (53 * hash) + getMarket().hashCode();
-        if (hasNext()) {
-          hash = (37 * hash) + NEXT_FIELD_NUMBER;
-          hash = (53 * hash) + getNext().hashCode();
-        }
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -877,12 +814,6 @@ public final class StockBaseProtos {
 
           market_ = "";
 
-          if (nextBuilder_ == null) {
-            next_ = null;
-          } else {
-            next_ = null;
-            nextBuilder_ = null;
-          }
           return this;
         }
 
@@ -916,11 +847,6 @@ public final class StockBaseProtos {
           result.code_ = code_;
           result.name_ = name_;
           result.market_ = market_;
-          if (nextBuilder_ == null) {
-            result.next_ = next_;
-          } else {
-            result.next_ = nextBuilder_.build();
-          }
           onBuilt();
           return result;
         }
@@ -998,9 +924,6 @@ public final class StockBaseProtos {
             market_ = other.market_;
             onChanged();
           }
-          if (other.hasNext()) {
-            mergeNext(other.getNext());
-          }
           onChanged();
           return this;
         }
@@ -1029,13 +952,13 @@ public final class StockBaseProtos {
 
         private int serial_ ;
         /**
-         * <code>uint32 serial = 1;</code>
+         * <code>optional uint32 serial = 1;</code>
          */
         public int getSerial() {
           return serial_;
         }
         /**
-         * <code>uint32 serial = 1;</code>
+         * <code>optional uint32 serial = 1;</code>
          */
         public Builder setSerial(int value) {
           
@@ -1044,7 +967,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>uint32 serial = 1;</code>
+         * <code>optional uint32 serial = 1;</code>
          */
         public Builder clearSerial() {
           
@@ -1055,7 +978,7 @@ public final class StockBaseProtos {
 
         private java.lang.Object date_ = "";
         /**
-         * <code>string date = 2;</code>
+         * <code>optional string date = 2;</code>
          */
         public java.lang.String getDate() {
           java.lang.Object ref = date_;
@@ -1070,7 +993,7 @@ public final class StockBaseProtos {
           }
         }
         /**
-         * <code>string date = 2;</code>
+         * <code>optional string date = 2;</code>
          */
         public com.google.protobuf.ByteString
             getDateBytes() {
@@ -1086,7 +1009,7 @@ public final class StockBaseProtos {
           }
         }
         /**
-         * <code>string date = 2;</code>
+         * <code>optional string date = 2;</code>
          */
         public Builder setDate(
             java.lang.String value) {
@@ -1099,7 +1022,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>string date = 2;</code>
+         * <code>optional string date = 2;</code>
          */
         public Builder clearDate() {
           
@@ -1108,7 +1031,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>string date = 2;</code>
+         * <code>optional string date = 2;</code>
          */
         public Builder setDateBytes(
             com.google.protobuf.ByteString value) {
@@ -1124,13 +1047,13 @@ public final class StockBaseProtos {
 
         private float open_ ;
         /**
-         * <code>float open = 3;</code>
+         * <code>optional float open = 3;</code>
          */
         public float getOpen() {
           return open_;
         }
         /**
-         * <code>float open = 3;</code>
+         * <code>optional float open = 3;</code>
          */
         public Builder setOpen(float value) {
           
@@ -1139,7 +1062,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>float open = 3;</code>
+         * <code>optional float open = 3;</code>
          */
         public Builder clearOpen() {
           
@@ -1150,13 +1073,13 @@ public final class StockBaseProtos {
 
         private float high_ ;
         /**
-         * <code>float high = 4;</code>
+         * <code>optional float high = 4;</code>
          */
         public float getHigh() {
           return high_;
         }
         /**
-         * <code>float high = 4;</code>
+         * <code>optional float high = 4;</code>
          */
         public Builder setHigh(float value) {
           
@@ -1165,7 +1088,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>float high = 4;</code>
+         * <code>optional float high = 4;</code>
          */
         public Builder clearHigh() {
           
@@ -1176,13 +1099,13 @@ public final class StockBaseProtos {
 
         private float low_ ;
         /**
-         * <code>float low = 5;</code>
+         * <code>optional float low = 5;</code>
          */
         public float getLow() {
           return low_;
         }
         /**
-         * <code>float low = 5;</code>
+         * <code>optional float low = 5;</code>
          */
         public Builder setLow(float value) {
           
@@ -1191,7 +1114,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>float low = 5;</code>
+         * <code>optional float low = 5;</code>
          */
         public Builder clearLow() {
           
@@ -1202,13 +1125,13 @@ public final class StockBaseProtos {
 
         private float close_ ;
         /**
-         * <code>float close = 6;</code>
+         * <code>optional float close = 6;</code>
          */
         public float getClose() {
           return close_;
         }
         /**
-         * <code>float close = 6;</code>
+         * <code>optional float close = 6;</code>
          */
         public Builder setClose(float value) {
           
@@ -1217,7 +1140,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>float close = 6;</code>
+         * <code>optional float close = 6;</code>
          */
         public Builder clearClose() {
           
@@ -1228,13 +1151,13 @@ public final class StockBaseProtos {
 
         private int volume_ ;
         /**
-         * <code>uint32 volume = 7;</code>
+         * <code>optional uint32 volume = 7;</code>
          */
         public int getVolume() {
           return volume_;
         }
         /**
-         * <code>uint32 volume = 7;</code>
+         * <code>optional uint32 volume = 7;</code>
          */
         public Builder setVolume(int value) {
           
@@ -1243,7 +1166,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>uint32 volume = 7;</code>
+         * <code>optional uint32 volume = 7;</code>
          */
         public Builder clearVolume() {
           
@@ -1254,13 +1177,13 @@ public final class StockBaseProtos {
 
         private float adjClose_ ;
         /**
-         * <code>float adjClose = 8;</code>
+         * <code>optional float adjClose = 8;</code>
          */
         public float getAdjClose() {
           return adjClose_;
         }
         /**
-         * <code>float adjClose = 8;</code>
+         * <code>optional float adjClose = 8;</code>
          */
         public Builder setAdjClose(float value) {
           
@@ -1269,7 +1192,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>float adjClose = 8;</code>
+         * <code>optional float adjClose = 8;</code>
          */
         public Builder clearAdjClose() {
           
@@ -1280,13 +1203,13 @@ public final class StockBaseProtos {
 
         private int code_ ;
         /**
-         * <code>uint32 code = 9;</code>
+         * <code>optional uint32 code = 9;</code>
          */
         public int getCode() {
           return code_;
         }
         /**
-         * <code>uint32 code = 9;</code>
+         * <code>optional uint32 code = 9;</code>
          */
         public Builder setCode(int value) {
           
@@ -1295,7 +1218,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>uint32 code = 9;</code>
+         * <code>optional uint32 code = 9;</code>
          */
         public Builder clearCode() {
           
@@ -1306,7 +1229,7 @@ public final class StockBaseProtos {
 
         private java.lang.Object name_ = "";
         /**
-         * <code>string name = 10;</code>
+         * <code>optional string name = 10;</code>
          */
         public java.lang.String getName() {
           java.lang.Object ref = name_;
@@ -1321,7 +1244,7 @@ public final class StockBaseProtos {
           }
         }
         /**
-         * <code>string name = 10;</code>
+         * <code>optional string name = 10;</code>
          */
         public com.google.protobuf.ByteString
             getNameBytes() {
@@ -1337,7 +1260,7 @@ public final class StockBaseProtos {
           }
         }
         /**
-         * <code>string name = 10;</code>
+         * <code>optional string name = 10;</code>
          */
         public Builder setName(
             java.lang.String value) {
@@ -1350,7 +1273,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>string name = 10;</code>
+         * <code>optional string name = 10;</code>
          */
         public Builder clearName() {
           
@@ -1359,7 +1282,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>string name = 10;</code>
+         * <code>optional string name = 10;</code>
          */
         public Builder setNameBytes(
             com.google.protobuf.ByteString value) {
@@ -1375,7 +1298,7 @@ public final class StockBaseProtos {
 
         private java.lang.Object market_ = "";
         /**
-         * <code>string market = 11;</code>
+         * <code>optional string market = 11;</code>
          */
         public java.lang.String getMarket() {
           java.lang.Object ref = market_;
@@ -1390,7 +1313,7 @@ public final class StockBaseProtos {
           }
         }
         /**
-         * <code>string market = 11;</code>
+         * <code>optional string market = 11;</code>
          */
         public com.google.protobuf.ByteString
             getMarketBytes() {
@@ -1406,7 +1329,7 @@ public final class StockBaseProtos {
           }
         }
         /**
-         * <code>string market = 11;</code>
+         * <code>optional string market = 11;</code>
          */
         public Builder setMarket(
             java.lang.String value) {
@@ -1419,7 +1342,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>string market = 11;</code>
+         * <code>optional string market = 11;</code>
          */
         public Builder clearMarket() {
           
@@ -1428,7 +1351,7 @@ public final class StockBaseProtos {
           return this;
         }
         /**
-         * <code>string market = 11;</code>
+         * <code>optional string market = 11;</code>
          */
         public Builder setMarketBytes(
             com.google.protobuf.ByteString value) {
@@ -1440,123 +1363,6 @@ public final class StockBaseProtos {
           market_ = value;
           onChanged();
           return this;
-        }
-
-        private nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo next_ = null;
-        private com.google.protobuf.SingleFieldBuilderV3<
-            nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo, nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.Builder, nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfoOrBuilder> nextBuilder_;
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public boolean hasNext() {
-          return nextBuilder_ != null || next_ != null;
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo getNext() {
-          if (nextBuilder_ == null) {
-            return next_ == null ? nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.getDefaultInstance() : next_;
-          } else {
-            return nextBuilder_.getMessage();
-          }
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public Builder setNext(nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo value) {
-          if (nextBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            next_ = value;
-            onChanged();
-          } else {
-            nextBuilder_.setMessage(value);
-          }
-
-          return this;
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public Builder setNext(
-            nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.Builder builderForValue) {
-          if (nextBuilder_ == null) {
-            next_ = builderForValue.build();
-            onChanged();
-          } else {
-            nextBuilder_.setMessage(builderForValue.build());
-          }
-
-          return this;
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public Builder mergeNext(nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo value) {
-          if (nextBuilder_ == null) {
-            if (next_ != null) {
-              next_ =
-                nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.newBuilder(next_).mergeFrom(value).buildPartial();
-            } else {
-              next_ = value;
-            }
-            onChanged();
-          } else {
-            nextBuilder_.mergeFrom(value);
-          }
-
-          return this;
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public Builder clearNext() {
-          if (nextBuilder_ == null) {
-            next_ = null;
-            onChanged();
-          } else {
-            next_ = null;
-            nextBuilder_ = null;
-          }
-
-          return this;
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.Builder getNextBuilder() {
-          
-          onChanged();
-          return getNextFieldBuilder().getBuilder();
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        public nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfoOrBuilder getNextOrBuilder() {
-          if (nextBuilder_ != null) {
-            return nextBuilder_.getMessageOrBuilder();
-          } else {
-            return next_ == null ?
-                nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.getDefaultInstance() : next_;
-          }
-        }
-        /**
-         * <code>.StockBase.StockInfo next = 12;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilderV3<
-            nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo, nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.Builder, nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfoOrBuilder> 
-            getNextFieldBuilder() {
-          if (nextBuilder_ == null) {
-            nextBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo, nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo.Builder, nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfoOrBuilder>(
-                    getNext(),
-                    getParentForChildren(),
-                    isClean());
-            next_ = null;
-          }
-          return nextBuilder_;
         }
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1695,7 +1501,7 @@ public final class StockBaseProtos {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       if (getInfoCount() > 0) {
         hash = (37 * hash) + INFO_FIELD_NUMBER;
         hash = (53 * hash) + getInfoList().hashCode();
@@ -2258,15 +2064,14 @@ public final class StockBaseProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017StockBase.proto\"\205\002\n\tStockBase\022\"\n\004info\030" +
-      "\001 \003(\0132\024.StockBase.StockInfo\032\323\001\n\tStockInf" +
+      "\n\017StockBase.proto\"\341\001\n\tStockBase\022\"\n\004info\030" +
+      "\001 \003(\0132\024.StockBase.StockInfo\032\257\001\n\tStockInf" +
       "o\022\016\n\006serial\030\001 \001(\r\022\014\n\004date\030\002 \001(\t\022\014\n\004open\030" +
       "\003 \001(\002\022\014\n\004high\030\004 \001(\002\022\013\n\003low\030\005 \001(\002\022\r\n\005clos" +
       "e\030\006 \001(\002\022\016\n\006volume\030\007 \001(\r\022\020\n\010adjClose\030\010 \001(" +
       "\002\022\014\n\004code\030\t \001(\r\022\014\n\004name\030\n \001(\t\022\016\n\006market\030" +
-      "\013 \001(\t\022\"\n\004next\030\014 \001(\0132\024.StockBase.StockInf" +
-      "oB*\n\027nju.quadra.quantra.dataB\017StockBaseP" +
-      "rotosb\006proto3"
+      "\013 \001(\tB*\n\027nju.quadra.quantra.dataB\017StockB" +
+      "aseProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2291,7 +2096,7 @@ public final class StockBaseProtos {
     internal_static_StockBase_StockInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_StockBase_StockInfo_descriptor,
-        new java.lang.String[] { "Serial", "Date", "Open", "High", "Low", "Close", "Volume", "AdjClose", "Code", "Name", "Market", "Next", });
+        new java.lang.String[] { "Serial", "Date", "Open", "High", "Low", "Close", "Volume", "AdjClose", "Code", "Name", "Market", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

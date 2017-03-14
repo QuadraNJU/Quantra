@@ -70,6 +70,9 @@ public class StockVC extends VBox {
     }
 
     private void updateInfo() {
+        if (dateStart.getValue().compareTo(dateEnd.getValue()) >= 0) {
+            dateStart.setValue(dateEnd.getValue().minusDays(1));
+        }
         LinkedList<StockBaseProtos.StockBase.StockInfo> linkList = new LinkedList<>();
         LinkedList<Number> ma5List = new LinkedList<>();
         LinkedList<Number> ma10List = new LinkedList<>();
@@ -97,6 +100,7 @@ public class StockVC extends VBox {
                     ma60List.addFirst(MA(i, 60));
                     i++;
                 }
+                break;
             }
         }
         kChart = QuantraKChart.createFrom(linkList);
@@ -134,6 +138,11 @@ public class StockVC extends VBox {
     }
 
     @FXML
+    private void onKChartDrag(MouseEvent t) {
+        System.out.println(t.getX());
+    }
+
+    @FXML
     private void onKChartScroll(ScrollEvent t) {
         LocalDate newDate = dateStart.getValue().plusDays(t.getDeltaY() < 0 ? -15 : 15);
         if (newDate.compareTo(dateEnd.getValue()) > 0) {
@@ -148,6 +157,5 @@ public class StockVC extends VBox {
         int code = infoList.get(0).getCode();
         CommonEventController.onPlusClickedEvent(t, code);
     }
-
 
 }
