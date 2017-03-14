@@ -39,7 +39,7 @@ public class StockCompareVC extends Pane {
     public static void load() throws IOException {
         gridStocksS.getChildren().clear();
         for (int i = 0; i < chosenStocks.size(); i++) {
-            gridStocksS.add(new StockCompareItemVC(chosenStocks.get(i), "4/28/14", "4/29/14"), i, 0);
+            gridStocksS.add(new StockCompareItemVC(chosenStocks.get(i), "4/25/14", "5/1/14"), i, 0);
         }
     }
 

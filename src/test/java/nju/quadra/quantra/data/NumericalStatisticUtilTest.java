@@ -118,7 +118,7 @@ public class NumericalStatisticUtilTest {
 
     @Test
     public void testLogReturn() {
-        List<StockInfo> stock1 = StockData.getByCode(2210);
+        List<StockInfo> stock1 = StockData.getByCode(2210).subList(0, 3);
 
         System.out.println(StockStatisticUtil.DAILY_LOG_RETURN(stock1));
         System.out.println(StockStatisticUtil.DAILY_LOG_RETURN_VAR(stock1));

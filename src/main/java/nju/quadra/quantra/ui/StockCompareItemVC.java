@@ -9,7 +9,6 @@ import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.ui.chart.RisingAndFallingChart;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
-import nju.quadra.quantra.utils.NumericalStatisticUtil;
 import nju.quadra.quantra.utils.StockStatisticUtil;
 
 import java.io.IOException;
@@ -54,7 +53,7 @@ public class StockCompareItemVC extends VBox {
             }
         }
 
-        list = list.subList(endIndex, startIndex);
+        list = list.subList(endIndex, startIndex + 1);
         labelName.setText(list.get(0).getName());
         paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
         paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
