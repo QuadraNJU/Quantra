@@ -34,7 +34,7 @@ public class RisingAndFallingChart extends LineChart<String, Number> {
         // Create chart
         RisingAndFallingChart chart = new RisingAndFallingChart(xAxis, yAxis);
         chart.setData(FXCollections.observableArrayList(series));
-        chart.setTitle(infoList.get(0).getName() + "近" + infoList.size() + "天涨幅趋势");
+        chart.setTitle(infoList.get(0).getName() + "近" + (infoList.size() - 1) + "天涨幅趋势");
         return chart;
     }
 }

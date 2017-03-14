@@ -51,7 +51,6 @@ public class MarketVC extends Pane {
             loadLists(DateUtil.localDateToString(newValue));
         });
         picker.setValue(DateUtil.parseLocalDate(StockData.getList().get(0).getDate()));
-        //loadLists(StockData.getList().get(0).getDate());
         picker.setDayCellFactory(DateUtil.dayCellFactory);
     }
 

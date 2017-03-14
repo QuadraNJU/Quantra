@@ -9,7 +9,6 @@ import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.ui.chart.RisingAndFallingChart;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
-import nju.quadra.quantra.utils.NumericalStatisticUtil;
 import nju.quadra.quantra.utils.StockStatisticUtil;
 
 import java.io.IOException;
@@ -34,12 +33,15 @@ public class StockCompareItemVC extends VBox {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompareItem.fxml"));
 
         List<StockBaseProtos.StockBase.StockInfo> list = StockData.getByCode(code);
-        int startIndex = list.size() - 1, endIndex = 0;
+        //初始日期直接掩盖掉实际的第一天好了，便于计算
+        int startIndex = list.size() - 2, endIndex = 0;
         String listStartDate = list.get(startIndex).getDate();
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
-        if(DateUtil.compare(list.get(0).getDate(), dateEnd) == -1) this.dateEnd = list.get(0).getDate();
-        if(DateUtil.compare(listStartDate, dateStart) == 1) this.dateStart = dateStart;
+        if(DateUtil.compare(list.get(0).getDate(), dateEnd) < 0)
+            this.dateEnd = list.get(0).getDate();
+        if(DateUtil.compare(listStartDate, dateStart) > 0)
+            this.dateStart = dateStart;
 
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i).getDate().equals(this.dateEnd)) {
@@ -49,12 +51,12 @@ public class StockCompareItemVC extends VBox {
         }
         for(int i = endIndex; i < list.size(); i++) {
             if(list.get(i).getDate().equals(this.dateStart)) {
-                startIndex = i;
+                startIndex = i + 1; //找到所选那天的数据，还要往前再取一天
                 break;
             }
         }
 
-        list = list.subList(endIndex, startIndex);
+        list = list.subList(endIndex, startIndex + 1);
         labelName.setText(list.get(0).getName());
         paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
         paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
@@ -62,12 +64,13 @@ public class StockCompareItemVC extends VBox {
 
         Format f = new DecimalFormat("#.##");
 
-        labelMax.setText(f.format(list
+        //因为实际取了n+1天，所以计算最值需要把第n+1天剔除
+        labelMax.setText(f.format(list.subList(0, list.size() - 1)
                 .stream()
                 .mapToDouble(u -> u.getAdjClose())
                 .max()
                 .getAsDouble()));
-        labelMin.setText(f.format(list
+        labelMin.setText(f.format(list.subList(0, list.size() - 1)
                 .stream()
                 .mapToDouble(u -> u.getAdjClose())
                 .min()
