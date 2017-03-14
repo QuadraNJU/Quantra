@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane maxWidth="1000.0" minHeight="600.0" prefWidth="1000.0">
             <top>
@@ -27,7 +27,7 @@
                                         <Font size="18.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton text="股票列表" textFill="WHITESMOKE">
+                                <JFXButton onAction="#onStockListAction" text="股票列表" textFill="WHITESMOKE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -68,16 +68,16 @@
             </children>
         </Pane>
 
-      <Pane fx:id="paneCompare" maxWidth="1000.0" prefWidth="1000.0" visible="false" onMouseClicked="#onCompareCancelAction">
+      <Pane fx:id="paneCompare" maxWidth="1000.0" onMouseClicked="#onCompareCancelAction" prefWidth="1000.0" visible="false">
          <children>
               <VBox layoutX="834.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                   <children>
-                      <VBox fx:id="paneCompareList"/>
+                      <VBox fx:id="paneCompareList" />
                       <HBox spacing="10.0">
                           <children>
-                              <JFXButton text="对比" onAction="#onCompareAction"/>
-                              <JFXButton text="清空" onAction="#onCompareCleanAction"/>
-                              <JFXButton text="取消" onAction="#onCompareCancelAction"/>
+                              <JFXButton onAction="#onCompareAction" text="对比" />
+                              <JFXButton onAction="#onCompareCleanAction" text="清空" />
+                              <JFXButton onAction="#onCompareCancelAction" text="取消" />
                           </children>
                       </HBox>
                   </children>
