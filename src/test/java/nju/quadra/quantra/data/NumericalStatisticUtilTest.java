@@ -8,6 +8,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -117,8 +118,7 @@ public class NumericalStatisticUtilTest {
 
     @Test
     public void testLogReturn() {
-        List<StockInfo> list = StockData.getList();
-        List<StockInfo> stock1 = list.stream().filter(u -> u.getCode() == 1).collect(Collectors.toList());
+        List<StockInfo> stock1 = StockData.getByCode(2210);
 
         System.out.println(StockStatisticUtil.DAILY_LOG_RETURN(stock1));
         System.out.println(StockStatisticUtil.DAILY_LOG_RETURN_VAR(stock1));

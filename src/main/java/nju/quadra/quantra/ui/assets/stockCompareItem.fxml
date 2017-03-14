@@ -1,29 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<fx:root type="FlowPane" fx:id="flowCharts" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8.0.121"
-         xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.text.Font?>
+
+<fx:root fx:id="paneCharts" alignment="CENTER" type="VBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox>
+        <HBox alignment="CENTER">
             <VBox>
                 <children>
-                    <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24"/>
-                    <MaterialDesignIconView fx:id="iconPlus" fill="red" glyphName="PLUS" size="24" onMouseClicked="#onPlusClickedAction"/>
+                    <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24" />
+                    <MaterialDesignIconView fx:id="iconPlus" fill="red" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
                 </children>
             </VBox>
-            <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0"
-                   GridPane.rowIndex="0">
+            <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <font>
-                    <Font size="36.0"/>
+                    <Font size="36.0" />
                 </font>
             </Label>
         </HBox>
-
+      <HBox alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="最高值：">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelMax" text="10%">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="最低值：">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelMin" text="10%">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="对数收益率方差：">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelLogReturnVar" text="10%">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
     </children>
 </fx:root>

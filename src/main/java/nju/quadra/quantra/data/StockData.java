@@ -25,6 +25,9 @@ public class StockData {
                 is.close();
                 size = base.getInfoList().size();
                 latest = base.getInfoList().get(0).getDate();
+                for (int i = 0; i < size; i++) {
+//                    if (base)
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

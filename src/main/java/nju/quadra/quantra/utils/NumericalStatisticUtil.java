@@ -73,7 +73,7 @@ public class NumericalStatisticUtil {
      */
     public static double VAR_SAMPLE(double[] list) {
         double mean = MEAN(list);
-        return 1.0 / (list.length - 1) * DEVSQ(list);
+        return list.length == 1? 0: 1.0 / (list.length - 1) * DEVSQ(list);
     }
 
     public static double VAR_SAMPLE(List<Double> list) {

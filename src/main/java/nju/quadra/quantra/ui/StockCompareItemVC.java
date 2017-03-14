@@ -1,40 +1,79 @@
 package nju.quadra.quantra.ui;
 
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.ui.chart.RisingAndFallingChart;
+import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
+import nju.quadra.quantra.utils.NumericalStatisticUtil;
+import nju.quadra.quantra.utils.StockStatisticUtil;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.List;
 
 
 /**
  * Created by RaUkonn on 2017/3/10.
  */
-public class StockCompareItemVC extends FlowPane {
+public class StockCompareItemVC extends VBox {
     @FXML
-    private Label labelName;
+    private Label labelName, labelMax, labelMin, labelLogReturnVar;
     @FXML
-    private FlowPane flowCharts;
+    private VBox paneCharts;
     @FXML
     private static int code;
+    private String dateStart, dateEnd;
 
-
-    public StockCompareItemVC(int code) throws IOException {
+    public StockCompareItemVC(int code, String dateStart, String dateEnd) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompareItem.fxml"));
 
         List<StockBaseProtos.StockBase.StockInfo> list = StockData.getByCode(code);
+        int startIndex = list.size() - 1, endIndex = 0;
+        String listStartDate = list.get(startIndex).getDate();
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        if(DateUtil.compare(list.get(0).getDate(), dateEnd) == -1) this.dateEnd = list.get(0).getDate();
+        if(DateUtil.compare(listStartDate, dateStart) == 1) this.dateStart = dateStart;
+
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).getDate().equals(this.dateEnd)) {
+                endIndex = i;
+                break;
+            }
+        }
+        for(int i = endIndex; i < list.size(); i++) {
+            if(list.get(i).getDate().equals(this.dateStart)) {
+                startIndex = i;
+                break;
+            }
+        }
+
+        list = list.subList(endIndex, startIndex);
         labelName.setText(list.get(0).getName());
-        flowCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
-        flowCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
+        paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
+        paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
         this.code = code;
+
+        Format f = new DecimalFormat("#.##");
+
+        labelMax.setText(f.format(list
+                .stream()
+                .mapToDouble(u -> u.getAdjClose())
+                .max()
+                .getAsDouble()));
+        labelMin.setText(f.format(list
+                .stream()
+                .mapToDouble(u -> u.getAdjClose())
+                .min()
+                .getAsDouble()));
+        labelLogReturnVar.setText(f.format(StockStatisticUtil.DAILY_LOG_RETURN_VAR(list) * 100) + "%");
+
     }
 
     @FXML
@@ -42,4 +81,6 @@ public class StockCompareItemVC extends FlowPane {
         CommonEventController.onPlusClickedEvent(t, code);
         StockCompareVC.load();
     }
+
+
 }

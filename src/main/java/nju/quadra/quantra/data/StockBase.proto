@@ -18,5 +18,6 @@ message StockBase {
         uint32 code = 9;
         string name = 10;
         string market = 11;
+        StockInfo next = 12;
     }
 }
