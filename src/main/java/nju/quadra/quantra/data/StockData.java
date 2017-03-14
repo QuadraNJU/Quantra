@@ -5,6 +5,7 @@ import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,7 +30,11 @@ public class StockData {
                 e.printStackTrace();
             }
         }
-        return base.getInfoList();
+        if (base != null) {
+            return base.getInfoList();
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public static List<StockInfo> getByCode(int code) {
