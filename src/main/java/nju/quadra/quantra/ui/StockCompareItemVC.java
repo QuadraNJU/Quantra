@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.ui.chart.RisingAndFallingChart;
+import nju.quadra.quantra.ui.chart.VolumeChart;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 import nju.quadra.quantra.utils.StockStatisticUtil;
@@ -59,7 +60,7 @@ public class StockCompareItemVC extends VBox {
         list = list.subList(endIndex, startIndex + 1);
         labelName.setText(list.get(0).getName());
         paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
-        paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
+        paneCharts.getChildren().add(VolumeChart.createFrom(list));
         this.code = code;
 
         Format f = new DecimalFormat("#.##");

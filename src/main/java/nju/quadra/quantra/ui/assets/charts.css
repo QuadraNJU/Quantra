@@ -1,0 +1,31 @@
+.chart-series-line {
+    -fx-stroke-width: 1px;
+    -fx-effect: null;
+}
+
+.chart {
+    -fx-vertical-grid-lines-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-title {
+    -fx-text-fill: whitesmoke;
+}
+
+.axis {
+    -fx-tick-label-fill: whitesmoke;
+}
+
+.axis-label {
+    -fx-text-fill: whitesmoke;
+}
+
+.axis-tick-mark {
+    -fx-stroke: whitesmoke;
+}
+.axis-minor-tick-mark {
+    -fx-stroke: whitesmoke;
+}

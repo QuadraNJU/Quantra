@@ -15,7 +15,7 @@
         <GridPane alignment="CENTER" prefWidth="1000.0">
          <HBox alignment="CENTER" GridPane.columnSpan="2">
             <children>
-                  <Label text="股票对比">
+                  <Label text="股票对比" textFill="WHITESMOKE">
                       <font>
                           <Font size="36.0" />
                       </font>

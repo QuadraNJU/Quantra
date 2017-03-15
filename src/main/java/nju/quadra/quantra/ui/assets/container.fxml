@@ -74,9 +74,9 @@
                       <VBox fx:id="paneCompareList" />
                       <HBox spacing="10.0">
                           <children>
-                              <JFXButton onAction="#onCompareAction" text="对比" />
-                              <JFXButton onAction="#onCompareCleanAction" text="清空" />
-                              <JFXButton onAction="#onCompareCancelAction" text="取消" />
+                              <JFXButton onAction="#onCompareAction" text="对比" textFill="WHITESMOKE"/>
+                              <JFXButton onAction="#onCompareCleanAction" text="清空" textFill="WHITESMOKE"/>
+                              <JFXButton onAction="#onCompareCancelAction" text="取消" textFill="WHITESMOKE"/>
                           </children>
                       </HBox>
                   </children>
