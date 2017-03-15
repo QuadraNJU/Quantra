@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox spacing="20.0">
          <children>
@@ -22,19 +22,19 @@
                   <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
                </children>
             </VBox>
-            <Label fx:id="labelName" text="深发展A" stylesheets="@textColor.css">
+            <Label fx:id="labelName" stylesheets="@textColor.css" text="深发展A">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
             <VBox alignment="CENTER">
                <children>
-                  <Label fx:id="labelPrice" text="12.34" stylesheets="@textColor.css">
+                  <Label fx:id="labelPrice" stylesheets="@textColor.css" text="12.34">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labelRate" text="0.9%" stylesheets="@textColor.css">
+                  <Label fx:id="labelRate" stylesheets="@textColor.css" text="0.9%">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -46,12 +46,12 @@
             </VBox>
             <VBox alignment="CENTER_LEFT">
                <children>
-                  <Label text="不知道写什么" stylesheets="@textColor.css">
+                  <Label stylesheets="@textColor.css" text="不知道写什么">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label text="不知道写什么" stylesheets="@textColor.css">
+                  <Label stylesheets="@textColor.css" text="不知道写什么">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -62,41 +62,41 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label text="日期选择" stylesheets="@textColor.css">
+            <Label stylesheets="@textColor.css" text="日期选择">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXDatePicker fx:id="dateStart" stylesheets="@pickers.css"/>
-            <Label text="-" stylesheets="@textColor.css">
+            <JFXDatePicker fx:id="dateStart" stylesheets="@pickers.css" />
+            <Label stylesheets="@textColor.css" text="-">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <JFXDatePicker fx:id="dateEnd" stylesheets="@pickers.css"/>
+            <JFXDatePicker fx:id="dateEnd" stylesheets="@pickers.css" />
             <HBox>
                <children>
-                  <JFXButton onAction="#onShortcutAction" text="7日" stylesheets="@textColor.css">
+                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="7日">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="15日" stylesheets="@textColor.css">
+                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="15日">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="30日" stylesheets="@textColor.css">
+                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="30日">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="60日" stylesheets="@textColor.css">
+                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="60日">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="180日" stylesheets="@textColor.css">
+                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="180日">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -107,7 +107,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT">
          <children>
-            <Label text="均线图" stylesheets="@textColor.css">
+            <Label stylesheets="@textColor.css" text="均线图">
                <font>
                   <Font size="16.0" />
                </font>
@@ -122,30 +122,30 @@
             <JFXToggleButton maxHeight="-Infinity" minHeight="-Infinity" onAction="#onMAToggle" prefHeight="30.0" selected="true" text="MA60" textFill="LIGHTBLUE" toggleColor="#f44336" toggleLineColor="#ffcdd2" />
          </children>
       </HBox>
-      <BorderPane fx:id="paneK" onMousePressed="#onKChartDragStart" onMouseDragged="#onKChartDrag" onScroll="#onKChartScroll" prefHeight="500.0" prefWidth="960.0" />
+      <BorderPane fx:id="paneK" onMouseDragged="#onKChartDrag" onMousePressed="#onKChartDragStart" onScroll="#onKChartScroll" prefHeight="500.0" prefWidth="960.0" />
       <HBox prefWidth="960.0">
          <children>
-            <JFXButton text="VOL" stylesheets="@textColor.css">
+            <JFXButton stylesheets="@textColor.css" text="VOL">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="MACD" stylesheets="@textColor.css">
+            <JFXButton stylesheets="@textColor.css" text="MACD">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="KDJ" stylesheets="@textColor.css">
+            <JFXButton stylesheets="@textColor.css" text="KDJ">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="BOLL" stylesheets="@textColor.css">
+            <JFXButton stylesheets="@textColor.css" text="BOLL">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="PSY" stylesheets="@textColor.css">
+            <JFXButton stylesheets="@textColor.css" text="PSY">
                <font>
                   <Font size="14.0" />
                </font>
@@ -155,7 +155,7 @@
             <Insets />
          </VBox.margin>
       </HBox>
-      <Pane prefHeight="200.0" prefWidth="960.0" />
+      <BorderPane fx:id="paneEx" prefHeight="200.0" prefWidth="960.0" />
    </children>
    <padding>
       <Insets left="20.0" right="20.0" top="10.0" />

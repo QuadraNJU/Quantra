@@ -18,22 +18,18 @@
     -fx-text-fill: whitesmoke;
     -fx-padding: 0;
 }
-.candlestick-bar {
+.candlestick-bar, .chart-bar {
     -fx-background-color: whitesmoke;
 }
-.candlestick-bar.close-above-open {
-    -fx-background-color: #990e0e;
-}
-.candlestick-bar.open-above-close {
-    -fx-background-color: #19b34c;
-}
 .candlestick-line {
-    -fx-stroke-width: 3px;
+    -fx-stroke-width: 2px;
     -fx-stroke: whitesmoke;
 }
-.candlestick-line.close-above-open {
+.close-above-open {
+    -fx-background-color: #990e0e;
     -fx-stroke: #990e0e;
 }
-.candlestick-line.open-above-close {
+.open-above-close {
+    -fx-background-color: #19b34c;
     -fx-stroke: #19b34c;
 }

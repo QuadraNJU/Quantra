@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.ui.chart.QuantraBarChart;
 import nju.quadra.quantra.ui.chart.QuantraKChart;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
@@ -37,7 +38,7 @@ public class StockVC extends VBox {
     @FXML
     private JFXDatePicker dateStart, dateEnd;
     @FXML
-    private BorderPane paneK;
+    private BorderPane paneK, paneEx;
     @FXML
     private MaterialDesignIconView iconStar, iconPlus;
     private static MaterialDesignIconView iconPlusS;
@@ -45,6 +46,7 @@ public class StockVC extends VBox {
     private List<StockInfoPtr> infoList;
     private int size;
     private QuantraKChart kChart;
+    private QuantraBarChart volChart;
     private ArrayList<String> hiddenMAList = new ArrayList<>();
     private static int code;
 
@@ -110,6 +112,8 @@ public class StockVC extends VBox {
         kChart.addPath("MA30", Color.LIGHTGREEN, ma30List);
         kChart.addPath("MA60", Color.LIGHTBLUE, ma60List);
         paneK.setCenter(kChart);
+        volChart = QuantraBarChart.createFrom(linkList);
+        paneEx.setCenter(volChart);
     }
 
     private Double MA(int startPos, int days) {
