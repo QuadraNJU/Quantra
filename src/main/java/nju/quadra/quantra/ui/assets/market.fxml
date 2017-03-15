@@ -10,12 +10,12 @@
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" stylesheets="@market.css" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="labelDate" layoutX="20.0" layoutY="14.0" text="XXXX/XX/XX" textFill="WHITESMOKE">
+      <Label fx:id="labelDate" layoutX="20.0" layoutY="14.0" text="XXXX/XX/XX" stylesheets="@textColor.css">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <JFXDatePicker fx:id="picker" defaultColor="palevioletred" layoutX="265.0" layoutY="20.0" />
+      <JFXDatePicker fx:id="picker" stylesheets="@pickers.css" layoutX="265.0" layoutY="20.0" />
       <GridPane fx:id="gridTemp" layoutX="20.0" layoutY="68.0" prefHeight="30.0" prefWidth="960.0" style="-fx-border-style: solid; -fx-border-width: 1px; -fx-border-color: whitesmoke;">
           <columnConstraints>
               <ColumnConstraints hgrow="ALWAYS" />
@@ -26,9 +26,9 @@
               <RowConstraints vgrow="ALWAYS" />
           </rowConstraints>
          <children>
-            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: darkred;" text="上涨（60%）" textFill="WHITESMOKE" />
-            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: gray;" text="平盘（10%）" textFill="WHITESMOKE" GridPane.columnIndex="1" />
-            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: darkgreen;" text="下跌（30%）" textFill="WHITESMOKE" GridPane.columnIndex="2" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: darkred;" text="上涨（60%）" stylesheets="@textColor.css" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: gray;" text="平盘（10%）" stylesheets="@textColor.css" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: darkgreen;" text="下跌（30%）" stylesheets="@textColor.css" GridPane.columnIndex="2" />
          </children>
       </GridPane>
       <GridPane fx:id="gridPane" hgap="50.0" layoutX="20.0" layoutY="108.0" prefWidth="960.0" vgap="20.0">

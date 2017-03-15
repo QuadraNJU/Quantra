@@ -15,15 +15,15 @@
         <GridPane alignment="CENTER" prefWidth="1000.0">
          <HBox alignment="CENTER" GridPane.columnSpan="2">
             <children>
-                  <Label text="股票对比" textFill="WHITESMOKE">
+                  <Label text="股票对比" stylesheets="@textColor.css">
                       <font>
                           <Font size="36.0" />
                       </font>
                   </Label>
             </children>
          </HBox>
-            <JFXDatePicker fx:id="pickerStart" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#onPickerAction"/>
-            <JFXDatePicker fx:id="pickerEnd" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#onPickerAction"/>
+            <JFXDatePicker fx:id="pickerStart" stylesheets="@pickers.css" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#onPickerAction"/>
+            <JFXDatePicker fx:id="pickerEnd" stylesheets="@pickers.css" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#onPickerAction"/>
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />

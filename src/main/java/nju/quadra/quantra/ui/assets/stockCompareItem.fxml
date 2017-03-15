@@ -16,7 +16,7 @@
                     <MaterialDesignIconView fx:id="iconPlus" fill="red" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
                 </children>
             </VBox>
-            <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0" textFill="WHITESMOKE">
+            <Label fx:id="labelName" alignment="CENTER" text="Label" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0" stylesheets="@textColor.css">
                 <font>
                     <Font size="36.0" />
                 </font>
@@ -24,26 +24,12 @@
         </HBox>
       <HBox alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="最高值：" textFill="WHITESMOKE">
+            <Label alignment="CENTER" text="最高值：" stylesheets="@textColor.css">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="labelMax" text="10%" textFill="WHITESMOKE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER">
-         <children>
-            <Label alignment="CENTER" text="最低值：" textFill="WHITESMOKE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="labelMin" text="10%" textFill="WHITESMOKE">
+            <Label fx:id="labelMax" text="10%" stylesheets="@textColor.css">
                <font>
                   <Font size="20.0" />
                </font>
@@ -52,12 +38,26 @@
       </HBox>
       <HBox alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="对数收益率方差：" textFill="WHITESMOKE">
+            <Label alignment="CENTER" text="最低值：" stylesheets="@textColor.css">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="labelLogReturnVar" text="10%" textFill="WHITESMOKE">
+            <Label fx:id="labelMin" text="10%" stylesheets="@textColor.css">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="对数收益率方差：" stylesheets="@textColor.css">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelLogReturnVar" text="10%" stylesheets="@textColor.css">
                <font>
                   <Font size="20.0" />
                </font>

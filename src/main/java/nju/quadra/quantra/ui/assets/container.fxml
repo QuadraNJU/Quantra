@@ -22,17 +22,17 @@
                     <children>
                         <HBox layoutX="784.0" layoutY="33.0">
                             <children>
-                                <JFXButton onAction="#onMarketPageAction" text="市场" textFill="WHITESMOKE">
+                                <JFXButton onAction="#onMarketPageAction" text="市场" stylesheets="@textColor.css">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#onStockListAction" text="股票列表" textFill="WHITESMOKE">
+                                <JFXButton onAction="#onStockListAction" text="股票列表" stylesheets="@textColor.css">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#onComparePageAction" text="对比" textFill="WHITESMOKE">
+                                <JFXButton onAction="#onComparePageAction" text="对比" stylesheets="@textColor.css">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -74,9 +74,9 @@
                       <VBox fx:id="paneCompareList" />
                       <HBox spacing="10.0">
                           <children>
-                              <JFXButton onAction="#onCompareAction" text="对比" textFill="WHITESMOKE"/>
-                              <JFXButton onAction="#onCompareCleanAction" text="清空" textFill="WHITESMOKE"/>
-                              <JFXButton onAction="#onCompareCancelAction" text="取消" textFill="WHITESMOKE"/>
+                              <JFXButton onAction="#onCompareAction" text="对比" stylesheets="@textColor.css"/>
+                              <JFXButton onAction="#onCompareCleanAction" text="清空" stylesheets="@textColor.css"/>
+                              <JFXButton onAction="#onCompareCancelAction" text="取消" stylesheets="@textColor.css"/>
                           </children>
                       </HBox>
                   </children>

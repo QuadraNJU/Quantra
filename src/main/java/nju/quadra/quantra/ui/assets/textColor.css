@@ -1,4 +1,7 @@
-.text-color {
+.label {
     -fx-text-fill: whitesmoke;
-    /*-fx-fill: whitesmoke;*/
+}
+
+.jfx-button {
+    -fx-text-fill: whitesmoke;
 }

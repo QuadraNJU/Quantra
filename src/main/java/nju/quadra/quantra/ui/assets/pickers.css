@@ -1,0 +1,8 @@
+.jfx-date-picker {
+    -jfx-unfocus-color: grey;
+    -jfx-default-color: palevioletred;
+}
+
+.jfx-text-field {
+    -fx-text-fill: whitesmoke;
+}

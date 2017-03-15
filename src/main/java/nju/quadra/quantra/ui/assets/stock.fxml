@@ -22,19 +22,19 @@
                   <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
                </children>
             </VBox>
-            <Label fx:id="labelName" text="深发展A" textFill="WHITESMOKE">
+            <Label fx:id="labelName" text="深发展A" stylesheets="@textColor.css">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
             <VBox alignment="CENTER">
                <children>
-                  <Label fx:id="labelPrice" text="12.34" textFill="WHITESMOKE">
+                  <Label fx:id="labelPrice" text="12.34" stylesheets="@textColor.css">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labelRate" text="0.9%" textFill="WHITESMOKE">
+                  <Label fx:id="labelRate" text="0.9%" stylesheets="@textColor.css">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -46,12 +46,12 @@
             </VBox>
             <VBox alignment="CENTER_LEFT">
                <children>
-                  <Label text="不知道写什么" textFill="WHITESMOKE">
+                  <Label text="不知道写什么" stylesheets="@textColor.css">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label text="不知道写什么" textFill="WHITESMOKE">
+                  <Label text="不知道写什么" stylesheets="@textColor.css">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -62,41 +62,41 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label text="日期选择" textFill="WHITESMOKE">
+            <Label text="日期选择" stylesheets="@textColor.css">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXDatePicker fx:id="dateStart" defaultColor="#eceff1" />
-            <Label text="-" textFill="WHITESMOKE">
+            <JFXDatePicker fx:id="dateStart" stylesheets="@pickers.css"/>
+            <Label text="-" stylesheets="@textColor.css">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <JFXDatePicker fx:id="dateEnd" defaultColor="#eceff1" />
+            <JFXDatePicker fx:id="dateEnd" stylesheets="@pickers.css"/>
             <HBox>
                <children>
-                  <JFXButton onAction="#onShortcutAction" text="7日" textFill="WHITESMOKE">
+                  <JFXButton onAction="#onShortcutAction" text="7日" stylesheets="@textColor.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="15日" textFill="WHITESMOKE">
+                  <JFXButton onAction="#onShortcutAction" text="15日" stylesheets="@textColor.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="30日" textFill="WHITESMOKE">
+                  <JFXButton onAction="#onShortcutAction" text="30日" stylesheets="@textColor.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="60日" textFill="WHITESMOKE">
+                  <JFXButton onAction="#onShortcutAction" text="60日" stylesheets="@textColor.css">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" text="180日" textFill="WHITESMOKE">
+                  <JFXButton onAction="#onShortcutAction" text="180日" stylesheets="@textColor.css">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -107,7 +107,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT">
          <children>
-            <Label text="均线图" textFill="WHITESMOKE">
+            <Label text="均线图" stylesheets="@textColor.css">
                <font>
                   <Font size="16.0" />
                </font>
@@ -125,27 +125,27 @@
       <BorderPane fx:id="paneK" onMousePressed="#onKChartDragStart" onMouseDragged="#onKChartDrag" onScroll="#onKChartScroll" prefHeight="500.0" prefWidth="960.0" />
       <HBox prefWidth="960.0">
          <children>
-            <JFXButton text="VOL" textFill="WHITESMOKE">
+            <JFXButton text="VOL" stylesheets="@textColor.css">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="MACD" textFill="WHITESMOKE">
+            <JFXButton text="MACD" stylesheets="@textColor.css">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="KDJ" textFill="WHITESMOKE">
+            <JFXButton text="KDJ" stylesheets="@textColor.css">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="BOLL" textFill="WHITESMOKE">
+            <JFXButton text="BOLL" stylesheets="@textColor.css">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton text="PSY" textFill="WHITESMOKE">
+            <JFXButton text="PSY" stylesheets="@textColor.css">
                <font>
                   <Font size="14.0" />
                </font>

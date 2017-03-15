@@ -17,7 +17,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Label fx:id="labelTitle" text="今日涨停" textFill="WHITESMOKE">
+                  <Label fx:id="labelTitle" text="今日涨停" stylesheets="@textColor.css">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -25,7 +25,7 @@
                         <MaterialDesignIconView fx:id="titleIcon" fill="WHITESMOKE" glyphName="TRENDING_UP" size="48.0" />
                      </graphic>
                   </Label>
-                  <Label fx:id="labelCount" text="(123)" textFill="WHITESMOKE">
+                  <Label fx:id="labelCount" text="(123)" stylesheets="@textColor.css">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -43,10 +43,10 @@
                   <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label style="-fx-font-weight: bold;" text="股票代码" textFill="WHITESMOKE" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                  <Label style="-fx-font-weight: bold;" text="股票名称" textFill="WHITESMOKE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                  <Label style="-fx-font-weight: bold;" text="收盘价" textFill="WHITESMOKE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
-                  <Label fx:id="labelRateName" style="-fx-font-weight: bold;" text="涨幅" textFill="WHITESMOKE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                  <Label style="-fx-font-weight: bold;" text="股票代码" stylesheets="@textColor.css" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                  <Label style="-fx-font-weight: bold;" text="股票名称" stylesheets="@textColor.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                  <Label style="-fx-font-weight: bold;" text="收盘价" stylesheets="@textColor.css" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                  <Label fx:id="labelRateName" style="-fx-font-weight: bold;" text="涨幅" stylesheets="@textColor.css" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
          </children>

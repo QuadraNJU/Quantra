@@ -21,8 +21,8 @@
    <top>
       <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="日期选择" textFill="WHITESMOKE" />
-            <JFXDatePicker fx:id="datePicker" defaultColor="#eceff1" />
+            <Label text="日期选择" stylesheets="@textColor.css" />
+            <JFXDatePicker fx:id="datePicker" stylesheets="@pickers.css"/>
          </children>
       </HBox>
    </top>
