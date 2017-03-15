@@ -18,8 +18,8 @@
          <children>
             <VBox>
                <children>
-                  <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24" />
-                  <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
+                  <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24" fill="whitesmoke" />
+                  <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" fill="whitesmoke" />
                </children>
             </VBox>
             <Label fx:id="labelName" text="深发展A" stylesheets="@textColor.css">
@@ -39,7 +39,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <MaterialDesignIconView fill="#eceff1" glyphName="TRIANGLE" size="16.0" />
+                        <MaterialDesignIconView fill="whitesmoke" glyphName="TRIANGLE" size="16.0" />
                      </graphic>
                   </Label>
                </children>

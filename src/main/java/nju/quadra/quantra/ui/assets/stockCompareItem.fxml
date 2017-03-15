@@ -12,7 +12,7 @@
         <HBox alignment="CENTER">
             <VBox>
                 <children>
-                    <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24" />
+                    <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24" fill="whitesmoke" />
                     <MaterialDesignIconView fx:id="iconPlus" fill="red" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
                 </children>
             </VBox>
