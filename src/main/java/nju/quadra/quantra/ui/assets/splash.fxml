@@ -9,9 +9,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" stylesheets="@splash.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackPane" stylesheets="@splash.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Pane>
             <children>
@@ -20,15 +21,15 @@
                         <Image url="@../images/splash.png" />
                     </image>
                 </ImageView>
-                <Pane layoutX="225.0" layoutY="220.0">
-                    <children>
-                        <Label layoutY="66.0" text="正在加载数据，请稍后" textFill="WHITESMOKE" />
-                        <JFXSpinner layoutX="47.0" radius="24.0" startingAngle="0.0" />
-                    </children>
-                </Pane>
+            <VBox alignment="CENTER" layoutY="220.0" spacing="10.0">
+               <children>
+                        <JFXSpinner radius="24.0" startingAngle="0.0" />
+                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="600.0" text="正在加载数据，请稍后" textFill="WHITESMOKE" />
+               </children>
+            </VBox>
             </children>
         </Pane>
-        <JFXDialog fx:id="errorDialog" overlayClose="false" onDialogClosed="#onErrorDialogClosed">
+        <JFXDialog fx:id="errorDialog" onDialogClosed="#onErrorDialogClosed" overlayClose="false">
             <JFXDialogLayout>
                 <heading>
                     <Text>数据加载失败</Text>

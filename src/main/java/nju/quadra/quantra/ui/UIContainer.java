@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -20,9 +21,11 @@ public class UIContainer extends Stage {
     @FXML
     private StackPane rootStack;
     @FXML
-    private Pane contentPane, loadingPane, paneCompare;
+    private ScrollPane contentPane;
     @FXML
-    private static Pane contentPaneS, loadingPaneS;
+    private Pane loadingPane, paneCompare;
+    private static ScrollPane contentPaneS;
+    private static Pane loadingPaneS;
     @FXML
     private VBox paneCompareList;
     public static VBox paneCompareListS;
@@ -33,6 +36,9 @@ public class UIContainer extends Stage {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/container.fxml"));
             loader.setController(this);
             this.setScene(new Scene(loader.load()));
+            this.setWidth(1024);
+            this.setHeight(700);
+            this.setResizable(false);
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
             paneCompareListS = paneCompareList;
@@ -42,7 +48,7 @@ public class UIContainer extends Stage {
     }
 
     public static void loadContent(Node node) {
-        Platform.runLater(() -> contentPaneS.getChildren().setAll(node));
+        Platform.runLater(() -> contentPaneS.setContent(node));
     }
 
     public static void showLoading() {

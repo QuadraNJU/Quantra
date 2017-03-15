@@ -1,4 +1,7 @@
-.table-view, .table-view .column-header, .table-view .column-header-background, .table-view .column-header-background .filler, .table-row-cell, .table-view .column-header-background .label, .table-view .table-cell {
+.table-view, .table-view .column-header, .table-view .column-header-background, .table-view .filler, .table-row-cell {
     -fx-background-color: transparent;
+}
+
+.table-view * {
     -fx-text-fill: whitesmoke;
 }
