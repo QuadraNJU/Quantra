@@ -1,4 +1,4 @@
 .idea
 target
 *.iml
-*.protobuf
+stock_data.protobuf
