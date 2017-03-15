@@ -7,8 +7,8 @@
 
 <fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="labelCode" text="000001" textFill="WHITESMOKE" stylesheets="@textColor.css"/>
-      <Label fx:id="labelName" text="啊啊啊啊" textFill="WHITESMOKE" stylesheets="@textColor.css" />
-      <MaterialDesignIconView glyphName="DELETE" size="17" onMouseClicked="#onDeleteAction" />
+      <Label fx:id="labelCode" text="000001" stylesheets="@textColor.css"/>
+      <Label fx:id="labelName" text="啊啊啊啊" stylesheets="@textColor.css" />
+      <MaterialDesignIconView glyphName="DELETE" size="17" onMouseClicked="#onDeleteAction" fill="whitesmoke" />
    </children>
 </fx:root>
