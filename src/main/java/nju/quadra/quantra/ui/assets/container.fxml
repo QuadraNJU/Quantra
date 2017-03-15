@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane maxWidth="1000.0" minHeight="600.0" prefWidth="1000.0">
             <top>
@@ -53,11 +53,10 @@
                 </Pane>
             </top>
             <center>
-                <ScrollPane hbarPolicy="NEVER">
+                <ScrollPane fx:id="contentPane" hbarPolicy="NEVER">
                     <BorderPane.margin>
                         <Insets top="10.0" />
                     </BorderPane.margin>
-                    <Pane fx:id="contentPane" />
                 </ScrollPane>
             </center>
         </BorderPane>

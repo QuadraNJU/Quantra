@@ -1,45 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: #455A64;" stylesheets="@stockList.css" type="Pane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox alignment="CENTER_LEFT" layoutX="696.0" layoutY="14.0">
+<fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" stylesheets="@stockList.css" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView fx:id="table" maxHeight="1.7976931348623157E308">
+         <BorderPane.margin>
+            <Insets top="15.0" />
+         </BorderPane.margin>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </center>
+   <top>
+      <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
          <children>
             <Label text="日期选择" textFill="WHITESMOKE" />
             <JFXDatePicker fx:id="datePicker" defaultColor="#eceff1" />
          </children>
       </HBox>
-      <VBox layoutX="20.0" layoutY="58.0" spacing="10.0">
-         <children>
-            <TableView fx:id="table" prefHeight="400.0" prefWidth="960.0" />
-            <Pane>
-               <children>
-                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_DOUBLE_LEFT" layoutX="322.0" layoutY="32.0" size="32.0" text="" />
-                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_LEFT" layoutX="390.0" layoutY="33.0" size="32.0" />
-                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_RIGHT" layoutX="539.0" layoutY="32.0" size="32.0" text="" />
-                  <MaterialDesignIconView fill="#eceff1" glyphName="CHEVRON_DOUBLE_RIGHT" layoutX="606.0" layoutY="33.0" size="32.0" />
-                  <JFXTextField alignment="BOTTOM_CENTER" focusColor="WHITE" layoutX="447.0" layoutY="5.0" prefHeight="30.0" prefWidth="32.0" promptText="1" unFocusColor="#979797">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXTextField>
-                  <Label layoutX="480.0" layoutY="9.0" text="/ 50" textAlignment="CENTER" textFill="WHITESMOKE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-         </children>
-      </VBox>
-   </children>
+   </top>
+   <padding>
+      <Insets left="20.0" right="20.0" />
+   </padding>
 </fx:root>
