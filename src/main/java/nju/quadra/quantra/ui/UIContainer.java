@@ -36,9 +36,6 @@ public class UIContainer extends Stage {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/container.fxml"));
             loader.setController(this);
             this.setScene(new Scene(loader.load()));
-            this.setWidth(1024);
-            this.setHeight(700);
-            this.setResizable(false);
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
             paneCompareListS = paneCompareList;

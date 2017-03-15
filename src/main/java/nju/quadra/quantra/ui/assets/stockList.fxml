@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" stylesheets="@stockList.css" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" stylesheets="@stockList.css" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <TableView fx:id="table" maxHeight="1.7976931348623157E308">
          <BorderPane.margin>
@@ -19,7 +19,7 @@
       </TableView>
    </center>
    <top>
-      <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="日期选择" textFill="WHITESMOKE" />
             <JFXDatePicker fx:id="datePicker" defaultColor="#eceff1" />
