@@ -8,7 +8,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,8 +17,8 @@
          <children>
             <VBox>
                <children>
-                  <MaterialDesignIconView fx:id="iconStar" glyphName="STAR_OUTLINE" size="24" fill="whitesmoke" />
-                  <MaterialDesignIconView fx:id="iconPlus" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" fill="whitesmoke" />
+                  <MaterialDesignIconView fx:id="iconStar" fill="whitesmoke" glyphName="STAR_OUTLINE" size="24" />
+                  <MaterialDesignIconView fx:id="iconPlus" fill="whitesmoke" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
                </children>
             </VBox>
             <Label fx:id="labelName" stylesheets="@textColor.css" text="深发展A">
@@ -123,29 +122,37 @@
          </children>
       </HBox>
       <BorderPane fx:id="paneK" onMouseDragged="#onKChartDrag" onMousePressed="#onKChartDragStart" onScroll="#onKChartScroll" prefHeight="500.0" prefWidth="960.0" />
-      <HBox prefWidth="960.0">
+      <HBox alignment="CENTER_LEFT" prefWidth="960.0">
          <children>
-            <JFXButton stylesheets="@textColor.css" text="VOL">
+            <Label stylesheets="@textColor.css" text="图表切换">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </Label>
+            <JFXButton onAction="#onChartButtonAction" stylesheets="@textColor.css" text="VOL">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton stylesheets="@textColor.css" text="MACD">
+            <JFXButton onAction="#onChartButtonAction" stylesheets="@textColor.css" text="MACD">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton stylesheets="@textColor.css" text="KDJ">
+            <JFXButton onAction="#onChartButtonAction" stylesheets="@textColor.css" text="KDJ">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton stylesheets="@textColor.css" text="BOLL">
+            <JFXButton onAction="#onChartButtonAction" stylesheets="@textColor.css" text="BOLL">
                <font>
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton stylesheets="@textColor.css" text="PSY">
+            <JFXButton onAction="#onChartButtonAction" stylesheets="@textColor.css" text="PSY">
                <font>
                   <Font size="14.0" />
                </font>

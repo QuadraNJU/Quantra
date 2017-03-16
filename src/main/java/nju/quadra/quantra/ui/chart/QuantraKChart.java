@@ -116,7 +116,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         ObservableList<Data<String, Number>> list = getData().get(0).getData();
         int size = Math.min(list.size(), numbers.size());
         for (int i = 0; i < size; i++) {
-            if (numbers.get(i) != null) {
+            if (numbers.get(i) != null && !Double.isNaN(numbers.get(i).doubleValue())) {
                 series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
             }
         }

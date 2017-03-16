@@ -37,6 +37,21 @@ public class StockStatisticUtil {
         }
     }
 
+    public static double EMA_CLOSE(StockInfoPtr ptr, int n) {
+        double[] nums = new double[n];
+        int i = 0;
+        while (i < n && ptr != null) {
+            nums[i] = ptr.get().getClose();
+            ptr = ptr.prev();
+            i++;
+        }
+        if (i < n) {
+            return Double.NaN;
+        } else {
+            return NumericalStatisticUtil.EMA(nums);
+        }
+    }
+
     public static List<Double> DAILY_LOG_RETURN(List<StockBaseProtos.StockBase.StockInfo> stock) {
         List<Double> logReturn = IntStream
                 .range(1, stock.size())
@@ -49,44 +64,9 @@ public class StockStatisticUtil {
         return VAR_SAMPLE(DAILY_LOG_RETURN(stock));
     }
 
-    public static double EMA(List<StockBaseProtos.StockBase.StockInfo> stock) {
-        int n = stock.size();
-        double alpha = 2.0 / (n + 1);
-        return alpha * IntStream
-                .range(0, n - 1)
-                .mapToDouble(i -> Math.pow(alpha, i) * stock.get(i).getClose())
-                .sum();
-    }
-
-
     public static double SMA(List<StockInfoPtr> stock) {
         return stock.stream().mapToDouble(ptr -> ptr.get().getClose()).average().getAsDouble();
     }
-
-    public static double BOLL_UPPER(List<StockInfoPtr> stock, int k) {
-        return SMA(stock) + k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(ptr -> ptr.get().getClose())
-                .toArray());
-    }
-
-    public static double BOLL_UPPER(List<StockInfoPtr> stock) {
-        return BOLL_UPPER(stock, 2);
-    }
-
-    public static double BOLL_LOWER(List<StockInfoPtr> stock, int k) {
-        return SMA(stock) - k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(ptr -> ptr.get().getClose())
-                .toArray());
-    }
-
-    public static double BOLL_LOWER(List<StockInfoPtr> stock) {
-        return BOLL_LOWER(stock, 2);
-    }
-
-//    public static double DIF(StockBaseProtos.StockBase.StockInfo info) {
-//        //TODO:after finish getting by info...
-//        List<StockBaseProtos.StockBase.StockInfo> list = StockData.getList().subList(info.getSerial(), info.getSerial() + 12);
-//    }
 
     public static List<Double> RISING_RATE(List<StockBaseProtos.StockBase.StockInfo> stock) {
         List<Double> result;

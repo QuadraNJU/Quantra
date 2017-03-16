@@ -8,6 +8,7 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Created by RaUkonn on 2017/3/4.
@@ -15,6 +16,14 @@ import java.util.List;
 public class NumericalStatisticUtil {
     public static double MEAN(double[] list) {
         return Arrays.stream(list).average().getAsDouble();
+    }
+
+    public static double EMA(double[] list) {
+        double alpha = 2.0 / (list.length + 1);
+        return alpha * IntStream
+                .range(0, list.length - 1)
+                .mapToDouble(i -> Math.pow(alpha, i) * list[i])
+                .sum();
     }
 
     /**

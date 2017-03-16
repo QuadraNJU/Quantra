@@ -47,6 +47,7 @@ public class StockVC extends VBox {
     private List<StockInfoPtr> infoList;
     private int size;
     private QuantraKChart kChart;
+    private String chartType = "VOL";
     private ArrayList<String> hiddenMAList = new ArrayList<>();
     private static int code;
 
@@ -114,15 +115,15 @@ public class StockVC extends VBox {
             kChart.addPath("MA30", Color.LIGHTGREEN, ma30List);
             kChart.addPath("MA60", Color.LIGHTBLUE, ma60List);
             paneK.setCenter(kChart);
-            switchChart("VOL_LINE", linkList);
+            updateChart(linkList);
         } else {
             dateEnd.setValue(dateEnd.getValue().minusDays(1));
         }
     }
 
-    private void switchChart(String type, List<StockInfoPtr> ptrList) {
+    private void updateChart(List<StockInfoPtr> ptrList) {
         for (Method method : StockCharts.class.getDeclaredMethods()) {
-            if (method.getName().equals(type)) {
+            if (method.getName().equals(chartType)) {
                 try {
                     paneEx.setCenter((Node) method.invoke(null, ptrList));
                 } catch (Exception e) {
@@ -147,6 +148,12 @@ public class StockVC extends VBox {
             hiddenMAList.add(toggle.getText());
         }
         kChart.setHiddenPaths(hiddenMAList);
+    }
+
+    @FXML
+    private void onChartButtonAction(ActionEvent t) {
+        chartType = ((JFXButton) t.getSource()).getText();
+        updateInfo();
     }
 
     private double kChartDragX, kChartXGap;
