@@ -121,7 +121,7 @@
             <JFXToggleButton maxHeight="-Infinity" minHeight="-Infinity" onAction="#onMAToggle" prefHeight="30.0" selected="true" text="MA60" textFill="LIGHTBLUE" toggleColor="#f44336" toggleLineColor="#ffcdd2" />
          </children>
       </HBox>
-      <BorderPane fx:id="paneK" onMouseDragged="#onKChartDrag" onMousePressed="#onKChartDragStart" onScroll="#onKChartScroll" prefHeight="500.0" prefWidth="960.0" />
+      <BorderPane fx:id="paneK" onMouseDragged="#onKChartDrag" onMousePressed="#onKChartDragStart" onScroll="#onKChartScroll" minHeight="500.0" prefWidth="960.0" />
       <HBox alignment="CENTER_LEFT" prefWidth="960.0">
          <children>
             <Label stylesheets="@textColor.css" text="图表切换">
@@ -162,7 +162,7 @@
             <Insets />
          </VBox.margin>
       </HBox>
-      <BorderPane fx:id="paneEx" prefHeight="200.0" prefWidth="960.0" />
+      <BorderPane fx:id="paneEx" minHeight="200.0" prefWidth="960.0" />
    </children>
    <padding>
       <Insets left="20.0" right="20.0" top="10.0" />

@@ -6,6 +6,7 @@ import nju.quadra.quantra.utils.NumericalStatisticUtil;
 import nju.quadra.quantra.utils.StockStatisticUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,6 +50,60 @@ public class StockCharts {
         lineChart.addPath("DIF", Color.WHITE, difList2);
         lineChart.addPath("DEA", Color.YELLOW, deaList);
         lineChart.addPath("MACD", Color.LIGHTGREEN, macdList);
+        return lineChart;
+    }
+
+    public static QuantraLineChart KDJ(List<StockInfoPtr> ptrList) {
+        int n = 9, m = 3;
+        ArrayList<Number> rsvList = new ArrayList<>();
+        ArrayList<Number> kList = new ArrayList<>();
+        ArrayList<Number> dList = new ArrayList<>();
+        ArrayList<Number> jList = new ArrayList<>();
+        int i = 0, size = ptrList.size();
+        StockInfoPtr ptr = ptrList.get(0).prev();
+        while (i < 2 * m - 2 && ptr != null) {
+            ptrList.add(0, ptr);
+            ptr = ptr.prev();
+            i++;
+        }
+        i = 0;
+        for (StockInfoPtr ptr2 : ptrList) {
+            double[] lows = new double[n];
+            double[] highs = new double[n];
+            double close = ptr2.get().getClose();
+            double rsv = Double.NaN;
+            int j = 0;
+            while (j < n && ptr2 != null) {
+                lows[j] = ptr2.get().getLow();
+                highs[j] = ptr2.get().getHigh();
+                ptr2 = ptr2.prev();
+                j++;
+            }
+            if (j >= n) {
+                double llv = Arrays.stream(lows).min().getAsDouble();
+                double hhv = Arrays.stream(highs).max().getAsDouble();
+                rsv = (close - llv) / (hhv - llv) * 100;
+            }
+            rsvList.add(rsv);
+            i++;
+            if (i >= m) {
+                double k = NumericalStatisticUtil.MEAN(rsvList.subList(i - m, i).stream().mapToDouble(Number::doubleValue).toArray());
+                kList.add(k);
+                double d = NumericalStatisticUtil.MEAN(kList.subList(i - m, i).stream().mapToDouble(Number::doubleValue).toArray());
+                dList.add(d);
+                jList.add(3 * k - 2 * d);
+            } else {
+                kList.add(Double.NaN);
+                dList.add(Double.NaN);
+                jList.add(Double.NaN);
+            }
+        }
+        QuantraLineChart lineChart = QuantraLineChart.createFrom(ptrList);
+        int substart = kList.size() - size;
+        size = kList.size();
+        lineChart.addPath("K", Color.WHITE, kList.subList(substart, size));
+        lineChart.addPath("D", Color.YELLOW, dList.subList(substart, size));
+        lineChart.addPath("J", Color.LIGHTPINK, jList.subList(substart, size));
         return lineChart;
     }
 

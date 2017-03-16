@@ -52,20 +52,24 @@ public class StockStatisticUtil {
         }
     }
 
-    public static List<Double> DAILY_LOG_RETURN(List<StockBaseProtos.StockBase.StockInfo> stock) {
+    public static double LLV(List<StockInfoPtr> stock) {
+        return stock.stream().mapToDouble(u -> u.get().getLow()).min().getAsDouble();
+    }
+
+    public static double HHV(List<StockInfoPtr> stock) {
+        return stock.stream().mapToDouble(u -> u.get().getHigh()).max().getAsDouble();
+    }
+
+    public static List<Double> DAILY_LOG_RETURN(List<StockInfoPtr> stock) {
         List<Double> logReturn = IntStream
                 .range(1, stock.size())
-                .mapToObj(i -> Math.log(stock.get(i).getAdjClose() / stock.get(i - 1).getAdjClose()))
+                .mapToObj(i -> Math.log(stock.get(i).get().getAdjClose() / stock.get(i - 1).get().getAdjClose()))
                 .collect(Collectors.toList());
         return logReturn;
     }
 
-    public static double DAILY_LOG_RETURN_VAR(List<StockBaseProtos.StockBase.StockInfo> stock) {
+    public static double DAILY_LOG_RETURN_VAR(List<StockInfoPtr> stock) {
         return VAR_SAMPLE(DAILY_LOG_RETURN(stock));
-    }
-
-    public static double SMA(List<StockInfoPtr> stock) {
-        return stock.stream().mapToDouble(ptr -> ptr.get().getClose()).average().getAsDouble();
     }
 
     public static List<Double> RISING_RATE(List<StockBaseProtos.StockBase.StockInfo> stock) {

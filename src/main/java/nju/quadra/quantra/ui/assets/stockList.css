@@ -1,5 +1,10 @@
 .table-view, .table-view .column-header, .table-view .column-header-background, .table-view .filler, .table-row-cell {
     -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
 .table-view * {

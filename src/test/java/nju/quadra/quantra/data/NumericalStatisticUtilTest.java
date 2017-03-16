@@ -116,13 +116,4 @@ public class NumericalStatisticUtilTest {
         Assert.assertEquals(-1, NumericalStatisticUtil.RELATE(list), 0.01);
     }
 
-    @Test
-    public void testLogReturn() {
-        List<StockInfo> stock1 = StockData.getByCode(2210).subList(0, 3);
-
-        System.out.println(StockStatisticUtil.DAILY_LOG_RETURN(stock1));
-        System.out.println(StockStatisticUtil.DAILY_LOG_RETURN_VAR(stock1));
-
-    }
-
 }
