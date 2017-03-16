@@ -62,7 +62,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         plotArea.setOnMouseMoved(event -> {
             double yPos = event.getY();
             yTip.setText(yAxis.getValueForDisplay(yPos).toString());
-            yTip.relocate(5, yPos - 10);
+            yTip.relocate(5, yPos);
             horiLine.relocate(0, event.getY());
             String xValue = xAxis.getValueForDisplay(event.getX());
             if (xValue != null) {
@@ -86,13 +86,13 @@ public class QuantraKChart extends XYChart<String, Number> {
                             }
                         }
                         toolTip.setText(tip);
+                        toolTip.setVisible(true);
                         break;
                     }
                 }
             }
             horiLine.setVisible(true);
             vertLine.setVisible(true);
-            toolTip.setVisible(true);
             yTip.setVisible(true);
         });
     }

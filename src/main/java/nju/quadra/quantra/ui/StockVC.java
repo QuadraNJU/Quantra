@@ -105,15 +105,19 @@ public class StockVC extends VBox {
                 break;
             }
         }
-        kChart = QuantraKChart.createFrom(linkList);
-        kChart.addPath("MA5", Color.WHITE, ma5List);
-        kChart.addPath("MA10", Color.YELLOW, ma10List);
-        kChart.addPath("MA20", Color.LIGHTPINK, ma20List);
-        kChart.addPath("MA30", Color.LIGHTGREEN, ma30List);
-        kChart.addPath("MA60", Color.LIGHTBLUE, ma60List);
-        paneK.setCenter(kChart);
-        volChart = QuantraBarChart.createFrom(linkList);
-        paneEx.setCenter(volChart);
+        if (!linkList.isEmpty()) {
+            kChart = QuantraKChart.createFrom(linkList);
+            kChart.addPath("MA5", Color.WHITE, ma5List);
+            kChart.addPath("MA10", Color.YELLOW, ma10List);
+            kChart.addPath("MA20", Color.LIGHTPINK, ma20List);
+            kChart.addPath("MA30", Color.LIGHTGREEN, ma30List);
+            kChart.addPath("MA60", Color.LIGHTBLUE, ma60List);
+            paneK.setCenter(kChart);
+            volChart = QuantraBarChart.createFrom(linkList, "成交量");
+            paneEx.setCenter(volChart);
+        } else {
+            dateEnd.setValue(dateEnd.getValue().minusDays(1));
+        }
     }
 
     private Double MA(int startPos, int days) {
