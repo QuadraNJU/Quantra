@@ -69,7 +69,7 @@
 
       <Pane fx:id="paneCompare" maxWidth="1000.0" onMouseClicked="#onCompareCancelAction" prefWidth="1000.0" visible="false">
          <children>
-              <VBox layoutX="834.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+              <VBox style="-fx-background-color: green" layoutX="834.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                   <children>
                       <VBox fx:id="paneCompareList" />
                       <HBox spacing="10.0">
