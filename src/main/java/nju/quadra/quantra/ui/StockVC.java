@@ -6,22 +6,23 @@ import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
-import nju.quadra.quantra.ui.chart.QuantraBarChart;
 import nju.quadra.quantra.ui.chart.QuantraKChart;
+import nju.quadra.quantra.ui.chart.StockCharts;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 import nju.quadra.quantra.utils.StockStatisticUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -46,7 +47,6 @@ public class StockVC extends VBox {
     private List<StockInfoPtr> infoList;
     private int size;
     private QuantraKChart kChart;
-    private QuantraBarChart volChart;
     private ArrayList<String> hiddenMAList = new ArrayList<>();
     private static int code;
 
@@ -55,7 +55,7 @@ public class StockVC extends VBox {
         infoList = StockData.getPtrByCode(code);
         size = infoList.size();
         StockVC.code = code;
-        labelName.setText(infoList.get(0).getToday().getName());
+        labelName.setText(infoList.get(0).get().getName());
         dateStart.setDayCellFactory(DateUtil.dayCellFactory);
         dateEnd.setDayCellFactory(DateUtil.dayCellFactory);
         dateEnd.setValue(DateUtil.parseLocalDate(date));
@@ -74,17 +74,18 @@ public class StockVC extends VBox {
     private void updateInfo() {
         if (dateStart.getValue().compareTo(dateEnd.getValue()) >= 0) {
             dateStart.setValue(dateEnd.getValue().minusDays(1));
+            return;
         }
-        LinkedList<StockBaseProtos.StockBase.StockInfo> linkList = new LinkedList<>();
+        LinkedList<StockInfoPtr> linkList = new LinkedList<>();
         LinkedList<Number> ma5List = new LinkedList<>();
         LinkedList<Number> ma10List = new LinkedList<>();
         LinkedList<Number> ma20List = new LinkedList<>();
         LinkedList<Number> ma30List = new LinkedList<>();
         LinkedList<Number> ma60List = new LinkedList<>();
         for (int i = 0; i < size; i++) {
-            if (DateUtil.parseLocalDate(infoList.get(i).getToday().getDate()).compareTo(dateEnd.getValue()) <= 0) {
-                labelPrice.setText(String.valueOf(infoList.get(i).getToday().getClose()));
-                if (infoList.get(i).getYesterday() != null) {
+            if (DateUtil.parseLocalDate(infoList.get(i).get().getDate()).compareTo(dateEnd.getValue()) <= 0) {
+                labelPrice.setText(String.valueOf(infoList.get(i).get().getClose()));
+                if (infoList.get(i).prev() != null) {
                     double rate = StockStatisticUtil.RATE(infoList.get(i));
                     labelRate.setText(new DecimalFormat("#.##").format(Math.abs(rate * 100)) + "%");
                     if (rate < 0) {
@@ -93,13 +94,13 @@ public class StockVC extends VBox {
                 } else {
                     labelRate.setText("-----");
                 }
-                while (i < size && DateUtil.parseLocalDate(infoList.get(i).getToday().getDate()).compareTo(dateStart.getValue()) >= 0) {
-                    linkList.addFirst(infoList.get(i).getToday());
-                    ma5List.addFirst(MA(i, 5));
-                    ma10List.addFirst(MA(i, 10));
-                    ma20List.addFirst(MA(i, 20));
-                    ma30List.addFirst(MA(i, 30));
-                    ma60List.addFirst(MA(i, 60));
+                while (i < size && DateUtil.parseLocalDate(infoList.get(i).get().getDate()).compareTo(dateStart.getValue()) >= 0) {
+                    linkList.addFirst(infoList.get(i));
+                    ma5List.addFirst(StockStatisticUtil.MA_CLOSE(infoList.get(i), 5));
+                    ma10List.addFirst(StockStatisticUtil.MA_CLOSE(infoList.get(i), 10));
+                    ma20List.addFirst(StockStatisticUtil.MA_CLOSE(infoList.get(i), 20));
+                    ma30List.addFirst(StockStatisticUtil.MA_CLOSE(infoList.get(i), 30));
+                    ma60List.addFirst(StockStatisticUtil.MA_CLOSE(infoList.get(i), 60));
                     i++;
                 }
                 break;
@@ -113,18 +114,22 @@ public class StockVC extends VBox {
             kChart.addPath("MA30", Color.LIGHTGREEN, ma30List);
             kChart.addPath("MA60", Color.LIGHTBLUE, ma60List);
             paneK.setCenter(kChart);
-            volChart = QuantraBarChart.createFrom(linkList, "成交量");
-            paneEx.setCenter(volChart);
+            switchChart("VOL_LINE", linkList);
         } else {
             dateEnd.setValue(dateEnd.getValue().minusDays(1));
         }
     }
 
-    private Double MA(int startPos, int days) {
-        if (startPos + days <= infoList.size()) {
-            return StockStatisticUtil.SMA(infoList.subList(startPos, startPos + days));
-        } else {
-            return null;
+    private void switchChart(String type, List<StockInfoPtr> ptrList) {
+        for (Method method : StockCharts.class.getDeclaredMethods()) {
+            if (method.getName().equals(type)) {
+                try {
+                    paneEx.setCenter((Node) method.invoke(null, ptrList));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
     }
 
@@ -174,7 +179,7 @@ public class StockVC extends VBox {
 
     @FXML
     private void onPlusClickedAction(MouseEvent t) {
-        int code = infoList.get(0).getToday().getCode();
+        int code = infoList.get(0).get().getCode();
         CommonEventController.onPlusClickedEvent(t, code);
     }
 

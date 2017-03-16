@@ -6,23 +6,23 @@ package nju.quadra.quantra.data;
 public class StockInfoPtr {
 
     private StockBaseProtos.StockBase.StockInfo today;
-    private StockBaseProtos.StockBase.StockInfo yesterday;
+    private StockInfoPtr prev;
 
     StockInfoPtr(StockBaseProtos.StockBase.StockInfo today) {
         this.today = today;
     }
 
-    StockInfoPtr(StockBaseProtos.StockBase.StockInfo today, StockBaseProtos.StockBase.StockInfo yesterday) {
+    StockInfoPtr(StockBaseProtos.StockBase.StockInfo today, StockInfoPtr tomorrow) {
         this.today = today;
-        this.yesterday = yesterday;
+        tomorrow.prev = this;
     }
 
-    public StockBaseProtos.StockBase.StockInfo getToday() {
+    public StockBaseProtos.StockBase.StockInfo get() {
         return today;
     }
 
-    public StockBaseProtos.StockBase.StockInfo getYesterday() {
-        return yesterday;
+    public StockInfoPtr prev() {
+        return prev;
     }
 
 }

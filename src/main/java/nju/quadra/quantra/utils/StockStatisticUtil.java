@@ -13,11 +13,27 @@ import static nju.quadra.quantra.utils.NumericalStatisticUtil.VAR_SAMPLE;
  * Created by RaUkonn on 2017/3/7.
  */
 public class StockStatisticUtil {
+
     public static double RATE(StockInfoPtr ptr) {
-        if (ptr.getYesterday() != null) {
-            return (ptr.getToday().getAdjClose() - ptr.getYesterday().getAdjClose()) / ptr.getYesterday().getAdjClose();
+        if (ptr.prev() != null) {
+            return (ptr.get().getAdjClose() - ptr.prev().get().getAdjClose()) / ptr.prev().get().getAdjClose();
         } else {
             return Double.NaN;
+        }
+    }
+
+    public static double MA_CLOSE(StockInfoPtr ptr, int n) {
+        double[] nums = new double[n];
+        int i = 0;
+        while (i < n && ptr != null) {
+            nums[i] = ptr.get().getClose();
+            ptr = ptr.prev();
+            i++;
+        }
+        if (i < n) {
+            return Double.NaN;
+        } else {
+            return NumericalStatisticUtil.MEAN(nums);
         }
     }
 
@@ -44,12 +60,12 @@ public class StockStatisticUtil {
 
 
     public static double SMA(List<StockInfoPtr> stock) {
-        return stock.stream().mapToDouble(ptr -> ptr.getToday().getClose()).average().getAsDouble();
+        return stock.stream().mapToDouble(ptr -> ptr.get().getClose()).average().getAsDouble();
     }
 
     public static double BOLL_UPPER(List<StockInfoPtr> stock, int k) {
         return SMA(stock) + k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(ptr -> ptr.getToday().getClose())
+                .mapToDouble(ptr -> ptr.get().getClose())
                 .toArray());
     }
 
@@ -59,7 +75,7 @@ public class StockStatisticUtil {
 
     public static double BOLL_LOWER(List<StockInfoPtr> stock, int k) {
         return SMA(stock) - k * NumericalStatisticUtil.STD_SAMPLE(stock.stream()
-                .mapToDouble(ptr -> ptr.getToday().getClose())
+                .mapToDouble(ptr -> ptr.get().getClose())
                 .toArray());
     }
 
@@ -82,4 +98,5 @@ public class StockStatisticUtil {
                 .collect(Collectors.toList());
         return result;
     }
+
 }

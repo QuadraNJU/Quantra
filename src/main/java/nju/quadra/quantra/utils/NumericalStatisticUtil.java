@@ -1,28 +1,25 @@
 package nju.quadra.quantra.utils;
 
 
-import nju.quadra.quantra.data.StockBaseProtos.StockBase.*;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by RaUkonn on 2017/3/4.
  */
 public class NumericalStatisticUtil {
-    public static double MEAN(double[] list) { return Arrays.stream(list).average().getAsDouble(); }
+    public static double MEAN(double[] list) {
+        return Arrays.stream(list).average().getAsDouble();
+    }
 
     /**
      * Mean Absolute Error
+     *
      * @param list
      * @return
      */
@@ -33,6 +30,7 @@ public class NumericalStatisticUtil {
 
     /**
      * sum of square of deviations
+     *
      * @param list
      * @return
      */
@@ -44,6 +42,7 @@ public class NumericalStatisticUtil {
 
     /**
      * The slope of linear regression function
+     *
      * @param list(0) means the set of x
      * @param list(1) means the set of y
      * @return
@@ -55,7 +54,8 @@ public class NumericalStatisticUtil {
     }
 
     /**
-     *  Use list of points to calculate a regression function and get the y of given x
+     * Use list of points to calculate a regression function and get the y of given x
+     *
      * @param list
      * @param x
      * @return
@@ -68,12 +68,13 @@ public class NumericalStatisticUtil {
 
     /**
      * Unbiased variance
+     *
      * @param list
      * @return
      */
     public static double VAR_SAMPLE(double[] list) {
         double mean = MEAN(list);
-        return list.length == 1? 0: 1.0 / (list.length - 1) * DEVSQ(list);
+        return list.length == 1 ? 0 : 1.0 / (list.length - 1) * DEVSQ(list);
     }
 
     public static double VAR_SAMPLE(List<Double> list) {
@@ -82,6 +83,7 @@ public class NumericalStatisticUtil {
 
     /**
      * Biased variance
+     *
      * @param list
      * @return
      */
@@ -102,7 +104,7 @@ public class NumericalStatisticUtil {
         double meanx = MEAN(x);
         double meany = MEAN(y);
         double sum = 0;
-        for(int i = 0; i < x.length; i++) {
+        for (int i = 0; i < x.length; i++) {
             sum += (x[i] - meanx) * (y[i] - meany) / (sigmax * sigmay);
         }
         return 1.0 / (x.length - 1) * sum;
@@ -110,6 +112,7 @@ public class NumericalStatisticUtil {
 
     /**
      * The covariance of multi-parameter
+     *
      * @param list(0) means the set of x
      * @param list(1) means the set of y
      * @return
@@ -128,18 +131,20 @@ public class NumericalStatisticUtil {
 
     /**
      * The covariance of 2-D points
+     *
      * @param list(0) means the set of x
      * @param list(1) means the set of y
      * @return
      */
     public static double COV(double[][] list) {
-        if(list.length == 1)
+        if (list.length == 1)
             return covLikeSum(list[0], list[0], 1, 1);
         return covLikeSum(list[0], list[1], 1, 1);
     }
 
     /**
      * The Relate coefficient parameter of 2-D points
+     *
      * @param list(0) means the set of x
      * @param list(1) means the set of y
      * @return
@@ -162,7 +167,6 @@ public class NumericalStatisticUtil {
         long tmp = Math.round(value);
         return (double) tmp / factor;
     }
-
 
 
 }

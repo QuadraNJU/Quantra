@@ -42,28 +42,26 @@ public class StockData {
     public static List<StockInfoPtr> getPtrList() {
         if (ptrList == null) {
             List<StockInfo> infoList = getList();
-            ptrList = new ArrayList<>(size);
-            StockInfo next = infoList.get(0);
-            for (int i = 1; i < size; i++) {
-                StockInfo curr = next;
-                next = infoList.get(i);
-                if (curr.getCode() == next.getCode()) {
-                    ptrList.add(new StockInfoPtr(curr, next));
+            ptrList = new ArrayList<>();
+            StockInfoPtr ptr = null;
+            for (StockInfo info : infoList) {
+                if (ptr != null && ptr.get().getCode() == info.getCode()) {
+                    ptr = new StockInfoPtr(info, ptr);
                 } else {
-                    ptrList.add(new StockInfoPtr(curr));
+                    ptr = new StockInfoPtr(info);
                 }
+                ptrList.add(ptr);
             }
-            ptrList.add(new StockInfoPtr(infoList.get(size - 1)));
         }
         return ptrList;
     }
 
     public static List<StockInfoPtr> getByDate(String date) {
-        return getPtrList().stream().filter(ptr -> ptr.getToday().getDate().equals(date)).collect(Collectors.toList());
+        return getPtrList().stream().filter(ptr -> ptr.get().getDate().equals(date)).collect(Collectors.toList());
     }
 
     public static List<StockInfoPtr> getPtrByCode(int code) {
-        return getPtrList().stream().filter(ptr -> ptr.getToday().getCode() == code).collect(Collectors.toList());
+        return getPtrList().stream().filter(ptr -> ptr.get().getCode() == code).collect(Collectors.toList());
     }
 
     @Deprecated

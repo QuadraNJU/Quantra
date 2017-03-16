@@ -5,6 +5,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import nju.quadra.quantra.data.StockBaseProtos;
+import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.util.List;
 
@@ -56,14 +57,14 @@ public class QuantraBarChart extends BarChart<String, Number> {
         });
     }
 
-    public static QuantraBarChart createFrom(List<StockBaseProtos.StockBase.StockInfo> infoList, String name) {
+    public static QuantraBarChart createFrom(List<StockInfoPtr> infoList, String name) {
         // Create axis
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         // Create series and add data
         Series<String, Number> series = new Series<>();
-        for (StockBaseProtos.StockBase.StockInfo info : infoList) {
-            series.getData().add(new Data<>(info.getDate(), info.getVolume(), info));
+        for (StockInfoPtr ptr : infoList) {
+            series.getData().add(new Data<>(ptr.get().getDate(), ptr.get().getVolume(), ptr.get()));
         }
         // Create chart
         QuantraBarChart chart = new QuantraBarChart(name, xAxis, yAxis);
@@ -75,7 +76,7 @@ public class QuantraBarChart extends BarChart<String, Number> {
     protected void seriesAdded(Series<String, Number> series, int seriesIndex) {
         super.seriesAdded(series, seriesIndex);
         for (Data<String, Number> item : series.getData()) {
-            if (item.getNode() != null) {
+            if (item.getNode() != null && item.getExtraValue() != null) {
                 StockBaseProtos.StockBase.StockInfo info = (StockBaseProtos.StockBase.StockInfo) item.getExtraValue();
                 if (info.getClose() > info.getOpen()) {
                     item.getNode().getStyleClass().add("close-above-open");

@@ -83,25 +83,25 @@ public class MarketVC extends Pane {
             List<Double> underLastFivePerRate = new ArrayList<>();
 
             for (StockInfoPtr ptr : StockData.getByDate(date)) {
-                if (ptr.getYesterday() != null) {
+                if (ptr.prev() != null) {
                     double rate = StockStatisticUtil.RATE(ptr);
-                    double otherRate = (ptr.getToday().getOpen() - ptr.getToday().getClose()) / ptr.getYesterday().getClose();
+                    double otherRate = (ptr.get().getOpen() - ptr.get().getClose()) / ptr.prev().get().getClose();
                     if (rate > 0) {
                         if (rate > 0.05) {
-                            stockRisingOverFivePer.add(ptr.getToday());
+                            stockRisingOverFivePer.add(ptr.get());
                             risingOverFivePerRate.add(rate);
                             if (rate >= 0.1) {
-                                stockRisingLimit.add(ptr.getToday());
+                                stockRisingLimit.add(ptr.get());
                                 risingLimitRate.add(rate);
                             }
                         }
                         cnts[0]++;
                     } else if (rate < 0) {
                         if (rate < -0.05) {
-                            stockFallingOverFivePer.add(ptr.getToday());
+                            stockFallingOverFivePer.add(ptr.get());
                             fallingOverFivePerRate.add(rate);
                             if (rate <= -0.1) {
-                                stockFallingLimit.add(ptr.getToday());
+                                stockFallingLimit.add(ptr.get());
                                 fallingLimitRate.add(rate);
                             }
                         }
@@ -111,10 +111,10 @@ public class MarketVC extends Pane {
                     }
 
                     if (otherRate > 0.05) {
-                        stockOverLastFivePer.add(ptr.getToday());
+                        stockOverLastFivePer.add(ptr.get());
                         overLastFivePerRate.add(otherRate);
                     } else if (otherRate < -0.05) {
-                        stockUnderLastFivePer.add(ptr.getToday());
+                        stockUnderLastFivePer.add(ptr.get());
                         underLastFivePerRate.add(otherRate);
                     }
                 }
@@ -150,7 +150,6 @@ public class MarketVC extends Pane {
     }
 
     class MarketMiniListVC extends BorderPane {
-
         @FXML
         private MaterialDesignIconView titleIcon;
         @FXML
@@ -225,7 +224,6 @@ public class MarketVC extends Pane {
             GridPane.setHalignment(label, HPos.CENTER);
             return label;
         }
-
     }
 
 }

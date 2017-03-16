@@ -11,11 +11,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.shape.*;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
+import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -97,15 +95,15 @@ public class QuantraKChart extends XYChart<String, Number> {
         });
     }
 
-    public static QuantraKChart createFrom(List<StockInfo> infoList) {
+    public static QuantraKChart createFrom(List<StockInfoPtr> infoList) {
         // Create axis
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         yAxis.setForceZeroInRange(false);
         // Create series and add data
         Series<String, Number> series = new Series<>();
-        for (StockInfo info : infoList) {
-            series.getData().add(new Data<>(info.getDate(), info.getOpen(), info));
+        for (StockInfoPtr ptr : infoList) {
+            series.getData().add(new Data<>(ptr.get().getDate(), ptr.get().getOpen(), ptr.get()));
         }
         // Create chart
         QuantraKChart kChart = new QuantraKChart(xAxis, yAxis);
@@ -117,7 +115,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         Series<String, Number> series = new Series<>();
         ObservableList<Data<String, Number>> list = getData().get(0).getData();
         int size = Math.min(list.size(), numbers.size());
-        for (int i = 0; i < size && i < size; i++) {
+        for (int i = 0; i < size; i++) {
             if (numbers.get(i) != null) {
                 series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
             }
