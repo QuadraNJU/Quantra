@@ -36,5 +36,6 @@ public class CompareSmallWindowItemVC extends HBox {
         removeFromList(code);
         loadCompareList();
         StockVC.setIconPlusColor();
+        StockCompareVC.load();
     }
 }
