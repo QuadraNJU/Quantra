@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
+import nju.quadra.quantra.ui.chart.LowHighChart;
 import nju.quadra.quantra.ui.chart.RisingAndFallingChart;
 import nju.quadra.quantra.ui.chart.VolumeChart;
 import nju.quadra.quantra.utils.DateUtil;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class StockCompareItemVC extends VBox {
     @FXML
-    private Label labelName, labelMax, labelMin, labelLogReturnVar;
+    private Label labelName, /*labelMax, labelMin, */labelLogReturnVar;
     @FXML
     private VBox paneCharts;
     @FXML
@@ -61,21 +62,23 @@ public class StockCompareItemVC extends VBox {
         labelName.setText(list.get(0).getName());
         paneCharts.getChildren().add(RisingAndFallingChart.createFrom(list));
         paneCharts.getChildren().add(VolumeChart.createFrom(list));
+        paneCharts.getChildren().add(LowHighChart.createFrom(list, true));
+        paneCharts.getChildren().add(LowHighChart.createFrom(list, false));
         this.code = code;
 
         Format f = new DecimalFormat("#.##");
 
         //因为实际取了n+1天，所以计算最值需要把第n+1天剔除
-        labelMax.setText(f.format(list.subList(0, list.size() - 1)
-                .stream()
-                .mapToDouble(u -> u.getAdjClose())
-                .max()
-                .getAsDouble()));
-        labelMin.setText(f.format(list.subList(0, list.size() - 1)
-                .stream()
-                .mapToDouble(u -> u.getAdjClose())
-                .min()
-                .getAsDouble()));
+//        labelMax.setText(f.format(list.subList(0, list.size() - 1)
+//                .stream()
+//                .mapToDouble(u -> u.getAdjClose())
+//                .max()
+//                .getAsDouble()));
+//        labelMin.setText(f.format(list.subList(0, list.size() - 1)
+//                .stream()
+//                .mapToDouble(u -> u.getAdjClose())
+//                .min()
+//                .getAsDouble()));
         labelLogReturnVar.setText(f.format(StockStatisticUtil.DAILY_LOG_RETURN_VAR(list) * 100) + "%");
 
     }

@@ -30,7 +30,7 @@ public class StockCompareVC extends Pane {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompare.fxml"));
         gridStocksS = gridStocks;
         pickerStart.setDayCellFactory(DateUtil.dayCellFactory);
-        pickerStart.setValue(DateUtil.parseLocalDate(StockData.latest).minusDays(1));
+        pickerStart.setValue(DateUtil.parseLocalDate(StockData.latest).minusDays(15));
         pickerEnd.setDayCellFactory(DateUtil.dayCellFactory);
         pickerEnd.setValue(DateUtil.parseLocalDate(StockData.latest));
         dateStart = DateUtil.localDateToString(pickerStart.getValue());
