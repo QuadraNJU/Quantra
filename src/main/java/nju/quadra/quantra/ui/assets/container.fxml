@@ -14,25 +14,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <BorderPane maxWidth="1000.0" minHeight="600.0" prefWidth="1000.0">
+        <BorderPane minHeight="600.0" prefWidth="1000.0">
             <top>
-                <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                <Pane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
                     <children>
                         <HBox layoutX="784.0" layoutY="33.0">
                             <children>
-                                <JFXButton onAction="#onMarketPageAction" text="市场" stylesheets="@textColor.css">
+                                <JFXButton onAction="#onMarketPageAction" stylesheets="@textColor.css" text="市场">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#onStockListAction" text="股票列表" stylesheets="@textColor.css">
+                                <JFXButton onAction="#onStockListAction" stylesheets="@textColor.css" text="股票列表">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#onComparePageAction" text="对比" stylesheets="@textColor.css">
+                                <JFXButton onAction="#onComparePageAction" stylesheets="@textColor.css" text="对比">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -53,10 +53,17 @@
                 </Pane>
             </top>
             <center>
-                <ScrollPane fx:id="contentPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
                     <BorderPane.margin>
                         <Insets top="10.0" />
                     </BorderPane.margin>
+               <content>
+                  <StackPane alignment="TOP_CENTER">
+                     <children>
+                        <StackPane fx:id="contentPane" alignment="TOP_CENTER" maxWidth="1000.0" />
+                     </children>
+                  </StackPane>
+               </content>
                 </ScrollPane>
             </center>
         </BorderPane>
@@ -69,17 +76,23 @@
 
       <Pane fx:id="paneCompare" maxWidth="1000.0" onMouseClicked="#onCompareCancelAction" prefWidth="1000.0" visible="false">
          <children>
-              <VBox style="-fx-background-color: green" layoutX="834.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+              <VBox layoutX="810.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: rgba(255, 255, 255, 0.5);">
                   <children>
                       <VBox fx:id="paneCompareList" />
                       <HBox spacing="10.0">
                           <children>
-                              <JFXButton onAction="#onCompareAction" text="对比" stylesheets="@textColor.css"/>
-                              <JFXButton onAction="#onCompareCleanAction" text="清空" stylesheets="@textColor.css"/>
-                              <JFXButton onAction="#onCompareCancelAction" text="取消" stylesheets="@textColor.css"/>
+                              <JFXButton onAction="#onCompareAction" text="对比" />
+                              <JFXButton onAction="#onCompareCleanAction" text="清空" />
+                              <JFXButton onAction="#onCompareCancelAction" text="取消" />
                           </children>
                       </HBox>
                   </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
               </VBox>
          </children>
       </Pane>
