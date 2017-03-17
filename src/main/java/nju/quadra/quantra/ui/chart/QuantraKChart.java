@@ -42,7 +42,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         vertLine.getStyleClass().add("line");
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.resize(120, 160);
+        toolTip.resize(120, 60);
         toolTip.setMouseTransparent(true);
         toolTip.setVisible(false);
         // Create Ytip
@@ -126,6 +126,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         series.setNode(path);
         series.setName(name);
         getData().add(series);
+        toolTip.resize(toolTip.getWidth(), toolTip.getHeight() + 20);
     }
 
     public void setHiddenPaths(List<String> hiddenPaths) {
