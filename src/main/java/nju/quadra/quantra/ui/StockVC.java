@@ -56,7 +56,7 @@ public class StockVC extends VBox {
         infoList = StockData.getPtrByCode(code);
         size = infoList.size();
         StockVC.code = code;
-        labelName.setText(infoList.get(0).get().getName());
+        labelName.setText(String.format("%06d", infoList.get(0).get().getCode()) + " " + infoList.get(0).get().getName());
         dateStart.setDayCellFactory(DateUtil.dayCellFactory);
         dateEnd.setDayCellFactory(DateUtil.dayCellFactory);
         dateEnd.setValue(DateUtil.parseLocalDate(date));
