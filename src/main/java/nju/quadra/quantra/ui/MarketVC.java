@@ -155,7 +155,7 @@ public class MarketVC extends Pane {
         @FXML
         private Label labelTitle, labelCount, labelRateName;
         @FXML
-        private JFXListView listView;
+        private JFXListView<GridPane> listView;
 
         MarketMiniListVC(boolean up, String title, List<StockBaseProtos.StockBase.StockInfo> infoList, List<Double> rateList) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/market_minilist.fxml"));
@@ -168,6 +168,11 @@ public class MarketVC extends Pane {
             }
             labelTitle.setText(title);
             labelCount.setText("(" + infoList.size() + ")");
+            listView.setOnMouseClicked(event -> {
+                if (listView.getSelectionModel().getSelectedItem() != null) {
+                    listView.getSelectionModel().getSelectedItem().getOnMouseClicked().handle(null);
+                }
+            });
             setListView(infoList, rateList, StockData.latest);
         }
 
@@ -208,7 +213,7 @@ public class MarketVC extends Pane {
             line.addColumn(2, getCenterLabel(Float.toString(info.getClose())));
             line.addColumn(3, getCenterLabel(Math.floor(rate * 1000) / 10.0 + " %"));
             line.getColumnConstraints().setAll(getColumn(20), getColumn(30), getColumn(25), getColumn(25));
-            //line.setMouseTransparent(true);
+            line.setMouseTransparent(true);
             return line;
         }
 
