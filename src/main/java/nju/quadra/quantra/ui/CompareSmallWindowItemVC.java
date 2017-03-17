@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
+import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
@@ -25,9 +26,9 @@ public class CompareSmallWindowItemVC extends HBox {
 
     public CompareSmallWindowItemVC(int code) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/compareSmallWindowItem.fxml"));
-        List<StockBaseProtos.StockBase.StockInfo> list = StockData.getByCode(code);
-        labelName.setText(list.get(0).getName());
-        labelCode.setText(String.format("%06d", list.get(0).getCode()));
+        List<StockInfoPtr> list = StockData.getByCode(code);
+        labelName.setText(list.get(0).get().getName());
+        labelCode.setText(String.format("%06d", list.get(0).get().getCode()));
         this.code = code;
     }
 

@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.ui.chart.*;
@@ -35,7 +34,7 @@ public class StockCompareItemVC extends VBox {
     public StockCompareItemVC(int code, String dateStart, String dateEnd) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompareItem.fxml"));
 
-        List<StockInfoPtr> list = StockData.getPtrByCode(code);
+        List<StockInfoPtr> list = StockData.getByCode(code);
         //初始日期直接掩盖掉实际的第一天好了，便于计算
         int startIndex = list.size() - 2, endIndex = 0;
         String listStartDate = list.get(startIndex).get().getDate();

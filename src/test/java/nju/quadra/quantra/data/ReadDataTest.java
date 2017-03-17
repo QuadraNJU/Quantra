@@ -14,7 +14,7 @@ public class ReadDataTest {
     @Test
     public void testReadProtobuf() {
         long time = System.nanoTime();
-        List<StockInfo> list = StockData.getList();
+        List<StockInfoPtr> list = StockData.getPtrList();
         if (list == null || list.size() == 0) {
             Assert.fail();
         } else {
@@ -22,11 +22,4 @@ public class ReadDataTest {
         }
     }
 
-    @Test
-    public void testGetByCode() {
-        long time = System.nanoTime();
-        List<StockInfo> list = StockData.getByCode(300012);
-        Assert.assertEquals(1129, list.size());
-        System.out.print("Using " + (System.nanoTime() - time) / 1000000.0 + " ms");
-    }
 }

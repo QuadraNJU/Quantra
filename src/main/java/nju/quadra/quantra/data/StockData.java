@@ -17,10 +17,11 @@ public class StockData {
     private static final String DATA_FILE = "stock_data.protobuf";
     private static StockBase base;
     private static List<StockInfoPtr> ptrList;
+    private static List<StockInfoPtr> index;
     public static int size;
     public static String latest;
 
-    public static List<StockInfo> getList() {
+    private static List<StockInfo> getList() {
         if (base == null) {
             try {
                 FileInputStream is = new FileInputStream(DATA_FILE);
@@ -52,25 +53,24 @@ public class StockData {
                 }
                 ptrList.add(ptr);
             }
+            getIndex();
         }
         return ptrList;
+    }
+
+    public static List<StockInfoPtr> getIndex() {
+        if (index == null) {
+            index = getByDate(latest);
+        }
+        return index;
     }
 
     public static List<StockInfoPtr> getByDate(String date) {
         return getPtrList().stream().filter(ptr -> ptr.get().getDate().equals(date)).collect(Collectors.toList());
     }
 
-    public static List<StockInfoPtr> getPtrByCode(int code) {
+    public static List<StockInfoPtr> getByCode(int code) {
         return getPtrList().stream().filter(ptr -> ptr.get().getCode() == code).collect(Collectors.toList());
-    }
-
-    @Deprecated
-    public static List<StockInfo> getByCode(int code) {
-        List<StockInfo> result = new ArrayList<>();
-        for (StockInfo i : getList()) {
-            if (i.getCode() == code) result.add(i);
-        }
-        return result;
     }
 
 }

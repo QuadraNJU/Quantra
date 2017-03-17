@@ -53,7 +53,7 @@ public class StockVC extends VBox {
 
     public StockVC(int code, String date) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stock.fxml"));
-        infoList = StockData.getPtrByCode(code);
+        infoList = StockData.getByCode(code);
         size = infoList.size();
         StockVC.code = code;
         labelName.setText(String.format("%06d", infoList.get(0).get().getCode()) + " " + infoList.get(0).get().getName());
