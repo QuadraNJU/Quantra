@@ -54,9 +54,15 @@ public class UIContainer extends Stage {
                         }
                         System.out.println("finished");
                     } else if (first >= 'a' && first <= 'z') {
-                        
+                        for (StockInfoPtr ptr : StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).collect(Collectors.toList())) {
+                            System.out.println(ptr.get().getCode() + " " + ptr.get().getName());
+                        }
+                        System.out.println("finished");
                     } else {
-
+                        for (StockInfoPtr ptr : StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).collect(Collectors.toList())) {
+                            System.out.println(ptr.get().getCode() + " " + ptr.get().getName());
+                        }
+                        System.out.println("finished");
                     }
                 }
             });
