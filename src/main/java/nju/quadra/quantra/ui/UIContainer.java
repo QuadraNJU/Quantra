@@ -1,12 +1,15 @@
 package nju.quadra.quantra.ui;
 
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -15,6 +18,7 @@ import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -25,11 +29,13 @@ public class UIContainer extends Stage {
     @FXML
     private StackPane rootStack, contentPane;
     @FXML
-    private Pane loadingPane, paneCompare;
+    private Pane loadingPane, paneCompare, paneSearch;
     private static StackPane contentPaneS;
     private static Pane loadingPaneS;
     @FXML
     private JFXTextField searchBox;
+    @FXML
+    private JFXListView searchList;
     @FXML
     private VBox paneCompareList;
     public static VBox paneCompareListS;
@@ -44,25 +50,24 @@ public class UIContainer extends Stage {
             searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
                 String text = newValue.trim().toLowerCase();
                 if (!text.isEmpty()) {
+                    paneSearch.setVisible(true);
+                    searchList.getItems().clear();
+                    List<StockInfoPtr> result;
                     char first = text.charAt(0);
                     if (first >= '0' && first <= '9') {
                         int input = Integer.parseInt(text);
                         int lower = (int) (input * Math.pow(10, 6 - text.length()));
                         int upper = (int) ((input + 1) * Math.pow(10, 6 - text.length()) - 1);
-                        for (StockInfoPtr ptr : StockData.getIndex().stream().filter(ptr -> ptr.get().getCode() >= lower && ptr.get().getCode() <= upper).collect(Collectors.toList())) {
-                            System.out.println(ptr.get().getCode() + " " + ptr.get().getName());
-                        }
-                        System.out.println("finished");
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getCode() >= lower && ptr.get().getCode() <= upper).collect(Collectors.toList());
                     } else if (first >= 'a' && first <= 'z') {
-                        for (StockInfoPtr ptr : StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).collect(Collectors.toList())) {
-                            System.out.println(ptr.get().getCode() + " " + ptr.get().getName());
-                        }
-                        System.out.println("finished");
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).collect(Collectors.toList());
                     } else {
-                        for (StockInfoPtr ptr : StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).collect(Collectors.toList())) {
-                            System.out.println(ptr.get().getCode() + " " + ptr.get().getName());
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).collect(Collectors.toList());
+                    }
+                    if (result != null) {
+                        for (StockInfoPtr ptr : result) {
+                            searchList.getItems().add(new Label(String.format("%06d", ptr.get().getCode()) + " " + ptr.get().getName()));
                         }
-                        System.out.println("finished");
                     }
                 }
             });
@@ -147,8 +152,8 @@ public class UIContainer extends Stage {
     }
 
     @FXML
-    private void onCompareCancelAction() {
-        paneCompare.setVisible(false);
+    private void clickToHide(MouseEvent t) {
+        ((Node) t.getSource()).setVisible(false);
     }
 
     @FXML
@@ -157,6 +162,11 @@ public class UIContainer extends Stage {
         loadCompareList();
         StockCompareVC.load();
         paneCompare.setVisible(true);
+    }
+
+    @FXML
+    private void onCompareCancelAction() {
+        paneCompare.setVisible(false);
     }
 
     public static void loadCompareList() throws IOException {

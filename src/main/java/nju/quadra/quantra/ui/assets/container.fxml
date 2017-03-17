@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane minHeight="600.0" prefWidth="1000.0">
             <top>
@@ -74,7 +75,7 @@
             </children>
         </Pane>
 
-      <Pane fx:id="paneCompare" maxWidth="1000.0" onMouseClicked="#onCompareCancelAction" prefWidth="1000.0" visible="false">
+      <Pane fx:id="paneCompare" maxWidth="1000.0" onMouseClicked="#clickToHide" prefWidth="1000.0" visible="false">
          <children>
               <VBox layoutX="810.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: rgba(255, 255, 255, 0.5);">
                   <children>
@@ -94,6 +95,11 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
               </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="paneSearch" maxWidth="1000.0" onMouseClicked="#clickToHide" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <JFXListView fx:id="searchList" layoutX="575.0" layoutY="70.0" prefWidth="200.0" />
          </children>
       </Pane>
 
