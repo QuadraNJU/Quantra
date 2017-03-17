@@ -12,9 +12,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.ui.chart.QuantraLineChart;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 import nju.quadra.quantra.utils.StockStatisticUtil;
@@ -22,8 +24,10 @@ import nju.quadra.quantra.utils.StockStatisticUtil;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,6 +48,8 @@ public class MarketVC extends Pane {
     private Label labelDate;
     @FXML
     private JFXDatePicker picker;
+    @FXML
+    private BorderPane paneVolChart;
 
     public MarketVC() throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/market.fxml"));
@@ -82,7 +88,8 @@ public class MarketVC extends Pane {
             List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
             List<Double> underLastFivePerRate = new ArrayList<>();
 
-            for (StockInfoPtr ptr : StockData.getByDate(date)) {
+            List<StockInfoPtr> ptrs = StockData.getByDate(date);
+            for (StockInfoPtr ptr : ptrs) {
                 if (ptr.prev() != null) {
                     double rate = StockStatisticUtil.RATE(ptr);
                     double otherRate = (ptr.get().getOpen() - ptr.get().getClose()) / ptr.prev().get().getClose();
@@ -120,6 +127,21 @@ public class MarketVC extends Pane {
                 }
             }
 
+            LinkedList<StockInfoPtr> tmpPtrs = new LinkedList<>();
+            LinkedList<Number> tmpVols = new LinkedList<>();
+            List<StockInfoPtr> tmpPtrList = ptrs;
+            LocalDate tmpDate = DateUtil.parseLocalDate(ptrs.get(0).get().getDate());
+            for (int i = 0; i < 14; i++) {
+                if (!tmpPtrList.isEmpty()) {
+                    tmpPtrs.addFirst(tmpPtrList.get(0));
+                    tmpVols.addFirst(tmpPtrList.stream().mapToLong(ptr -> ptr.get().getVolume()).sum());
+                }
+                tmpDate = tmpDate.minusDays(1);
+                tmpPtrList = StockData.getByDate(DateUtil.localDateToString(tmpDate));
+            }
+            QuantraLineChart volChart = QuantraLineChart.createFrom(tmpPtrs);
+            volChart.addPath("", Color.LIGHTPINK, tmpVols);
+
             Platform.runLater(() -> {
                 risingLimit.cleanListView();
                 fallingLimit.cleanListView();
@@ -144,6 +166,7 @@ public class MarketVC extends Pane {
                     if (pct < 15) pct = 15;
                     gridTemp.getColumnConstraints().get(i).setPercentWidth(pct);
                 }
+                paneVolChart.setCenter(volChart);
                 UIContainer.hideLoading();
             });
         }).start();

@@ -10,6 +10,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 import nju.quadra.quantra.data.StockInfoPtr;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class QuantraLineChart extends LineChart<String, Number> {
             double xPos = event.getX();
             double yPos = event.getY();
             String xValue = xAxis.getValueForDisplay(xPos);
+            Format f = new DecimalFormat("#.####");
             if (xValue != null) {
                 int size = ptrList.size();
                 int i = -1;
@@ -53,7 +56,7 @@ public class QuantraLineChart extends LineChart<String, Number> {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
-                                tip += "\n" + series.getName() + ": " + yValue;
+                                tip += "\n" + series.getName() + ": " + f.format(yValue);
                                 lineCount++;
                             }
                         }
