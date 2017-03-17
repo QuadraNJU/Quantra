@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -161,6 +160,7 @@ public class UIContainer extends Stage {
             try {
                 showLoading();
                 loadContent(new MarketVC());
+                searchBox.clear();
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -174,6 +174,7 @@ public class UIContainer extends Stage {
             try {
                 showLoading();
                 loadContent(new StockListVC());
+                searchBox.clear();
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -188,6 +189,7 @@ public class UIContainer extends Stage {
                 showLoading();
                 loadContent(new StockCompareVC());
                 paneCompare.setVisible(false);
+                searchBox.clear();
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
