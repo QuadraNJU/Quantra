@@ -46,7 +46,7 @@ public class StockData {
     private static void loadCSV(Label status) {
         try {
             File file = new File(CSV_FILE);
-            long fileSize = file.length(), readedSize = 0;
+            long fileSize = file.length(), readedSize = 0, progress = 0;
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StockBase.Builder builder = StockBase.newBuilder();
             while (true) {
@@ -76,11 +76,10 @@ public class StockData {
                     e.printStackTrace();
                 }
                 readedSize += line.length() + 2;
-                if (status != null) {
-                    long finalReadedSize = readedSize;
-                    Platform.runLater(() -> {
-                        status.setText("正在转换数据（" + (finalReadedSize * 100 / fileSize) + "%）");
-                    });
+                long newProgress = readedSize * 100 / fileSize;
+                if (status != null && newProgress > progress) {
+                    Platform.runLater(() -> status.setText("正在转换数据（" + newProgress + "%）"));
+                    progress = newProgress;
                 }
             }
             FileOutputStream os = new FileOutputStream(DATA_FILE);
