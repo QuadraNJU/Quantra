@@ -1,4 +1,5 @@
 .idea
 target
 *.iml
-stock_data.protobuf
+*.protobuf
+*.csv

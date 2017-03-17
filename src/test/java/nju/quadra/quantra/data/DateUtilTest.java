@@ -12,20 +12,18 @@ import java.time.LocalDate;
 public class DateUtilTest {
     @Test
     public void testCompare() {
-        String date1 = "5/2/14";
-        String date2 = "5/2/14";
-        Assert.assertEquals(0, DateUtil.compare(date1, date2));
+        Assert.assertEquals(0, DateUtil.compare("5/2/14", "5/2/14"));
+        Assert.assertEquals(-1, DateUtil.compare("5/1/14", "5/2/14"));
+        Assert.assertEquals(1, DateUtil.compare("5/3/14", "5/2/14"));
     }
 
     @Test
     public void testParseLocalDate() {
-        String date1 = "5/2/14";
-        Assert.assertEquals(LocalDate.of(2014, 5, 2), DateUtil.parseLocalDate(date1));
+        Assert.assertEquals(LocalDate.of(2014, 5, 2), DateUtil.parseLocalDate("5/2/14"));
     }
 
     @Test
     public void testLocalDateToString() {
-        LocalDate date = LocalDate.of(2014, 5, 2);
-        Assert.assertEquals("5/2/14", DateUtil.localDateToString(date));
+        Assert.assertEquals("5/2/14", DateUtil.localDateToString(LocalDate.of(2014, 5, 2)));
     }
 }

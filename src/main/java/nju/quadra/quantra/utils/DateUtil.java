@@ -27,7 +27,7 @@ public class DateUtil {
                                     || item.getDayOfWeek() == DayOfWeek.SUNDAY
                                     || item.getDayOfWeek() == DayOfWeek.SATURDAY) {
                                 setDisable(true);
-                                setStyle("-fx-background-color: #ffc0cb; -fx-background-radius: 50%;");
+                                setStyle("-fx-background-color: lightgray; -fx-background-radius: 50%;");
                             }
                         }
                     };

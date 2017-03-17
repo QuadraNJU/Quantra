@@ -36,7 +36,7 @@ import java.util.List;
 public class StockVC extends VBox {
 
     @FXML
-    private Label labelName, labelPrice, labelRate;
+    private Label labelName, labelPrice, labelRate, labelOpen, labelClose, labelHigh, labelLow;
     @FXML
     private JFXDatePicker dateStart, dateEnd;
     @FXML
@@ -87,6 +87,10 @@ public class StockVC extends VBox {
         for (int i = 0; i < size; i++) {
             if (DateUtil.parseLocalDate(infoList.get(i).get().getDate()).compareTo(dateEnd.getValue()) <= 0) {
                 labelPrice.setText(String.valueOf(infoList.get(i).get().getClose()));
+                labelOpen.setText(String.valueOf(infoList.get(i).get().getOpen()));
+                labelClose.setText(String.valueOf(infoList.get(i).get().getClose()));
+                labelHigh.setText(String.valueOf(infoList.get(i).get().getHigh()));
+                labelLow.setText(String.valueOf(infoList.get(i).get().getLow()));
                 if (infoList.get(i).prev() != null) {
                     double rate = StockStatisticUtil.RATE(infoList.get(i));
                     labelRate.setText(new DecimalFormat("#.##").format(Math.abs(rate * 100)) + "%");

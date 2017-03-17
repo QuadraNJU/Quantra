@@ -7,7 +7,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -15,10 +18,10 @@
    <children>
       <HBox spacing="20.0">
          <children>
-            <VBox>
+            <VBox alignment="TOP_CENTER">
                <children>
-                  <MaterialDesignIconView fx:id="iconStar" fill="whitesmoke" glyphName="STAR_OUTLINE" size="24" />
-                  <MaterialDesignIconView fx:id="iconPlus" fill="whitesmoke" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="24" />
+                  <MaterialDesignIconView fx:id="iconPlus" fill="whitesmoke" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="26" />
+                  <Label stylesheets="@textColor.css" text="对比" />
                </children>
             </VBox>
             <Label fx:id="labelName" stylesheets="@textColor.css" text="深发展A">
@@ -43,20 +46,38 @@
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="CENTER_LEFT">
+            <GridPane alignment="CENTER_LEFT" stylesheets="@textColor.css">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Label stylesheets="@textColor.css" text="不知道写什么">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label stylesheets="@textColor.css" text="不知道写什么">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
+                  <Label text="开盘：" GridPane.valignment="CENTER" />
+                  <Label text="收盘：" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Label fx:id="labelOpen" text="00.00" GridPane.columnIndex="1" />
+                  <Label fx:id="labelClose" text="00.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
-            </VBox>
+            </GridPane>
+            <GridPane alignment="CENTER_LEFT" stylesheets="@textColor.css">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="最高：" GridPane.valignment="CENTER" />
+                  <Label text="最低：" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Label fx:id="labelHigh" text="00.00" GridPane.columnIndex="1" />
+                  <Label fx:id="labelLow" text="00.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -159,10 +180,13 @@
             </JFXButton>
          </children>
          <VBox.margin>
-            <Insets />
+            <Insets top="-10.0" />
          </VBox.margin>
       </HBox>
-      <BorderPane fx:id="paneEx" maxHeight="300.0" minHeight="200.0" prefWidth="960.0" />
+      <BorderPane fx:id="paneEx" maxHeight="300.0" minHeight="200.0" prefWidth="960.0">
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin></BorderPane>
    </children>
    <padding>
       <Insets left="20.0" right="20.0" top="10.0" />

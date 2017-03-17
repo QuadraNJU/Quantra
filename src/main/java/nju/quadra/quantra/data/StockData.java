@@ -49,7 +49,7 @@ public class StockData {
         try {
             File file = new File(CSV_FILE);
             long fileSize = file.length(), readedSize = 0, progress = 0;
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
             StockBase.Builder builder = StockBase.newBuilder();
             while (true) {
                 String line = reader.readLine();
