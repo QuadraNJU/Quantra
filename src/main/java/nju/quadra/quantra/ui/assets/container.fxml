@@ -40,7 +40,7 @@
                                 </JFXButton>
                             </children>
                         </HBox>
-                        <JFXTextField fx:id="searchBox" onKeyPressed="#onSearchKeyPressed" focusColor="WHITE" layoutX="578.0" layoutY="36.0" promptText="搜索股票" unFocusColor="#979797">
+                        <JFXTextField fx:id="searchBox" focusColor="WHITE" layoutX="524.0" layoutY="36.0" onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…" stylesheets="@pickers.css">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -99,7 +99,7 @@
       </Pane>
       <Pane fx:id="paneSearch" maxWidth="1000.0" onMouseClicked="#clickToHide" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
-            <JFXListView fx:id="searchList" onMouseClicked="#onSearchListClicked" layoutX="575.0" layoutY="70.0" prefWidth="200.0" />
+            <JFXListView fx:id="searchList" layoutX="525.0" layoutY="70.0" onMouseClicked="#onSearchListClicked" prefWidth="220.0" />
          </children>
       </Pane>
 

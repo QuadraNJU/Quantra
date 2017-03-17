@@ -1,6 +1,6 @@
 .jfx-date-picker {
-    -jfx-unfocus-color: grey;
-    -jfx-default-color: palevioletred;
+    -jfx-unfocus-color: lightgray;
+    -jfx-default-color: #f2be45;
 }
 
 .jfx-text-field {

@@ -75,7 +75,7 @@ public class StockData {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                readedSize += line.length() + 2;
+                readedSize += line.length() + 4;
                 long newProgress = readedSize * 100 / fileSize;
                 if (status != null && newProgress > progress) {
                     Platform.runLater(() -> status.setText("正在转换数据（" + newProgress + "%）"));
