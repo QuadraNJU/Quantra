@@ -1,5 +1,6 @@
 package nju.quadra.quantra.ui;
 
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -14,9 +15,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
@@ -30,9 +33,15 @@ public class UIContainer extends Stage {
 
     @FXML
     private StackPane rootStack, contentPane;
+    private static StackPane rootStackS, contentPaneS;
+    @FXML
+    private JFXDialog dialog;
+    private static JFXDialog dialogS;
+    @FXML
+    private Text dialogTitle, dialogContent;
+    private static Text dialogTitleS, dialogContentS;
     @FXML
     private Pane loadingPane, paneCompare, paneSearch;
-    private static StackPane contentPaneS;
     private static Pane loadingPaneS;
     @FXML
     private JFXTextField searchBox;
@@ -49,9 +58,13 @@ public class UIContainer extends Stage {
             loader.setController(this);
             this.setScene(new Scene(loader.load()));
             this.setMaximized(true);
+            rootStackS = rootStack;
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
             paneCompareListS = paneCompareList;
+            dialogS = dialog;
+            dialogTitleS = dialogTitle;
+            dialogContentS = dialogContent;
 
             searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
                 String text = newValue.trim().toLowerCase();
@@ -75,7 +88,7 @@ public class UIContainer extends Stage {
                             Label label = new Label(String.format("%06d", ptr.get().getCode()) + " " + ptr.get().getName());
                             label.setOnMouseClicked(event -> {
                                 try {
-                                    loadContent(new StockVC(ptr.get().getCode(), StockData.latest));
+                                    loadContent(new StockVC(ptr.get().getCode(), DateUtil.currentDate));
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -108,6 +121,17 @@ public class UIContainer extends Stage {
             loadingPaneS.setVisible(false);
             contentPaneS.setVisible(true);
         }
+    }
+
+    public static void alert(String title, String content) {
+        dialogTitleS.setText(title);
+        dialogContentS.setText(content);
+        dialogS.show(rootStackS);
+    }
+
+    @FXML
+    private void onDialogButtonAction() {
+        dialog.close();
     }
 
     @FXML

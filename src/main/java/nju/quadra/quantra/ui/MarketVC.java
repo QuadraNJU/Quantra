@@ -45,7 +45,7 @@ public class MarketVC extends Pane {
     @FXML
     private GridPane gridPane, gridTemp;
     @FXML
-    private Label labelDate;
+    private Label labelDate, labelVolume;
     @FXML
     private JFXDatePicker picker;
     @FXML
@@ -62,7 +62,7 @@ public class MarketVC extends Pane {
         picker.valueProperty().addListener((observable, oldValue, newValue) -> {
             loadLists(DateUtil.localDateToString(newValue));
         });
-        picker.setValue(DateUtil.parseLocalDate(StockData.latest));
+        picker.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
         picker.setDayCellFactory(DateUtil.dayCellFactory);
     }
 
@@ -89,6 +89,15 @@ public class MarketVC extends Pane {
             List<Double> underLastFivePerRate = new ArrayList<>();
 
             List<StockInfoPtr> ptrs = StockData.getByDate(date);
+            if (ptrs.isEmpty()) {
+                Platform.runLater(() -> {
+                    picker.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
+                    UIContainer.alert("错误", "当天无股票数据，请选择其它日期");
+                    UIContainer.hideLoading();
+                });
+                return;
+            }
+            DateUtil.currentDate = date;
             for (StockInfoPtr ptr : ptrs) {
                 if (ptr.prev() != null) {
                     double rate = StockStatisticUtil.RATE(ptr);
@@ -134,7 +143,11 @@ public class MarketVC extends Pane {
             for (int i = 0; i < 14; i++) {
                 if (!tmpPtrList.isEmpty()) {
                     tmpPtrs.addFirst(tmpPtrList.get(0));
-                    tmpVols.addFirst(tmpPtrList.stream().mapToLong(ptr -> ptr.get().getVolume()).sum());
+                    long vol = tmpPtrList.stream().mapToLong(ptr -> ptr.get().getVolume()).sum();
+                    tmpVols.addFirst(vol);
+                    if (i == 0) {
+                        Platform.runLater(() -> labelVolume.setText(String.valueOf(vol)));
+                    }
                 }
                 tmpDate = tmpDate.minusDays(1);
                 tmpPtrList = StockData.getByDate(DateUtil.localDateToString(tmpDate));

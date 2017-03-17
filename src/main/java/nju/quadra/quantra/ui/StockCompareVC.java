@@ -43,9 +43,9 @@ public class StockCompareVC extends Pane {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockCompare.fxml"));
         gridStocksS = gridStocks;
         pickerStart.setDayCellFactory(DateUtil.dayCellFactory);
-        pickerStart.setValue(DateUtil.parseLocalDate(StockData.latest).minusDays(15));
+        pickerStart.setValue(DateUtil.parseLocalDate(DateUtil.currentDate).minusDays(15));
         pickerEnd.setDayCellFactory(DateUtil.dayCellFactory);
-        pickerEnd.setValue(DateUtil.parseLocalDate(StockData.latest));
+        pickerEnd.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
         dateStart = DateUtil.localDateToString(pickerStart.getValue());
         dateEnd = DateUtil.localDateToString(pickerEnd.getValue());
         load();
@@ -105,19 +105,19 @@ public class StockCompareVC extends Pane {
             String listStartDate = list.get(startIndex).get().getDate();
             this.dateStart = dateStart;
             this.dateEnd = dateEnd;
-            if(DateUtil.compare(list.get(0).get().getDate(), dateEnd) < 0)
+            if (DateUtil.compare(list.get(0).get().getDate(), dateEnd) < 0)
                 this.dateEnd = list.get(0).get().getDate();
-            if(DateUtil.compare(listStartDate, dateStart) > 0)
+            if (DateUtil.compare(listStartDate, dateStart) > 0)
                 this.dateStart = dateStart;
 
-            for(int i = 0; i < list.size(); i++) {
-                if(list.get(i).get().getDate().equals(this.dateEnd)) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).get().getDate().equals(this.dateEnd)) {
                     endIndex = i;
                     break;
                 }
             }
-            for(int i = endIndex; i < list.size(); i++) {
-                if(list.get(i).get().getDate().equals(this.dateStart)) {
+            for (int i = endIndex; i < list.size(); i++) {
+                if (list.get(i).get().getDate().equals(this.dateStart)) {
                     startIndex = i + 1; //找到所选那天的数据，还要往前再取一天
                     break;
                 }

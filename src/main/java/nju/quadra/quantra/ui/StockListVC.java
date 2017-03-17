@@ -52,7 +52,7 @@ public class StockListVC extends BorderPane {
             }
         });
         datePicker.valueProperty().addListener(observable -> updateInfo());
-        datePicker.setValue(DateUtil.parseLocalDate(StockData.latest));
+        datePicker.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
     }
 
     private void addColumn(String title, Callback<TableColumn.CellDataFeatures<StockInfoPtr, Object>, ObservableValue<Object>> factory) {
@@ -64,6 +64,12 @@ public class StockListVC extends BorderPane {
     private void updateInfo() {
         String date = DateUtil.localDateToString(datePicker.getValue());
         table.getItems().setAll(StockData.getByDate(date));
+        if (table.getItems().isEmpty()) {
+            datePicker.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
+            UIContainer.alert("错误", "当天无股票数据，请选择其它日期");
+        } else {
+            DateUtil.currentDate = date;
+        }
     }
 
 }

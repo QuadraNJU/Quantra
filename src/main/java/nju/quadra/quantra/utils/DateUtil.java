@@ -12,6 +12,9 @@ import java.time.LocalDate;
  * Created by RaUkonn on 2017/3/9.
  */
 public class DateUtil {
+
+    public static String currentDate;
+
     public static final Callback<DatePicker, DateCell> dayCellFactory =
             new Callback<DatePicker, DateCell>() {
                 @Override

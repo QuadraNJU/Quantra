@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
+import nju.quadra.quantra.utils.DateUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class StockData {
             size = base.getInfoList().size();
             if (size > 0) {
                 latest = base.getInfoList().get(0).getDate();
+                DateUtil.currentDate = latest;
             }
         }
     }
