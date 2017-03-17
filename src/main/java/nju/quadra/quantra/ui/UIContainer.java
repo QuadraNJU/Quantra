@@ -10,12 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,7 +37,7 @@ public class UIContainer extends Stage {
     @FXML
     private JFXTextField searchBox;
     @FXML
-    private JFXListView searchList;
+    private JFXListView<Label> searchList;
     @FXML
     private VBox paneCompareList;
     public static VBox paneCompareListS;
@@ -74,6 +76,39 @@ public class UIContainer extends Stage {
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
             paneCompareListS = paneCompareList;
+
+            searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
+                String text = newValue.trim().toLowerCase();
+                if (!text.isEmpty()) {
+                    paneSearch.setVisible(true);
+                    searchList.getItems().clear();
+                    List<StockInfoPtr> result;
+                    char first = text.charAt(0);
+                    if (first >= '0' && first <= '9') {
+                        int input = Integer.parseInt(text);
+                        int lower = (int) (input * Math.pow(10, 6 - text.length()));
+                        int upper = (int) ((input + 1) * Math.pow(10, 6 - text.length()) - 1);
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getCode() >= lower && ptr.get().getCode() <= upper).collect(Collectors.toList());
+                    } else if (first >= 'a' && first <= 'z') {
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).collect(Collectors.toList());
+                    } else {
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).collect(Collectors.toList());
+                    }
+                    if (result != null) {
+                        for (StockInfoPtr ptr : result) {
+                            Label label = new Label(String.format("%06d", ptr.get().getCode()) + " " + ptr.get().getName());
+                            label.setOnMouseClicked(event -> {
+                                try {
+                                    loadContent(new StockVC(ptr.get().getCode(), StockData.latest));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            searchList.getItems().add(label);
+                        }
+                    }
+                }
+            });
             onMarketPageAction();
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,9 +135,35 @@ public class UIContainer extends Stage {
     }
 
     @FXML
-    private void onSearchKeyTyped(KeyEvent t) {
-        JFXTextField textField = (JFXTextField) t.getSource();
+    private void onSearchKeyPressed(KeyEvent t) {
+        int selected = searchList.getSelectionModel().getSelectedIndex();
+        switch (t.getCode()) {
+            case UP:
+                selected--;
+                if (selected < 0) {
+                    selected = 0;
+                }
+                break;
+            case DOWN:
+                selected++;
+                break;
+            case ENTER:
+                if (selected < 0) {
+                    selected = 0;
+                }
+                searchList.getSelectionModel().select(selected);
+                onSearchListClicked();
+                break;
+        }
+        searchList.getSelectionModel().select(selected);
+    }
 
+    @FXML
+    private void onSearchListClicked() {
+        if (searchList.getSelectionModel().getSelectedItem() != null) {
+            searchList.getSelectionModel().getSelectedItem().getOnMouseClicked().handle(null);
+            paneSearch.setVisible(false);
+        }
     }
 
     @FXML
@@ -161,6 +222,7 @@ public class UIContainer extends Stage {
         StockCompareVC.chosenStocks.clear();
         loadCompareList();
         StockCompareVC.load();
+        StockVC.setIconPlusColor();
         paneCompare.setVisible(true);
     }
 
@@ -173,6 +235,25 @@ public class UIContainer extends Stage {
         paneCompareListS.getChildren().clear();
         for (int i = 0; i < StockCompareVC.chosenStocks.size(); i++) {
             paneCompareListS.getChildren().add(new CompareSmallWindowItemVC(StockCompareVC.chosenStocks.get(i)));
+        }
+    }
+
+    static class CompareSmallWindowItemVC extends HBox {
+        @FXML
+        Label labelCode, labelName;
+        private int code;
+
+        public CompareSmallWindowItemVC(int code) throws IOException {
+            FXUtil.loadFXML(this, getClass().getResource("assets/compareSmallWindowItem.fxml"));
+            List<StockInfoPtr> list = StockData.getByCode(code);
+            labelName.setText(list.get(0).get().getName());
+            labelCode.setText(String.format("%06d", list.get(0).get().getCode()));
+            this.code = code;
+        }
+
+        @FXML
+        private void onDeleteAction() throws IOException {
+            StockCompareVC.removeFromList(code);
         }
     }
 }

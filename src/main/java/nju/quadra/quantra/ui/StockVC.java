@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
@@ -185,9 +186,21 @@ public class StockVC extends VBox {
     }
 
     @FXML
-    private void onPlusClickedAction(MouseEvent t) {
+    private void onPlusClickedAction(MouseEvent t) throws IOException {
         int code = infoList.get(0).get().getCode();
-        CommonEventController.onPlusClickedEvent(t, code);
+        MaterialDesignIconView icon = (MaterialDesignIconView)t.getSource();
+        Tooltip tp = new Tooltip("比较队列已满，无法再添加股票");
+        tp.setAutoHide(true);
+        if(!StockCompareVC.chosenStocks.contains(code)) {
+            if (StockCompareVC.addToList(code) != -1) {
+                icon.setFill(Color.RED);
+                tp.setText("已加入比较队列");
+            }
+        } else {
+            tp.setText("已移出比较队列");
+            StockCompareVC.removeFromList(code);
+        }
+        tp.show(icon, t.getScreenX(), t.getScreenY());
     }
 
 }
