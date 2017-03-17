@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,6 +23,8 @@ public class SplashVC extends Stage {
     @FXML
     private StackPane stackPane;
     @FXML
+    private Label label;
+    @FXML
     private JFXDialog errorDialog;
     @FXML
     private JFXButton okButton;
@@ -34,6 +37,7 @@ public class SplashVC extends Stage {
             this.setScene(new Scene(root));
             this.initStyle(StageStyle.TRANSPARENT);
             new Thread(() -> {
+                StockData.loadProtobuf(label);
                 if (StockData.getPtrList().size() > 0) {
                     Platform.runLater(() -> {
                         new UIContainer().show();

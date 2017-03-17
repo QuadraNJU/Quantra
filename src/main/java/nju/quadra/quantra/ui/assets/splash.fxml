@@ -24,7 +24,7 @@
             <VBox alignment="CENTER" layoutY="220.0" spacing="10.0">
                <children>
                         <JFXSpinner radius="24.0" startingAngle="0.0" />
-                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="600.0" text="正在加载数据，请稍后" stylesheets="@textColor.css" />
+                        <Label fx:id="label" alignment="CENTER" prefHeight="20.0" prefWidth="600.0" stylesheets="@textColor.css" text="正在加载数据，请稍后" />
                </children>
             </VBox>
             </children>
