@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootStack" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootStack" onKeyPressed="#onGlobalSearch" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane minHeight="600.0" prefWidth="1000.0">
             <top>
@@ -99,7 +99,7 @@
       </Pane>
       <Pane fx:id="paneSearch" maxWidth="1000.0" onMouseClicked="#clickToHide" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
-            <JFXListView  fx:id="searchList" layoutX="575.0" layoutY="70.0" prefWidth="200.0" />
+            <JFXListView fx:id="searchList" onMouseClicked="#onSearchListClicked" layoutX="575.0" layoutY="70.0" prefWidth="200.0" />
          </children>
       </Pane>
 

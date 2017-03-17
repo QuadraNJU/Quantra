@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -49,30 +50,6 @@ public class UIContainer extends Stage {
             loader.setController(this);
             this.setScene(new Scene(loader.load()));
             this.setMaximized(true);
-            searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
-                String text = newValue.trim().toLowerCase();
-                if (!text.isEmpty()) {
-                    paneSearch.setVisible(true);
-                    searchList.getItems().clear();
-                    List<StockInfoPtr> result;
-                    char first = text.charAt(0);
-                    if (first >= '0' && first <= '9') {
-                        int input = Integer.parseInt(text);
-                        int lower = (int) (input * Math.pow(10, 6 - text.length()));
-                        int upper = (int) ((input + 1) * Math.pow(10, 6 - text.length()) - 1);
-                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getCode() >= lower && ptr.get().getCode() <= upper).collect(Collectors.toList());
-                    } else if (first >= 'a' && first <= 'z') {
-                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).collect(Collectors.toList());
-                    } else {
-                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).collect(Collectors.toList());
-                    }
-                    if (result != null) {
-                        for (StockInfoPtr ptr : result) {
-                            searchList.getItems().add(new Label(String.format("%06d", ptr.get().getCode()) + " " + ptr.get().getName()));
-                        }
-                    }
-                }
-            });
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
             paneCompareListS = paneCompareList;
@@ -88,11 +65,11 @@ public class UIContainer extends Stage {
                         int input = Integer.parseInt(text);
                         int lower = (int) (input * Math.pow(10, 6 - text.length()));
                         int upper = (int) ((input + 1) * Math.pow(10, 6 - text.length()) - 1);
-                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getCode() >= lower && ptr.get().getCode() <= upper).collect(Collectors.toList());
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getCode() >= lower && ptr.get().getCode() <= upper).limit(10).collect(Collectors.toList());
                     } else if (first >= 'a' && first <= 'z') {
-                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).collect(Collectors.toList());
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getPinyin().startsWith(text)).limit(10).collect(Collectors.toList());
                     } else {
-                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).collect(Collectors.toList());
+                        result = StockData.getIndex().stream().filter(ptr -> ptr.get().getName().contains(text)).limit(10).collect(Collectors.toList());
                     }
                     if (result != null) {
                         for (StockInfoPtr ptr : result) {
@@ -135,6 +112,15 @@ public class UIContainer extends Stage {
     }
 
     @FXML
+    private void onGlobalSearch(KeyEvent t) {
+        if (t.getCode().isLetterKey() || t.getCode().isDigitKey()) {
+            searchBox.appendText(t.getCharacter());
+            searchBox.requestFocus();
+            searchBox.positionCaret(searchBox.getLength());
+        }
+    }
+
+    @FXML
     private void onSearchKeyPressed(KeyEvent t) {
         int selected = searchList.getSelectionModel().getSelectedIndex();
         switch (t.getCode()) {
@@ -143,9 +129,11 @@ public class UIContainer extends Stage {
                 if (selected < 0) {
                     selected = 0;
                 }
+                t.consume();
                 break;
             case DOWN:
                 selected++;
+                t.consume();
                 break;
             case ENTER:
                 if (selected < 0) {
@@ -153,7 +141,7 @@ public class UIContainer extends Stage {
                 }
                 searchList.getSelectionModel().select(selected);
                 onSearchListClicked();
-                break;
+                t.consume();
         }
         searchList.getSelectionModel().select(selected);
     }
@@ -162,6 +150,7 @@ public class UIContainer extends Stage {
     private void onSearchListClicked() {
         if (searchList.getSelectionModel().getSelectedItem() != null) {
             searchList.getSelectionModel().getSelectedItem().getOnMouseClicked().handle(null);
+            searchBox.clear();
             paneSearch.setVisible(false);
         }
     }
