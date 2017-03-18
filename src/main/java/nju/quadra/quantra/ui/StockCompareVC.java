@@ -22,6 +22,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,19 +112,23 @@ public class StockCompareVC extends Pane {
                 this.dateStart = dateStart;
 
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).get().getDate().equals(this.dateEnd)) {
+                if (DateUtil.parseLocalDate(list.get(i).get().getDate()).compareTo(DateUtil.parseLocalDate(this.dateEnd)) <= 0) {
                     endIndex = i;
                     break;
                 }
             }
             for (int i = endIndex; i < list.size(); i++) {
-                if (list.get(i).get().getDate().equals(this.dateStart)) {
+                if (DateUtil.parseLocalDate(list.get(i).get().getDate()).compareTo(DateUtil.parseLocalDate(this.dateStart)) <= 0) {
                     startIndex = i + 1; //找到所选那天的数据，还要往前再取一天
                     break;
                 }
             }
 
-            list = list.subList(endIndex, startIndex + 1);
+            LinkedList<StockInfoPtr> newList = new LinkedList<>();
+            for (StockInfoPtr ptr : list.subList(endIndex, startIndex + 1)) {
+                newList.addFirst(ptr);
+            }
+            list = newList;
             labelName.setText(list.get(0).get().getName());
             labelCode.setText(String.format("%06d", list.get(0).get().getCode()));
             QuantraKChart kChart = QuantraKChart.createFrom(list);
