@@ -27,7 +27,7 @@ public class QuantraBarChart extends BarChart<String, Number> {
         getPlotChildren().addAll(plotArea, toolTip);
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.resize(120, 40);
+        toolTip.resize(100, 40);
         toolTip.setMouseTransparent(true);
         toolTip.setVisible(false);
         // Bind mouse events

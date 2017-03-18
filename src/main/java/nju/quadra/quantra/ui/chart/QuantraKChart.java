@@ -14,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.utils.NumericalStatisticUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,7 +43,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         vertLine.getStyleClass().add("line");
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.resize(120, 60);
+        toolTip.resize(100, 60);
         toolTip.setMouseTransparent(true);
         toolTip.setVisible(false);
         // Create Ytip
@@ -117,7 +118,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         int size = Math.min(list.size(), numbers.size());
         for (int i = 0; i < size; i++) {
             if (numbers.get(i) != null && !Double.isNaN(numbers.get(i).doubleValue())) {
-                series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
+                series.getData().add(new Data<>(list.get(i).getXValue(), NumericalStatisticUtil.round(numbers.get(i).doubleValue(), 4)));
             }
         }
         Path path = new Path();
@@ -126,7 +127,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         series.setNode(path);
         series.setName(name);
         getData().add(series);
-        toolTip.resize(toolTip.getWidth(), toolTip.getHeight() + 20);
+        toolTip.resize(toolTip.getWidth(), toolTip.getHeight() + 13);
     }
 
     public void setHiddenPaths(List<String> hiddenPaths) {

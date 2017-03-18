@@ -9,6 +9,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.utils.NumericalStatisticUtil;
 
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -51,17 +52,19 @@ public class QuantraLineChart extends LineChart<String, Number> {
                     i++;
                     if (ptr.get().getDate().equals(xValue)) {
                         String tip = "";
-                        int lineCount = 1, j = -1;
+                        int lineCount = 1, j = -1, xMaxValue = 0;
                         for (Series<String, Number> series : getData()) {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
-                                tip += "\n" + series.getName() + ": " + f.format(yValue);
+                                String para = series.getName() + ": " + f.format(yValue);
+                                tip += "\n" + para;
+                                xMaxValue = para.length() > xMaxValue? para.length(): xMaxValue;
                                 lineCount++;
                             }
                         }
                         toolTip.setText(xValue + tip);
-                        toolTip.resize(120, lineCount * 20);
+                        toolTip.resize(xMaxValue * 7 + 15, lineCount * 18);
                         if (xPos + 10 + toolTip.getWidth() > plotBackground.getWidth()) {
                             xPos -= toolTip.getWidth() + 20;
                         }
@@ -92,7 +95,7 @@ public class QuantraLineChart extends LineChart<String, Number> {
         int size = Math.min(ptrList.size(), numbers.size());
         for (int i = 0; i < size; i++) {
             if (numbers.get(i) != null && !Double.isNaN(numbers.get(i).doubleValue())) {
-                series.getData().add(new Data<>(ptrList.get(i).get().getDate(), numbers.get(i)));
+                series.getData().add(new Data<>(ptrList.get(i).get().getDate(), NumericalStatisticUtil.round(numbers.get(i).doubleValue(), 6)));
             }
         }
         series.setName(name);
