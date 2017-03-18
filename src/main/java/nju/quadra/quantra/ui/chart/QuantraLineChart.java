@@ -52,19 +52,17 @@ public class QuantraLineChart extends LineChart<String, Number> {
                     i++;
                     if (ptr.get().getDate().equals(xValue)) {
                         String tip = "";
-                        int lineCount = 1, j = -1, xMaxValue = 0;
+                        int lineCount = 1, j = -1;
                         for (Series<String, Number> series : getData()) {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
-                                String para = series.getName() + ": " + f.format(yValue);
-                                tip += "\n" + para;
-                                xMaxValue = para.length() > xMaxValue? para.length(): xMaxValue;
+                                tip += "\n" + series.getName() + ": " + f.format(yValue);
                                 lineCount++;
                             }
                         }
                         toolTip.setText(xValue + tip);
-                        toolTip.resize(xMaxValue * 7 + 15, lineCount * 18);
+                        toolTip.resize(140, lineCount * 20);
                         if (xPos + 10 + toolTip.getWidth() > plotBackground.getWidth()) {
                             xPos -= toolTip.getWidth() + 20;
                         }
