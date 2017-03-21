@@ -153,7 +153,7 @@ public class MarketVC extends Pane {
                 tmpPtrList = StockData.getByDate(DateUtil.localDateToString(tmpDate));
             }
             QuantraLineChart volChart = QuantraLineChart.createFrom(tmpPtrs);
-            volChart.addPath("", Color.LIGHTPINK, tmpVols);
+            volChart.addPath("总交易量", Color.LIGHTPINK, tmpVols);
 
             Platform.runLater(() -> {
                 risingLimit.cleanListView();

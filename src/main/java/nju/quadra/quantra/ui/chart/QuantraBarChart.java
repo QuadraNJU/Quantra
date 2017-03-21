@@ -3,6 +3,7 @@ package nju.quadra.quantra.ui.chart;
 import javafx.collections.FXCollections;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockInfoPtr;
@@ -15,8 +16,8 @@ import java.util.List;
 public class QuantraBarChart extends BarChart<String, Number> {
 
     private Region plotBackground = (Region) lookup(".chart-plot-background");
-    private Region plotArea = new Region();
     private Label toolTip = new Label();
+    private Pane plotArea = new Pane(toolTip);
 
     private QuantraBarChart(String name, Axis<String> xAxis, Axis<Number> yAxis) {
         super(xAxis, yAxis);
@@ -24,11 +25,9 @@ public class QuantraBarChart extends BarChart<String, Number> {
         this.setBarGap(1);
         this.setCategoryGap(0);
         this.getStylesheets().setAll(getClass().getResource("QuantraKChart.css").toString());
-        getPlotChildren().addAll(plotArea, toolTip);
+        getPlotChildren().add(plotArea);
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.resize(120, 40);
-        toolTip.setMouseTransparent(true);
         toolTip.setVisible(false);
         // Bind mouse events
         plotArea.setOnMouseExited(event -> toolTip.setVisible(false));
@@ -86,7 +85,6 @@ public class QuantraBarChart extends BarChart<String, Number> {
             }
         }
         plotArea.toFront();
-        toolTip.toFront();
     }
 
     @Override

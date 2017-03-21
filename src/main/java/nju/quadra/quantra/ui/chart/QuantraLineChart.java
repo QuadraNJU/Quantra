@@ -5,6 +5,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
@@ -23,8 +24,8 @@ public class QuantraLineChart extends LineChart<String, Number> {
     private List<StockInfoPtr> ptrList;
     private List<List<Number>> dataList = new ArrayList<>();
     private Region plotBackground = (Region) lookup(".chart-plot-background");
-    private Region plotArea = new Region();
     private Label toolTip = new Label();
+    private Pane plotArea = new Pane(toolTip);
 
     private QuantraLineChart(Axis<String> xAxis, Axis<Number> yAxis, List<StockInfoPtr> ptrList) {
         super(xAxis, yAxis);
@@ -32,13 +33,12 @@ public class QuantraLineChart extends LineChart<String, Number> {
         this.setLegendVisible(false);
         this.setCreateSymbols(false);
         this.getStylesheets().setAll(getClass().getResource("QuantraKChart.css").toString());
-        getPlotChildren().addAll(plotArea, toolTip);
+        getPlotChildren().add(plotArea);
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.setMouseTransparent(true);
-        toolTip.setVisible(false);
         // Bind mouse events
         plotArea.setOnMouseExited(event -> toolTip.setVisible(false));
+        toolTip.setVisible(false);
         plotArea.setOnMouseMoved(event -> {
             double xPos = event.getX();
             double yPos = event.getY();
@@ -56,12 +56,11 @@ public class QuantraLineChart extends LineChart<String, Number> {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
-                                tip += "\n" + series.getName() + ": " + f.format(yValue);
+                                tip += "\n" + series.getName() + ": " + yValue;
                                 lineCount++;
                             }
                         }
                         toolTip.setText(xValue + tip);
-                        toolTip.resize(120, lineCount * 20);
                         if (xPos + 10 + toolTip.getWidth() > plotBackground.getWidth()) {
                             xPos -= toolTip.getWidth() + 20;
                         }
@@ -109,7 +108,6 @@ public class QuantraLineChart extends LineChart<String, Number> {
     protected void seriesAdded(Series<String, Number> series, int seriesIndex) {
         super.seriesAdded(series, seriesIndex);
         plotArea.toFront();
-        toolTip.toFront();
     }
 
     @Override
