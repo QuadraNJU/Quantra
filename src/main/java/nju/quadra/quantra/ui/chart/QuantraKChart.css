@@ -14,9 +14,10 @@
     -fx-stroke: whitesmoke;
 }
 .tooltip {
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
     -fx-background-color: rgba(0, 0, 140, .5);
     -fx-text-fill: whitesmoke;
-    -fx-padding: 0;
 }
 .candlestick-bar, .chart-bar {
     -fx-background-color: whitesmoke;

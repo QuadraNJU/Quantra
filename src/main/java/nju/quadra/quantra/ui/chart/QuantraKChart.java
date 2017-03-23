@@ -9,12 +9,12 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
-import nju.quadra.quantra.utils.NumericalStatisticUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,8 +28,8 @@ public class QuantraKChart extends XYChart<String, Number> {
     private Line horiLine = new Line(0, 0, 0, 0);
     private Line vertLine = new Line(0, 0, 0, 0);
     private Region plotBackground = (Region) lookup(".chart-plot-background");
-    private Region plotArea = new Region();
     private Label toolTip = new Label();
+    private Pane plotArea = new Pane(toolTip);
     private Label yTip = new Label();
 
     private QuantraKChart(Axis<String> xAxis, Axis<Number> yAxis) {
@@ -37,20 +37,18 @@ public class QuantraKChart extends XYChart<String, Number> {
         this.getStylesheets().setAll(getClass().getResource("QuantraKChart.css").toString());
         this.setMaxWidth(Double.POSITIVE_INFINITY);
         this.setMaxHeight(Double.POSITIVE_INFINITY);
+        // Create overlay pane
+        plotArea.getChildren().addAll(horiLine, vertLine);
+        getPlotChildren().add(plotArea);
         // Create lines
-        getPlotChildren().addAll(horiLine, vertLine, plotArea, toolTip);
         horiLine.getStyleClass().add("line");
         vertLine.getStyleClass().add("line");
         // Create tooltip
         toolTip.getStyleClass().add("tooltip");
-        toolTip.resize(100, 60);
-        toolTip.setMouseTransparent(true);
-        toolTip.setVisible(false);
         // Create Ytip
         getChildren().add(yTip);
         yTip.getStyleClass().add("tooltip");
-        yTip.resize(50, 30);
-        yTip.setVisible(false);
+        yTip.resize(60, 30);
         // Bind mouse events
         plotArea.setOnMouseExited(event -> {
             horiLine.setVisible(false);
@@ -58,6 +56,7 @@ public class QuantraKChart extends XYChart<String, Number> {
             toolTip.setVisible(false);
             yTip.setVisible(false);
         });
+        plotArea.getOnMouseExited().handle(null);
         plotArea.setOnMouseMoved(event -> {
             double yPos = event.getY();
             yTip.setText(yAxis.getValueForDisplay(yPos).toString());
@@ -118,7 +117,7 @@ public class QuantraKChart extends XYChart<String, Number> {
         int size = Math.min(list.size(), numbers.size());
         for (int i = 0; i < size; i++) {
             if (numbers.get(i) != null && !Double.isNaN(numbers.get(i).doubleValue())) {
-                series.getData().add(new Data<>(list.get(i).getXValue(), NumericalStatisticUtil.round(numbers.get(i).doubleValue(), 4)));
+                series.getData().add(new Data<>(list.get(i).getXValue(), numbers.get(i)));
             }
         }
         Path path = new Path();
@@ -127,7 +126,6 @@ public class QuantraKChart extends XYChart<String, Number> {
         series.setNode(path);
         series.setName(name);
         getData().add(series);
-        toolTip.resize(toolTip.getWidth(), toolTip.getHeight() + 13);
     }
 
     public void setHiddenPaths(List<String> hiddenPaths) {
@@ -244,11 +242,8 @@ public class QuantraKChart extends XYChart<String, Number> {
         horiLine.setEndX(getWidth());
         vertLine.setEndY(getHeight());
         plotArea.resize(getWidth(), getHeight());
-        // Make sure that lines are at the front
-        horiLine.toFront();
-        vertLine.toFront();
+        // Make sure that overlay pane is at the front
         plotArea.toFront();
-        toolTip.toFront();
     }
 
     class Candle extends Group {
