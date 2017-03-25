@@ -1,11 +1,14 @@
 package nju.quadra.quantra.ui.chart;
 
 import javafx.collections.FXCollections;
-import javafx.scene.chart.*;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import nju.quadra.quantra.data.StockBaseProtos;
+import nju.quadra.quantra.data.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.util.List;
@@ -38,7 +41,7 @@ public class QuantraBarChart extends BarChart<String, Number> {
             if (xValue != null) {
                 int size = getData().get(0).getData().size();
                 for (int i = 0; i < size; i++) {
-                    StockBaseProtos.StockBase.StockInfo info = (StockBaseProtos.StockBase.StockInfo) getData().get(0).getData().get(i).getExtraValue();
+                    StockInfo info = (StockInfo) getData().get(0).getData().get(i).getExtraValue();
                     if (info != null && info.getDate().equals(xValue)) {
                         toolTip.setText(xValue + "\n" + name + ": " + getData().get(0).getData().get(i).getYValue());
                         if (xPos + 10 + toolTip.getWidth() > plotBackground.getWidth()) {
@@ -76,7 +79,7 @@ public class QuantraBarChart extends BarChart<String, Number> {
         super.seriesAdded(series, seriesIndex);
         for (Data<String, Number> item : series.getData()) {
             if (item.getNode() != null && item.getExtraValue() != null) {
-                StockBaseProtos.StockBase.StockInfo info = (StockBaseProtos.StockBase.StockInfo) item.getExtraValue();
+                StockInfo info = (StockInfo) item.getExtraValue();
                 if (info.getClose() > info.getOpen()) {
                     item.getNode().getStyleClass().add("close-above-open");
                 } else {

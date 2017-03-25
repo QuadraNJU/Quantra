@@ -5,9 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-
+<?import javafx.scene.layout.*?>
 <fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" stylesheets="@stockList.css" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <TableView fx:id="table" maxHeight="1.7976931348623157E308">

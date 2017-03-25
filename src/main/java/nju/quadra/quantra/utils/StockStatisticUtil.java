@@ -1,6 +1,6 @@
 package nju.quadra.quantra.utils;
 
-import nju.quadra.quantra.data.StockBaseProtos;
+import nju.quadra.quantra.data.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public class StockStatisticUtil {
         return VAR_SAMPLE(DAILY_LOG_RETURN(stock));
     }
 
-    public static List<Double> RISING_RATE(List<StockBaseProtos.StockBase.StockInfo> stock) {
+    public static List<Double> RISING_RATE(List<StockInfo> stock) {
         List<Double> result;
         int n = stock.size();
         result = IntStream.range(1, n)
