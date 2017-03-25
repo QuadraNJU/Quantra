@@ -1,10 +1,9 @@
 package nju.quadra.quantra.data;
 
+import com.alibaba.fastjson.JSONReader;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import nju.quadra.quantra.data.StockBaseProtos.StockBase;
-import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.utils.DateUtil;
 
 import java.io.*;
@@ -18,30 +17,48 @@ import java.util.stream.Collectors;
  */
 public class StockData {
 
-    public static final String DATA_FILE = "stock_data.protobuf";
+    public static final String JSON_FILE = "stock_data.json";
     public static final String CSV_FILE = "stock_data.csv";
-    private static StockBase base;
+    private static List<StockInfo> infoList;
     private static List<StockInfoPtr> ptrList;
     private static List<StockInfoPtr> index;
     public static int size;
     public static String latest;
 
-    public static void loadProtobuf(Label status) {
+    public static void loadJSON(Label status) {
         try {
-            FileInputStream is = new FileInputStream(DATA_FILE);
-            base = StockBaseProtos.StockBase.parseFrom(is);
-            is.close();
-        } catch (FileNotFoundException e) {
-            loadCSV(status);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (base != null) {
-            size = base.getInfoList().size();
-            if (size > 0) {
-                latest = base.getInfoList().get(0).getDate();
-                DateUtil.currentDate = latest;
+            JSONReader jsonReader = new JSONReader(new FileReader(JSON_FILE));
+            infoList = new ArrayList<>();
+            jsonReader.startArray();
+            while (jsonReader.hasNext()) {
+                jsonReader.startArray();
+                infoList.add(new StockInfo(
+                        jsonReader.readInteger(),
+                        jsonReader.readString(),
+                        jsonReader.readObject(float.class),
+                        jsonReader.readObject(float.class),
+                        jsonReader.readObject(float.class),
+                        jsonReader.readObject(float.class),
+                        jsonReader.readInteger(),
+                        jsonReader.readObject(float.class),
+                        jsonReader.readInteger(),
+                        jsonReader.readString(),
+                        jsonReader.readString(),
+                        jsonReader.readString()
+                ));
+                jsonReader.endArray();
             }
+            jsonReader.endArray();
+            jsonReader.close();
+            if (infoList != null) {
+                size = infoList.size();
+                if (size > 0) {
+                    latest = infoList.get(0).getDate();
+                    DateUtil.currentDate = latest;
+                }
+            }
+        } catch (Exception e) {
+            loadCSV(status);
         }
     }
 
@@ -50,7 +67,8 @@ public class StockData {
             File file = new File(CSV_FILE);
             long fileSize = file.length(), readedSize = 0, progress = 0;
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-            StockBase.Builder builder = StockBase.newBuilder();
+            FileOutputStream os = new FileOutputStream(JSON_FILE);
+            boolean firstLine = true;
             while (true) {
                 String line = reader.readLine();
                 if (line == null) break;
@@ -58,21 +76,16 @@ public class StockData {
                 try {
                     int volume = Integer.parseInt(items[6]);
                     if (volume > 0) {
-                        StockBase.StockInfo.Builder infoBuilder = StockBase.StockInfo.newBuilder();
+                        if (firstLine) {
+                            os.write('[');
+                            firstLine = false;
+                        } else {
+                            os.write(',');
+                        }
                         String name = items[9].replace("Ａ", "A").replace("S ", "S/").replace(" ", "");
-                        infoBuilder.setSerial(Integer.parseInt(items[0]))
-                                .setDate(items[1])
-                                .setOpen(Float.parseFloat(items[2]))
-                                .setHigh(Float.parseFloat(items[3]))
-                                .setLow(Float.parseFloat(items[4]))
-                                .setClose(Float.parseFloat(items[5]))
-                                .setVolume(volume)
-                                .setAdjClose(Float.parseFloat(items[7]))
-                                .setCode(Integer.parseInt(items[8]))
-                                .setName(name)
-                                .setMarket(items[10])
-                                .setPinyin(PinyinHelper.getShortPinyin(name.replace("S/", "").replace("*", "")).toLowerCase());
-                        builder.addInfo(infoBuilder.build());
+                        String item = "[" + items[0] + ",\"" + items[1] + "\"," + items[2] + "," + items[3] + "," + items[4] + "," + items[5] + "," + items[6] + "," + items[7] + "," + items[8]
+                                + ",\"" + name + "\",\"" + items[10] + "\",\"" + PinyinHelper.getShortPinyin(name.replace("S/", "").replace("*", "")).toLowerCase() + "\"]";
+                        os.write(item.getBytes("UTF-8"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -84,23 +97,18 @@ public class StockData {
                     progress = newProgress;
                 }
             }
-            FileOutputStream os = new FileOutputStream(DATA_FILE);
-            StockBase buildBase = builder.build();
-            buildBase.writeTo(os);
+            os.write(']');
+            os.flush();
             os.close();
-            reader.close();
-            base = buildBase;
+            loadJSON(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private static List<StockInfo> getList() {
-        if (base == null) {
-            loadProtobuf(null);
-        }
-        if (base != null) {
-            return base.getInfoList();
+        if (infoList != null) {
+            return infoList;
         } else {
             return Collections.emptyList();
         }

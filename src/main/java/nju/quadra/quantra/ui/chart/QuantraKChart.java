@@ -12,8 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.*;
-import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import nju.quadra.quantra.data.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
 
 import java.util.ArrayList;

@@ -37,7 +37,7 @@ public class SplashVC extends Stage {
             this.setScene(new Scene(root));
             this.initStyle(StageStyle.TRANSPARENT);
             new Thread(() -> {
-                StockData.loadProtobuf(label);
+                StockData.loadJSON(label);
                 if (StockData.getPtrList().size() > 0) {
                     Platform.runLater(() -> {
                         new UIContainer().show();

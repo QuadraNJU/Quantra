@@ -22,7 +22,7 @@ public class StockDataTest {
     @Test
     public void testGetIndex() {
         long time = System.nanoTime();
-        StockData.loadProtobuf(null);
+        StockData.loadJSON(null);
         List<StockInfoPtr> list = StockData.getIndex();
         Assert.assertNotNull(list);
         Assert.assertTrue(list.size() > 0);

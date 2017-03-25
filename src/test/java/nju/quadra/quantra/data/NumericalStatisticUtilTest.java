@@ -1,19 +1,9 @@
 package nju.quadra.quantra.data;
 
-import nju.quadra.quantra.data.StockBaseProtos.StockBase.StockInfo;
 import nju.quadra.quantra.utils.NumericalStatisticUtil;
-
-import nju.quadra.quantra.utils.StockStatisticUtil;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by RaUkonn on 2017/3/4.
@@ -57,26 +47,26 @@ public class NumericalStatisticUtilTest {
 
     @Test
     public void testVarSample() {
-        double[] list = {11,45,77,10,96};
+        double[] list = {11, 45, 77, 10, 96};
         Assert.assertEquals(1491.7, NumericalStatisticUtil.VAR_SAMPLE(list), 0.01);
 
     }
 
     @Test
     public void testVarTotal() {
-        double[] list = {11,45,77,10,96};
+        double[] list = {11, 45, 77, 10, 96};
         Assert.assertEquals(1193.36, NumericalStatisticUtil.VAR_TOTAL(list), 0.01);
     }
 
     @Test
     public void testStdTotal() {
-        double[] list = {11,45,77,10,96};
+        double[] list = {11, 45, 77, 10, 96};
         Assert.assertEquals(34.54504, NumericalStatisticUtil.STD_TOTAL(list), 0.01);
     }
 
     @Test
     public void testStdSample() {
-        double[] list = {11,45,77,10,96};
+        double[] list = {11, 45, 77, 10, 96};
         Assert.assertEquals(38.62253, NumericalStatisticUtil.STD_SAMPLE(list), 0.01);
     }
 
@@ -95,8 +85,8 @@ public class NumericalStatisticUtilTest {
     @Test
     public void testCov() {
         double[][] list = {
-                {5,20,40,80,100},
-                {10,24,33,54,10}
+                {5, 20, 40, 80, 100},
+                {10, 24, 33, 54, 10}
         };
         Assert.assertEquals(187.75, NumericalStatisticUtil.COV(list), 0.01);
 
@@ -110,8 +100,8 @@ public class NumericalStatisticUtilTest {
     @Test
     public void testRelate() {
         double[][] list = {
-                {1.0/4, 0.33},
-                {3.0/4, 0.67}
+                {1.0 / 4, 0.33},
+                {3.0 / 4, 0.67}
         };
         Assert.assertEquals(-1, NumericalStatisticUtil.RELATE(list), 0.01);
     }

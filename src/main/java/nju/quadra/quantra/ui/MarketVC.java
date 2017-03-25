@@ -13,8 +13,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import nju.quadra.quantra.data.StockBaseProtos;
 import nju.quadra.quantra.data.StockData;
+import nju.quadra.quantra.data.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.ui.chart.QuantraLineChart;
 import nju.quadra.quantra.utils.DateUtil;
@@ -75,17 +75,17 @@ public class MarketVC extends Pane {
         UIContainer.showLoading();
         new Thread(() -> {
             int[] cnts = new int[3];
-            List<StockBaseProtos.StockBase.StockInfo> stockRisingLimit = new ArrayList<>();
+            List<StockInfo> stockRisingLimit = new ArrayList<>();
             List<Double> risingLimitRate = new ArrayList<>();
-            List<StockBaseProtos.StockBase.StockInfo> stockFallingLimit = new ArrayList<>();
+            List<StockInfo> stockFallingLimit = new ArrayList<>();
             List<Double> fallingLimitRate = new ArrayList<>();
-            List<StockBaseProtos.StockBase.StockInfo> stockRisingOverFivePer = new ArrayList<>();
+            List<StockInfo> stockRisingOverFivePer = new ArrayList<>();
             List<Double> risingOverFivePerRate = new ArrayList<>();
-            List<StockBaseProtos.StockBase.StockInfo> stockFallingOverFivePer = new ArrayList<>();
+            List<StockInfo> stockFallingOverFivePer = new ArrayList<>();
             List<Double> fallingOverFivePerRate = new ArrayList<>();
-            List<StockBaseProtos.StockBase.StockInfo> stockOverLastFivePer = new ArrayList<>();
+            List<StockInfo> stockOverLastFivePer = new ArrayList<>();
             List<Double> overLastFivePerRate = new ArrayList<>();
-            List<StockBaseProtos.StockBase.StockInfo> stockUnderLastFivePer = new ArrayList<>();
+            List<StockInfo> stockUnderLastFivePer = new ArrayList<>();
             List<Double> underLastFivePerRate = new ArrayList<>();
 
             List<StockInfoPtr> ptrs = StockData.getByDate(date);
@@ -193,7 +193,7 @@ public class MarketVC extends Pane {
         @FXML
         private JFXListView<GridPane> listView;
 
-        MarketMiniListVC(boolean up, String title, List<StockBaseProtos.StockBase.StockInfo> infoList, List<Double> rateList) throws IOException {
+        MarketMiniListVC(boolean up, String title, List<StockInfo> infoList, List<Double> rateList) throws IOException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("assets/market_minilist.fxml"));
             loader.setRoot(this);
             loader.setController(this);
@@ -221,11 +221,11 @@ public class MarketVC extends Pane {
             labelRateName.setText(rateName);
         }
 
-        void setListView(List<StockBaseProtos.StockBase.StockInfo> infoList, List<Double> rateList, String date) {
+        void setListView(List<StockInfo> infoList, List<Double> rateList, String date) {
             int n = infoList.size();
             labelCount.setText("(" + infoList.size() + ")");
             for (int i = 0; i < n; i++) {
-                StockBaseProtos.StockBase.StockInfo stock = infoList.get(i);
+                StockInfo stock = infoList.get(i);
                 GridPane line = getLine(stock, rateList.get(i));
                 line.setOnMouseClicked(event -> {
                     try {
@@ -242,7 +242,7 @@ public class MarketVC extends Pane {
             listView.getItems().clear();
         }
 
-        private GridPane getLine(StockBaseProtos.StockBase.StockInfo info, Double rate) {
+        private GridPane getLine(StockInfo info, Double rate) {
             GridPane line = new GridPane();
             line.addColumn(0, getCenterLabel(String.format("%06d", info.getCode())));
             line.addColumn(1, getCenterLabel(info.getName()));
