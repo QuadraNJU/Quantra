@@ -27,7 +27,7 @@ public class StockData {
 
     public static void loadJSON(Label status) {
         try {
-            JSONReader jsonReader = new JSONReader(new FileReader(JSON_FILE));
+            JSONReader jsonReader = new JSONReader(new InputStreamReader(new FileInputStream(JSON_FILE), "UTF-8"));
             infoList = new ArrayList<>();
             jsonReader.startArray();
             while (jsonReader.hasNext()) {
@@ -81,6 +81,7 @@ public class StockData {
                             firstLine = false;
                         } else {
                             os.write(',');
+                            os.write('\n');
                         }
                         String name = items[9].replace("Ａ", "A").replace("S ", "S/").replace(" ", "");
                         String item = "[" + items[0] + ",\"" + items[1] + "\"," + items[2] + "," + items[3] + "," + items[4] + "," + items[5] + "," + items[6] + "," + items[7] + "," + items[8]
