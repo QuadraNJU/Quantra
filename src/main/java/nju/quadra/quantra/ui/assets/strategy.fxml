@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MaterialDesignIconView fill="WHITESMOKE" glyphName="FILE_DOCUMENT" size="48" text="" />
+      <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="847.0">
+         <children>
+            <Label fx:id="labelPrice" stylesheets="@textColor.css" text="Title">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelRate" stylesheets="@textColor.css" text="Subtitle">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <HBox.margin>
+            <Insets left="10.0" />
+         </HBox.margin>
+      </VBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLAY_CIRCLE_OUTLINE" size="26.0">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MaterialDesignIconView>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="BORDER_COLOR" size="26">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MaterialDesignIconView>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="CLOSE_CIRCLE_OUTLINE" size="26" />
+         </children>
+      </HBox>
+   </children>
+</HBox>
