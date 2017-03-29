@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="labelDate" layoutX="30.0" layoutY="24.0" stylesheets="@textColor.css" text="回测">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="844.0" layoutY="34.0" stylesheets="@textColor.css" text="运行">
+         <graphic>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLAY_BOX_OUTLINE" size="24" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <HBox alignment="CENTER_LEFT" layoutX="82.0" layoutY="130.0" spacing="10.0" />
+      <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="76.0" spacing="10.0">
+         <children>
+            <Label stylesheets="@textColor.css" text="日期选择">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXDatePicker fx:id="dateStart" stylesheets="@pickers.css" />
+            <Label stylesheets="@textColor.css" text="-">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXDatePicker fx:id="dateEnd" stylesheets="@pickers.css" />
+            <HBox />
+         </children>
+      </HBox>
+      <Label layoutX="30.0" layoutY="119.0" stylesheets="@textColor.css" text="股票池">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <FlowPane layoutX="94.0" layoutY="119.0" prefWidth="881.0">
+         <children>
+            <JFXTextField />
+         </children>
+      </FlowPane>
+      <GridPane layoutX="30.0" layoutY="161.0" prefHeight="90.0" prefWidth="960.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="收益率" textFill="WHITESMOKE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label text="A" textFill="WHITESMOKE" GridPane.columnIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label text="B" textFill="WHITESMOKE" GridPane.columnIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label text="30%" textFill="WHITESMOKE" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label text="1.0" textFill="WHITESMOKE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label text="2.0" textFill="WHITESMOKE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <Pane layoutX="20.0" layoutY="251.0" prefHeight="200.0" prefWidth="960.0" />
+   </children>
+</Pane>
