@@ -2,139 +2,148 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="labelDate" layoutX="30.0" layoutY="24.0" stylesheets="@textColor.css" text="策略编辑">
+      <Label fx:id="labelDate" layoutX="30.0" layoutY="24.0" stylesheets="@textColor.css" text="策略修改">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <JFXButton layoutX="915.0" layoutY="34.0" stylesheets="@textColor.css">
+      <JFXButton layoutX="878.0" layoutY="28.0" stylesheets="@textColor.css" text="取消">
          <graphic>
-            <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLUS_CIRCLE_OUTLINE" />
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="CLOSE_CIRCLE_OUTLINE" size="24" />
          </graphic>
-      </JFXButton>
-      <JFXButton layoutX="844.0" layoutY="34.0" stylesheets="@textColor.css">
-         <graphic>
-            <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLUS_CIRCLE_OUTLINE" />
-         </graphic>
-      </JFXButton>
-      <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="80.0">
-         <children>
-            <Label stylesheets="@textColor.css" text="类型">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </Label>
-            <JFXRadioButton text="A" textFill="WHITESMOKE" />
-            <JFXRadioButton text="B" textFill="WHITESMOKE" />
-            <JFXRadioButton text="C" textFill="WHITESMOKE" />
-         </children>
-      </HBox>
-      <Label layoutX="30.0" layoutY="107.0" stylesheets="@textColor.css" text="参数">
          <font>
-            <Font size="16.0" />
+            <Font size="14.0" />
          </font>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </Label>
-      <HBox alignment="CENTER_LEFT" layoutX="82.0" layoutY="104.0" spacing="10.0">
+      </JFXButton>
+      <JFXButton layoutX="802.0" layoutY="28.0" stylesheets="@textColor.css" text="保存">
+         <graphic>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="CHECKBOX_MARKED_CIRCLE_OUTLINE" size="24" />
+         </graphic>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <VBox layoutX="30.0" layoutY="73.0">
          <children>
-            <Label stylesheets="@textColor.css" text="形成期">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="searchBox" focusColor="WHITE" onKeyPressed="#onSearchKeyPressed" prefHeight="30.0" prefWidth="85.0" stylesheets="@pickers.css">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXTextField>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label stylesheets="@textColor.css" text="名称">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <JFXTextField fx:id="searchBox11" focusColor="WHITE" onKeyPressed="#onSearchKeyPressed" prefHeight="30.0" prefWidth="85.0" stylesheets="@pickers.css">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </JFXTextField>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <Label stylesheets="@textColor.css" text="类型">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <JFXRadioButton text="动量" textFill="WHITESMOKE" />
+                  <JFXRadioButton text="均值" textFill="WHITESMOKE" />
+                  <JFXRadioButton text="自定义" textFill="WHITESMOKE" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
             <HBox>
                <children>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="7日">
+                  <Label stylesheets="@textColor.css" text="参数">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="15日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="30日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="60日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="180日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <VBox>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label stylesheets="@textColor.css" text="形成期">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextField fx:id="searchBox" focusColor="WHITE" onKeyPressed="#onSearchKeyPressed" prefHeight="30.0" prefWidth="85.0" stylesheets="@pickers.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXTextField>
+                              <HBox>
+                                 <children>
+                                    <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="5天">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="10天">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="20天">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label stylesheets="@textColor.css" text="持有期">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextField fx:id="searchBox1" focusColor="WHITE" onKeyPressed="#onSearchKeyPressed" prefHeight="30.0" prefWidth="85.0" stylesheets="@pickers.css">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXTextField>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
          </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="82.0" layoutY="130.0" spacing="10.0">
-         <children>
-            <Label stylesheets="@textColor.css" text="持有期">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="searchBox1" focusColor="WHITE" onKeyPressed="#onSearchKeyPressed" prefHeight="30.0" prefWidth="85.0" stylesheets="@pickers.css">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </JFXTextField>
-            <HBox>
-               <children>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="7日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="15日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="30日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="60日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#onShortcutAction" stylesheets="@textColor.css" text="180日">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </HBox>
-         </children>
-      </HBox>
+      </VBox>
+      <JFXTextArea layoutX="20.0" layoutY="250.0" prefWidth="960.0" />
+      <Label layoutX="446.0" layoutY="224.0" stylesheets="@textColor.css" text="以上为非自定义类型" />
    </children>
 </Pane>

@@ -38,7 +38,7 @@
                   <Font size="14.0" />
                </font>
             </JFXButton>
-            <JFXButton maxHeight="30.0" minHeight="0.0" text="编辑">
+            <JFXButton maxHeight="30.0" minHeight="0.0" text="修改">
                <graphic>
                   <MaterialDesignIconView fill="WHITESMOKE" glyphName="PENCIL_BOX_OUTLINE" size="24" />
                </graphic>
