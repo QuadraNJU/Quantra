@@ -1,6 +1,7 @@
 # coding=utf-8
-import time
 import imp
+import time
+
 import os
 import pandas
 
@@ -24,17 +25,20 @@ def get_universe(prefix):
 class Account:
     def __init__(self, universe, capital):
         self.universe = universe
+        self.cash = capital
         self.portfolio = capital
         self.date_index = 0
+        self.stocks = {}
         self.sec_pos = {}
         self.ref_price = {}
 
     def set_date_index(self, date_index):
         self.date_index = date_index
-        self.stocks = stock_data[stock_data[get_column_index('code')].isin(self.universe)
+        code_index = get_column_index('code')
+        self.stocks = stock_data[stock_data[code_index].isin(self.universe)
                                  & (stock_data[get_column_index('date')] == trade_days[self.date_index])]
         for index, info in self.stocks.iterrows():
-            self.ref_price[info[get_column_index('code')]] = info[get_column_index('adjclose')]
+            self.ref_price[info[code_index]] = info[get_column_index('close')]  # 今日收盘价
         for stk in self.sec_pos.keys():
             if self.sec_pos[stk] <= 0:
                 del self.sec_pos[stk]
@@ -58,12 +62,12 @@ class Account:
         else:
             curr_amount = 0
         diff_amount = target - curr_amount  # 大于0买入，小于0卖出
-        new_portfolio = self.portfolio - diff_amount * self.ref_price[stock]
-        if new_portfolio < 0:  # 拒绝交易
+        new_cash = self.cash - diff_amount * self.ref_price[stock]
+        if new_cash < 0:  # 拒绝交易
             return
-        self.portfolio = new_portfolio
+        self.cash = new_cash
         self.sec_pos[stock] = target
-        print 'Trade', diff_amount, stock, ', portfolio =', new_portfolio
+        print 'Trade', diff_amount, stock, ', cash =', new_cash
 
     def sell_all(self):
         for stock in self.sec_pos:
@@ -81,7 +85,7 @@ if __name__ == '__main__':
     # arguments
     start_date = '1/4/13'
     end_date = '12/31/13'  # TODO: auto scale dates
-    universe = get_universe('300')
+    universe = [1]
     capital = 100000000
     frequency = 10
     strategy = 'momentum'
@@ -91,8 +95,18 @@ if __name__ == '__main__':
     end_date_index = trade_days[trade_days == end_date].index[0]
     handler = imp.load_source(strategy, 'strategy/' + strategy + '.py')
     account = Account(universe, capital)
+    daily_earnings_rate = []
     for i in range(start_date_index, end_date_index, -frequency):
         print 'Current date:', trade_days[i]
         account.set_date_index(i)
         handler.handle(account)
-    account.sell_all()
+        new_portfolio = account.cash
+        for stk in account.sec_pos:
+            new_portfolio += account.sec_pos[stk] * account.ref_price[stk]
+        daily_earnings_rate.append((new_portfolio - account.portfolio) / account.portfolio)
+        account.portfolio = new_portfolio
+        print trade_days[i], ', Cash =', account.cash, ', portfolio =', account.portfolio
+
+    total_earnings_rate = (account.portfolio - capital) / capital
+    print daily_earnings_rate
+    print total_earnings_rate
