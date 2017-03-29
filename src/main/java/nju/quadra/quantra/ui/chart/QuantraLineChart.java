@@ -15,21 +15,22 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by adn55 on 2017/3/16.
  */
 public class QuantraLineChart extends LineChart<String, Number> {
 
-    private List<StockInfoPtr> ptrList;
+    private List<String> dates;
     private List<List<Number>> dataList = new ArrayList<>();
     private Region plotBackground = (Region) lookup(".chart-plot-background");
     private Label toolTip = new Label();
     private Pane plotArea = new Pane(toolTip);
 
-    private QuantraLineChart(Axis<String> xAxis, Axis<Number> yAxis, List<StockInfoPtr> ptrList) {
+    private QuantraLineChart(Axis<String> xAxis, Axis<Number> yAxis, List<String> dates) {
         super(xAxis, yAxis);
-        this.ptrList = ptrList;
+        this.dates = dates;
         this.setLegendVisible(false);
         this.setCreateSymbols(false);
         this.getStylesheets().setAll(getClass().getResource("QuantraKChart.css").toString());
@@ -45,19 +46,18 @@ public class QuantraLineChart extends LineChart<String, Number> {
             String xValue = xAxis.getValueForDisplay(xPos);
             Format f = new DecimalFormat("#.####");
             if (xValue != null) {
-                int size = ptrList.size();
+                int size = dates.size();
                 int i = -1;
-                for (StockInfoPtr ptr : ptrList) {
+                for (String date : dates) {
                     i++;
-                    if (ptr.get().getDate().equals(xValue)) {
+                    if (date.equals(xValue)) {
                         String tip = "";
-                        int lineCount = 1, j = -1;
+                        int j = -1;
                         for (Series<String, Number> series : getData()) {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
                                 tip += "\n" + series.getName() + ": " + yValue;
-                                lineCount++;
                             }
                         }
                         toolTip.setText(xValue + tip);
@@ -77,21 +77,25 @@ public class QuantraLineChart extends LineChart<String, Number> {
     }
 
     public static QuantraLineChart createFrom(List<StockInfoPtr> ptrList) {
+        return createFromDates(ptrList.stream().map(ptr -> ptr.get().getDate()).collect(Collectors.toList()));
+    }
+
+    public static QuantraLineChart createFromDates(List<String> dates) {
         // Create axis
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         yAxis.setForceZeroInRange(false);
         // Create chart
-        QuantraLineChart chart = new QuantraLineChart(xAxis, yAxis, ptrList);
+        QuantraLineChart chart = new QuantraLineChart(xAxis, yAxis, dates);
         return chart;
     }
 
     public void addPath(String name, Paint color, List<Number> numbers) {
         Series<String, Number> series = new Series<>();
-        int size = Math.min(ptrList.size(), numbers.size());
+        int size = Math.min(dates.size(), numbers.size());
         for (int i = 0; i < size; i++) {
             if (numbers.get(i) != null && !Double.isNaN(numbers.get(i).doubleValue())) {
-                series.getData().add(new Data<>(ptrList.get(i).get().getDate(), numbers.get(i)));
+                series.getData().add(new Data<>(dates.get(i), numbers.get(i)));
             }
         }
         series.setName(name);

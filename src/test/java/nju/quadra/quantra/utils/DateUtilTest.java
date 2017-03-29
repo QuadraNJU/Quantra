@@ -1,4 +1,4 @@
-package nju.quadra.quantra.data;
+package nju.quadra.quantra.utils;
 
 import nju.quadra.quantra.utils.DateUtil;
 import org.junit.Assert;

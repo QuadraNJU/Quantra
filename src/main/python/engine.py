@@ -1,9 +1,11 @@
 # coding=utf-8
 import imp
+import json
 import time
 
 import os
 import pandas
+import sys
 
 
 def get_column_index(key):
@@ -67,7 +69,6 @@ class Account:
             return
         self.cash = new_cash
         self.sec_pos[stock] = target
-        print 'Trade', diff_amount, stock, ', cash =', new_cash
 
     def sell_all(self):
         for stock in self.sec_pos:
@@ -75,20 +76,18 @@ class Account:
 
 
 if __name__ == '__main__':
+    args = raw_input()
+    args = json.loads(args)
+    start_date = args['start_date']
+    end_date = args['end_date']  # TODO: auto scale dates
+    universe = args['universe']
+    frequency = args['frequency']
+    strategy = args['strategy']
+    capital = 100000000
+
     os.chdir(os.getcwd())
     stock_data = pandas.read_csv('../../../stock_data.json', sep=',', header=None)
-    print 'Data loaded'
-    start = time.time()
     trade_days = stock_data[1].drop_duplicates()
-    print 'Trade dates loaded'
-
-    # arguments
-    start_date = '1/4/13'
-    end_date = '12/31/13'  # TODO: auto scale dates
-    universe = [1]
-    capital = 100000000
-    frequency = 10
-    strategy = 'momentum'
 
     # main logic
     start_date_index = trade_days[trade_days == start_date].index[0]
@@ -97,16 +96,20 @@ if __name__ == '__main__':
     account = Account(universe, capital)
     daily_earnings_rate = []
     for i in range(start_date_index, end_date_index, -frequency):
-        print 'Current date:', trade_days[i]
         account.set_date_index(i)
         handler.handle(account)
         new_portfolio = account.cash
         for stk in account.sec_pos:
             new_portfolio += account.sec_pos[stk] * account.ref_price[stk]
-        daily_earnings_rate.append((new_portfolio - account.portfolio) / account.portfolio)
         account.portfolio = new_portfolio
-        print trade_days[i], ', Cash =', account.cash, ', portfolio =', account.portfolio
+        earn_rate = (new_portfolio - capital) / capital
+        daily_earnings_rate.append(earn_rate)
 
-    total_earnings_rate = (account.portfolio - capital) / capital
-    print daily_earnings_rate
-    print total_earnings_rate
+        progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
+        info = {'progress': progress, 'date': trade_days[i], 'cash': account.cash, 'earn_rate': earn_rate}
+        print info
+        sys.stdout.flush()
+
+    print json.dumps({'success': True, 'progress': 100, 'daily_earnings_rate': daily_earnings_rate})
+    # print daily_earnings_rate
+    # print daily_earnings_rate[-1]

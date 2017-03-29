@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
 <StackPane fx:id="rootStack" onKeyPressed="#onGlobalSearch" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane minHeight="600.0" prefWidth="1000.0">
             <top>
                 <Pane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox layoutX="774.0" layoutY="33.0">
+                        <HBox layoutX="724.0" layoutY="33.0">
                             <children>
                                 <JFXButton onAction="#onMarketPageAction" stylesheets="@textColor.css" text="市场">
                                     <font>
@@ -30,9 +41,14 @@
                                         <Font size="18.0" />
                                     </font>
                                 </JFXButton>
+                        <JFXButton onAction="#onBackTestPageAction" stylesheets="@textColor.css" text="回测">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXButton>
                             </children>
                         </HBox>
-                        <JFXTextField fx:id="searchBox" focusColor="WHITE" layoutX="514.0" layoutY="36.0" onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…" stylesheets="@pickers.css">
+                        <JFXTextField fx:id="searchBox" focusColor="WHITE" layoutX="464.0" layoutY="36.0" onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…" stylesheets="@pickers.css">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -88,16 +104,16 @@
       </Pane>
       <Pane fx:id="paneSearch" maxWidth="1000.0" onMouseClicked="#clickToHide" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
-            <JFXListView fx:id="searchList" layoutX="515.0" layoutY="70.0" onMouseClicked="#onSearchListClicked" prefWidth="220.0" />
+            <JFXListView fx:id="searchList" layoutX="465.0" layoutY="70.0" onMouseClicked="#onSearchListClicked" prefWidth="220.0" />
          </children>
       </Pane>
         <JFXDialog fx:id="dialog" overlayClose="false">
             <JFXDialogLayout>
                 <heading>
-                    <Text fx:id="dialogTitle"/>
+                    <Text fx:id="dialogTitle" />
                 </heading>
                 <body>
-                    <Text fx:id="dialogContent"/>
+                    <Text fx:id="dialogContent" />
                 </body>
                 <actions>
                     <JFXButton onAction="#onDialogButtonAction">确定</JFXButton>

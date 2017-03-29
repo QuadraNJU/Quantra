@@ -207,6 +207,12 @@ public class UIContainer extends Stage {
     }
 
     @FXML
+    private void onComparePageAction() throws IOException {
+        loadCompareList();
+        paneCompare.setVisible(true);
+    }
+
+    @FXML
     private void onCompareAction() {
         new Thread(() -> {
             try {
@@ -222,9 +228,16 @@ public class UIContainer extends Stage {
     }
 
     @FXML
-    private void onComparePageAction() throws IOException {
-        loadCompareList();
-        paneCompare.setVisible(true);
+    private void onBackTestPageAction() {
+        new Thread(() -> {
+            try {
+                showLoading();
+                loadContent(new BackTestVC());
+                hideLoading();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @FXML
