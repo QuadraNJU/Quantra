@@ -1,7 +1,6 @@
 # coding=utf-8
 import imp
 import json
-import random
 import sys
 
 import numpy
@@ -9,15 +8,17 @@ import os
 import pandas
 
 
-def generate_base_rate(length):
-    lis = []
-    for k in range(0, length):
-        lis.append(random.uniform(0, 2))
-    return lis
+def generate_base_rate(_account):
+    # 每日基准收益率 = 当日股票池中所有股票的涨（跌）幅直接加总
+    # 黑人问号？？？
+    base_rate = 0
+    for stk in _account.universe:
+        base_rate += (_account.close_price[stk] - _account.ref_price[stk]) / _account.ref_price[stk]
+    return base_rate
 
 
 # 补充说明（一）说这里用基准收益率，可是基准收益率是一组数据，不能同无风险利率rf直接相减。我总觉得E(Rm)的意思是基准收益率的期望。。。
-def alpha(_annualized_earning_rate, _base_earning_rate, _beta, _risk_free_interest_rate=0.0175):
+def alpha(_base_earning_rate, _annualized_earning_rate, _beta, _risk_free_interest_rate=0.0175):
     return (_annualized_earning_rate - _risk_free_interest_rate) \
            - _beta * numpy.floor(numpy.mean(_base_earning_rate) - _risk_free_interest_rate)
 
@@ -30,7 +31,7 @@ def sharp(_daily_earnings_rate, _annualized_earning_rate, _risk_free_interest_ra
 
 def beta(_daily_earnings_rate, _base_earning_rate):
     n = len(_base_earning_rate)
-    if (n == 1):
+    if n == 1:
         return 0
     cov = 0
     mean_strategy = numpy.mean(_daily_earnings_rate)
@@ -130,6 +131,7 @@ if __name__ == '__main__':
     handler = imp.load_source(strategy, 'strategy/' + strategy + '.py')
     account = Account(universe, capital)
     daily_earnings_rate = []
+    # 每日基准收益率列表
     daily_base_earnings_rate = []
     for i in range(start_date_index, end_date_index, -frequency):
         account.set_date_index(i)
@@ -137,23 +139,29 @@ if __name__ == '__main__':
         new_portfolio = account.cash
         for stk in account.sec_pos:
             new_portfolio += account.sec_pos[stk] * account.close_price[stk]
+        old_portfolio = account.portfolio
         account.portfolio = new_portfolio
-        earn_rate = (new_portfolio - capital) / capital
+        # 每日收益率为(新总额 - 旧总额) ／ 旧总额
+        earn_rate = (new_portfolio - old_portfolio) / old_portfolio
         daily_earnings_rate.append(earn_rate)
-        daily_base_earnings_rate.append(generate_base_rate(i, universe))
-
-        # 这个年化我是乱写的。。。知乎和我的书上的年化方式不一样。。。我也是醉了。。。这里用知乎的
-        annualized = earn_rate / (start_date_index - end_date_index + 1) * 250  # 这里需要求日期跨度，但是由于早的日期在后面，所以用start - end
+        daily_base_earnings_rate.append(generate_base_rate(account))
 
         progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
         info = {'progress': progress, 'date': trade_days[i], 'cash': account.cash, 'earn_rate': earn_rate}
         print info
         sys.stdout.flush()
 
-    fake_base_rate = generate_base_rate(len(daily_earnings_rate))
+    total_earn_rate = (account.portfolio - capital) / capital
+    # 这个年化我是乱写的。。。知乎和我的书上的年化方式不一样。。。我也是醉了。。。这里用知乎的
+    annualized = total_earn_rate / (start_date_index - end_date_index + 1) * 250  # 这里需要求日期跨度，但是由于早的日期在后面，所以用start - end
+    # 总基准收益率 = 每日基准收益率直接平均
+    # 再次黑人问号
+    # 另外我也不知道这玩意儿要不要年化
+    total_base_rate = numpy.mean(daily_base_earnings_rate)
     sharp = sharp(daily_earnings_rate, annualized)
-    beta = beta(daily_earnings_rate, fake_base_rate)
-    alpha = alpha(annualized, fake_base_rate, beta)
+    beta = beta(daily_earnings_rate, total_base_rate)
+    alpha = alpha(total_base_rate, annualized, beta)
 
     print json.dumps({'success': True, 'progress': 100, 'daily_earnings_rate': daily_earnings_rate,
-                      'annualized_earning_rate': annualized, 'sharp': sharp, 'beta': beta, 'alpha': alpha})
+                      'annualized_earning_rate': annualized, 'base_earning_rate': daily_base_earnings_rate,
+                      'total_base_earning_rate': total_base_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha})
