@@ -159,7 +159,7 @@ if __name__ == '__main__':
     # 另外我也不知道这玩意儿要不要年化
     total_base_rate = numpy.mean(daily_base_earnings_rate)
     sharp = sharp(daily_earnings_rate, annualized)
-    beta = beta(daily_earnings_rate, total_base_rate)
+    beta = beta(daily_earnings_rate, daily_base_earnings_rate)
     alpha = alpha(total_base_rate, annualized, beta)
 
     print json.dumps({'success': True, 'progress': 100, 'daily_earnings_rate': daily_earnings_rate,
