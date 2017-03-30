@@ -9,7 +9,7 @@ import os
 import pandas
 
 
-def generate_fake_base_rate(length):
+def generate_base_rate(length):
     lis = []
     for k in range(0, length):
         lis.append(random.uniform(0, 2))
@@ -66,14 +66,16 @@ class Account:
         self.stocks = {}
         self.sec_pos = {}
         self.ref_price = {}
+        self.close_price = {}
 
     def set_date_index(self, date_index):
         self.date_index = date_index
         code_index = get_column_index('code')
         self.stocks = stock_data[stock_data[code_index].isin(self.universe)
                                  & (stock_data[get_column_index('date')] == trade_days[self.date_index])]
-        for index, info in self.stocks.iterrows():
-            self.ref_price[info[code_index]] = info[get_column_index('close')]  # 今日收盘价
+        for index, _info in self.stocks.iterrows():
+            self.ref_price[_info[code_index]] = _info[get_column_index('open')]  # 今日开盘价
+            self.close_price[_info[code_index]] = _info[get_column_index('close')]  # 今日收盘价
         for stk in self.sec_pos.keys():
             if self.sec_pos[stk] <= 0:
                 del self.sec_pos[stk]
@@ -84,9 +86,9 @@ class Account:
             return None
         code_column = get_column_index('code')
         result = {}
-        for index, info in self.stocks.iterrows():
-            if stock_data.loc[index + days - 1][code_column] == info[code_column]:
-                result[info[code_column]] = stock_data[column][index:index + days].tolist()
+        for index, _info in self.stocks.iterrows():
+            if stock_data.loc[index + days - 1][code_column] == _info[code_column]:
+                result[_info[code_column]] = stock_data[column][index:index + days].tolist()
         return result
 
     def trade(self, stock, target):
@@ -128,15 +130,18 @@ if __name__ == '__main__':
     handler = imp.load_source(strategy, 'strategy/' + strategy + '.py')
     account = Account(universe, capital)
     daily_earnings_rate = []
+    daily_base_earnings_rate = []
     for i in range(start_date_index, end_date_index, -frequency):
         account.set_date_index(i)
         handler.handle(account)
         new_portfolio = account.cash
         for stk in account.sec_pos:
-            new_portfolio += account.sec_pos[stk] * account.ref_price[stk]
+            new_portfolio += account.sec_pos[stk] * account.close_price[stk]
         account.portfolio = new_portfolio
         earn_rate = (new_portfolio - capital) / capital
         daily_earnings_rate.append(earn_rate)
+        daily_base_earnings_rate.append(generate_base_rate(i, universe))
+
         # 这个年化我是乱写的。。。知乎和我的书上的年化方式不一样。。。我也是醉了。。。这里用知乎的
         annualized = earn_rate / (start_date_index - end_date_index + 1) * 250  # 这里需要求日期跨度，但是由于早的日期在后面，所以用start - end
 
@@ -145,12 +150,10 @@ if __name__ == '__main__':
         print info
         sys.stdout.flush()
 
-    fake_base_rate = generate_fake_base_rate(len(daily_earnings_rate))
+    fake_base_rate = generate_base_rate(len(daily_earnings_rate))
     sharp = sharp(daily_earnings_rate, annualized)
     beta = beta(daily_earnings_rate, fake_base_rate)
     alpha = alpha(annualized, fake_base_rate, beta)
 
     print json.dumps({'success': True, 'progress': 100, 'daily_earnings_rate': daily_earnings_rate,
                       'annualized_earning_rate': annualized, 'sharp': sharp, 'beta': beta, 'alpha': alpha})
-    # print daily_earnings_rate
-    # print daily_earnings_rate[-1]
