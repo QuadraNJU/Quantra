@@ -8,17 +8,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="960.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="960.0" style="-fx-background-color: black;" type="HBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MaterialDesignIconView fill="WHITESMOKE" glyphName="FILE_DOCUMENT" size="48" text="" />
       <VBox alignment="CENTER_LEFT" prefHeight="102.0" prefWidth="819.0">
          <children>
-            <Label fx:id="labelPrice" stylesheets="@textColor.css" text="Title">
+            <Label fx:id="labelTitle" stylesheets="@textColor.css" text="Title">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="labelRate" stylesheets="@textColor.css" text="Subtitle">
+            <Label fx:id="labelSubTitle" stylesheets="@textColor.css" text="Subtitle">
                <font>
                   <Font size="14.0" />
                </font>
@@ -57,4 +57,4 @@
          </children>
       </VBox>
    </children>
-</HBox>
+</fx:root>
