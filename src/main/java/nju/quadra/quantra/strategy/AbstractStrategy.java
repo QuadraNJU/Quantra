@@ -6,12 +6,13 @@ package nju.quadra.quantra.strategy;
 public abstract class AbstractStrategy {
     public String name, type;
     public int freq;
-    public long id;
+    public long time;
 
-    public AbstractStrategy(String name, String type, int freq) {
+    public AbstractStrategy(String name, String type, int freq, long time) {
         this.name = name;
         this.type = type;
         this.freq = freq;
+        this.time = time;
     }
 
     public abstract String getCode();

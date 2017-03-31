@@ -5,8 +5,8 @@ package nju.quadra.quantra.strategy;
  */
 public class StubStrategy extends AbstractStrategy{
 
-    public StubStrategy(String name, String type, int freq) {
-        super(name, type, freq);
+    public StubStrategy(String name) {
+        super(name, "stub", 1, 0);
     }
 
     @Override
@@ -18,4 +18,5 @@ public class StubStrategy extends AbstractStrategy{
     public String getDescription() {
         return "假策略";
     }
+
 }

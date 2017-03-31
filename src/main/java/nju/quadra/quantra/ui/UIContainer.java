@@ -232,7 +232,8 @@ public class UIContainer extends Stage {
         new Thread(() -> {
             try {
                 showLoading();
-                loadContent(new BackTestVC());
+//                loadContent(new BackTestVC());
+                loadContent(new StrategyListVC());
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
