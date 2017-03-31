@@ -8,38 +8,30 @@ import os
 import pandas
 
 
-def generate_base_rate(_account):
-    # 每日基准收益率 = 当日股票池中所有股票的涨（跌）幅直接加总
-    # 黑人问号？？？
-    base_rate = 0
-    for stk in _account.universe:
-        base_rate += (_account.close_price[stk] - _account.ref_price[stk]) / _account.ref_price[stk]
-    return base_rate
-
-
 # 补充说明（一）说这里用基准收益率，可是基准收益率是一组数据，不能同无风险利率rf直接相减。我总觉得E(Rm)的意思是基准收益率的期望。。。
-def alpha(_base_earning_rate, _annualized_earning_rate, _beta, _risk_free_interest_rate=0.0175):
-    return (_annualized_earning_rate - _risk_free_interest_rate) \
-           - _beta * numpy.floor(numpy.mean(_base_earning_rate) - _risk_free_interest_rate)
+import time
 
 
-# 同理，补充说明（一）说这里用策略收益率，但是策略收益率为一组数据。我只能理解成年化后的策略收益率（知乎上也是这么写的）
-# 附知乎：https://www.zhihu.com/question/27264526
-def sharp(_daily_earnings_rate, _annualized_earning_rate, _risk_free_interest_rate=0.0175):
-    return (_annualized_earning_rate - _risk_free_interest_rate) / numpy.std(_daily_earnings_rate)
+def alpha(_annualized_earn_rate, _base_earn_rate, _beta, _risk_free_interest_rate=0.0175):
+    return (_annualized_earn_rate - _risk_free_interest_rate) \
+           - _beta * numpy.floor(numpy.mean(_base_earn_rate) - _risk_free_interest_rate)
 
 
-def beta(_daily_earnings_rate, _base_earning_rate):
-    n = len(_base_earning_rate)
+def beta(_daily_earn_rate, _base_earn_rate):
+    n = len(_base_earn_rate)
     if n == 1:
         return 0
     cov = 0
-    mean_strategy = numpy.mean(_daily_earnings_rate)
-    mean_base = numpy.mean(_base_earning_rate)
+    mean_strategy = numpy.mean(_daily_earn_rate)
+    mean_base = numpy.mean(_base_earn_rate)
     for j in range(0, n):
-        cov += (_daily_earnings_rate[j] - mean_strategy) * (_base_earning_rate[j] - mean_base)
+        cov += (_daily_earn_rate[j] - mean_strategy) * (_base_earn_rate[j] - mean_base)
     cov = 1.0 / (n - 1) * cov
-    return cov / numpy.var(_base_earning_rate)
+    return cov / numpy.var(_base_earn_rate)
+
+
+def get_date(str):
+    return time.strptime(str, '%m/%d/%y')
 
 
 def get_column_index(key):
@@ -74,9 +66,9 @@ class Account:
         code_index = get_column_index('code')
         self.stocks = stock_data[stock_data[code_index].isin(self.universe)
                                  & (stock_data[get_column_index('date')] == trade_days[self.date_index])]
-        for index, _info in self.stocks.iterrows():
-            self.ref_price[_info[code_index]] = _info[get_column_index('open')]  # 今日开盘价
-            self.close_price[_info[code_index]] = _info[get_column_index('close')]  # 今日收盘价
+        for index, info in self.stocks.iterrows():
+            self.ref_price[info[code_index]] = info[get_column_index('open')]  # 今日开盘价
+            self.close_price[info[code_index]] = info[get_column_index('close')]  # 今日收盘价
         for stk in self.sec_pos.keys():
             if self.sec_pos[stk] <= 0:
                 del self.sec_pos[stk]
@@ -114,8 +106,8 @@ class Account:
 if __name__ == '__main__':
     args = raw_input()
     args = json.loads(args)
-    start_date = args['start_date']
-    end_date = args['end_date']  # TODO: auto scale dates
+    start_date = get_date(args['start_date'])
+    end_date = get_date(args['end_date'])
     universe = args['universe']
     frequency = args['frequency']
     strategy = args['strategy']
@@ -126,42 +118,44 @@ if __name__ == '__main__':
     trade_days = stock_data[1].drop_duplicates()
 
     # main logic
-    start_date_index = trade_days[trade_days == start_date].index[0]
-    end_date_index = trade_days[trade_days == end_date].index[0]
+    start_date_index = -1
+    end_date_index = -1
+    for i in range(0, len(trade_days)):
+        if end_date_index == -1 and get_date(trade_days[i]) <= end_date:
+            end_date_index = i
+        if start_date_index == -1 and get_date(trade_days[i]) <= start_date:
+            start_date_index = i
     handler = imp.load_source(strategy, 'strategy/' + strategy + '.py')
     account = Account(universe, capital)
-    daily_earnings_rate = []
-    # 每日基准收益率列表
-    daily_base_earnings_rate = []
+    daily_earn_rate = []
+    base_earn_rate = []
     for i in range(start_date_index, end_date_index, -frequency):
         account.set_date_index(i)
         handler.handle(account)
+        # portofolio
         new_portfolio = account.cash
         for stk in account.sec_pos:
             new_portfolio += account.sec_pos[stk] * account.close_price[stk]
-        old_portfolio = account.portfolio
         account.portfolio = new_portfolio
-        # 每日收益率为(新总额 - 旧总额) ／ 旧总额
-        earn_rate = (new_portfolio - old_portfolio) / old_portfolio
-        daily_earnings_rate.append(earn_rate)
-        daily_base_earnings_rate.append(generate_base_rate(account))
-
+        # earning rate
+        earn_rate = (new_portfolio - capital) / capital
+        daily_earn_rate.append(earn_rate)
+        # base earning rate
+        if i == start_date_index:
+            base_stock_price = numpy.mean(account.ref_price.values())
+        today_base_earn_rate = (numpy.mean(account.close_price.values()) - base_stock_price) / base_stock_price
+        base_earn_rate.append(today_base_earn_rate)
+        # update progress
         progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
-        info = {'progress': progress, 'date': trade_days[i], 'cash': account.cash, 'earn_rate': earn_rate}
+        info = {'progress': progress, 'date': trade_days[i], 'earn_rate': earn_rate, 'base_earn_rate': today_base_earn_rate}
         print info
         sys.stdout.flush()
 
-    total_earn_rate = (account.portfolio - capital) / capital
-    # 这个年化我是乱写的。。。知乎和我的书上的年化方式不一样。。。我也是醉了。。。这里用知乎的
-    annualized = total_earn_rate / (start_date_index - end_date_index + 1) * 250  # 这里需要求日期跨度，但是由于早的日期在后面，所以用start - end
-    # 总基准收益率 = 每日基准收益率直接平均
-    # 再次黑人问号
-    # 另外我也不知道这玩意儿要不要年化
-    total_base_rate = numpy.mean(daily_base_earnings_rate)
-    sharp = sharp(daily_earnings_rate, annualized)
-    beta = beta(daily_earnings_rate, daily_base_earnings_rate)
-    alpha = alpha(total_base_rate, annualized, beta)
+    annualized = daily_earn_rate[-1] / (start_date_index - end_date_index + 1) * 250
+    base_annualized = base_earn_rate[-1] / (start_date_index - end_date_index + 1) * 250
+    sharp = (annualized - 0.0175) / numpy.std(daily_earn_rate)
+    beta = beta(daily_earn_rate, base_earn_rate)
+    alpha = alpha(annualized, base_earn_rate, beta)
 
-    print json.dumps({'success': True, 'progress': 100, 'daily_earnings_rate': daily_earnings_rate,
-                      'annualized_earning_rate': annualized, 'base_earning_rate': daily_base_earnings_rate,
-                      'total_base_earning_rate': total_base_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha})
+    print json.dumps({'success': True, 'progress': 100, 'annualized': annualized, 'base_annualized': base_annualized,
+                      'sharp': sharp, 'beta': beta, 'alpha': alpha})

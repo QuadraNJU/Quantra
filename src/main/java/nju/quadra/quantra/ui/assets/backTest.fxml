@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
@@ -71,16 +72,22 @@
                   </FlowPane>
                </children>
             </GridPane>
+            <HBox fx:id="running" alignment="CENTER_LEFT" spacing="10.0" visible="false">
+               <children>
+                  <JFXProgressBar fx:id="progress" prefHeight="10.0" prefWidth="920.0" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="labelProgress" text="0%" textFill="WHITESMOKE" />
+               </children>
+            </HBox>
             <HBox spacing="20.0">
                <children>
                   <VBox>
                      <children>
-                        <Label text="进度" textFill="WHITESMOKE">
+                        <Label text="年化收益率" textFill="WHITESMOKE">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="labelProgress" text="0%" textFill="WHITESMOKE">
+                        <Label fx:id="labelAnnualized" textFill="WHITESMOKE">
                            <font>
                               <Font size="28.0" />
                            </font>
@@ -89,12 +96,12 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <Label text="收益率" textFill="WHITESMOKE">
+                        <Label text="基准年化收益率" textFill="WHITESMOKE">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="labelEarnRate" textFill="WHITESMOKE">
+                        <Label fx:id="labelBaseAnnualized" textFill="WHITESMOKE">
                            <font>
                               <Font size="28.0" />
                            </font>
@@ -103,12 +110,40 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <Label text="现金" textFill="WHITESMOKE">
+                        <Label text="阿尔法" textFill="WHITESMOKE">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="labelCash" textFill="WHITESMOKE">
+                        <Label fx:id="labelAlpha" textFill="WHITESMOKE">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Label text="贝塔" textFill="WHITESMOKE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelBeta" textFill="WHITESMOKE">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Label text="夏普比率" textFill="WHITESMOKE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelSharp" textFill="WHITESMOKE">
                            <font>
                               <Font size="28.0" />
                            </font>
