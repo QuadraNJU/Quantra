@@ -42,7 +42,7 @@ public class StrategyData {
             byte[] buf = new byte[is.available()];
             is.read(buf);
             is.close();
-            JSONArray jsonArray = JSON.parseArray(new String(buf));
+            JSONArray jsonArray = JSON.parseArray(new String(buf, "UTF-8"));
             strategyList.clear();
             for(int i = jsonArray.size() - 1; i >= 0; i--) {
                 JSONObject o = jsonArray.getJSONObject(i);

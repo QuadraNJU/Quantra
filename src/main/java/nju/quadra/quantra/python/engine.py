@@ -2,14 +2,11 @@
 import imp
 import json
 import sys
+import time
 
 import numpy
 import os
 import pandas
-
-
-# 补充说明（一）说这里用基准收益率，可是基准收益率是一组数据，不能同无风险利率rf直接相减。我总觉得E(Rm)的意思是基准收益率的期望。。。
-import time
 
 
 def alpha(_annualized_earn_rate, _base_earn_rate, _beta, _risk_free_interest_rate=0.0175):
@@ -110,11 +107,10 @@ if __name__ == '__main__':
     end_date = get_date(args['end_date'])
     universe = args['universe']
     frequency = args['frequency']
-    strategy = args['strategy']
     capital = 100000000
 
     os.chdir(os.getcwd())
-    stock_data = pandas.read_csv('../../../stock_data.json', sep=',', header=None)
+    stock_data = pandas.read_csv('../../stock_data.json', sep=',', header=None)
     trade_days = stock_data[1].drop_duplicates()
 
     # main logic
@@ -125,7 +121,7 @@ if __name__ == '__main__':
             end_date_index = i
         if start_date_index == -1 and get_date(trade_days[i]) <= start_date:
             start_date_index = i
-    handler = imp.load_source(strategy, 'strategy/' + strategy + '.py')
+    handler = imp.load_source('strategy', 'strategy.py')
     account = Account(universe, capital)
     daily_earn_rate = []
     base_earn_rate = []
@@ -147,7 +143,8 @@ if __name__ == '__main__':
         base_earn_rate.append(today_base_earn_rate)
         # update progress
         progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
-        info = {'progress': progress, 'date': trade_days[i], 'earn_rate': earn_rate, 'base_earn_rate': today_base_earn_rate}
+        info = {'progress': progress, 'date': trade_days[i], 'earn_rate': earn_rate,
+                'base_earn_rate': today_base_earn_rate}
         print info
         sys.stdout.flush()
 
