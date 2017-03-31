@@ -53,10 +53,10 @@ public class StrategyData {
                 switch (type) {
                     case "momentum":
                     case "mean_reversion":
-                        strategyList.add(new PeriodStrategy(name, type, freq, time, o.getIntValue("period")));
+                        strategyList.addFirst(new PeriodStrategy(name, type, freq, time, o.getIntValue("period")));
                         break;
                     case "stub":
-                        strategyList.add(new StubStrategy(name));
+                        strategyList.addFirst(new StubStrategy(name));
                         break;
                     case "custom":
                         //todo: custom strategy

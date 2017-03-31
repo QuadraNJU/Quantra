@@ -29,10 +29,6 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
-            <resource>
-                <directory>src/main/python</directory>
-                <targetPath>python</targetPath>
-            </resource>
         </resources>
     </build>
 

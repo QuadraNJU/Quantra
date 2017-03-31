@@ -16,6 +16,7 @@ public class StrategyItemVC extends HBox{
     private Label labelTitle;
     @FXML
     private Label labelSubTitle;
+
     private AbstractStrategy strategy;
 
     public StrategyItemVC(AbstractStrategy strategy) throws IOException {
@@ -23,5 +24,10 @@ public class StrategyItemVC extends HBox{
         this.strategy =strategy;
         labelTitle.setText(strategy.name);
         labelSubTitle.setText(strategy.getDescription());
+    }
+
+    @FXML
+    private void onBackTestAction() throws IOException {
+        UIContainer.loadContent(new BackTestVC(strategy));
     }
 }

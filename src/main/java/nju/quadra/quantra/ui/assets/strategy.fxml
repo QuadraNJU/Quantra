@@ -8,19 +8,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="960.0" style="-fx-background-color: black;" type="HBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="960.0" type="HBox" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <MaterialDesignIconView fill="WHITESMOKE" glyphName="FILE_DOCUMENT" size="48" text="" />
-      <VBox alignment="CENTER_LEFT" prefHeight="102.0" prefWidth="819.0">
+      <MaterialDesignIconView fill="WHITESMOKE" glyphName="FILE_DOCUMENT" size="64" text="" />
+      <VBox alignment="CENTER_LEFT" prefHeight="102.0" prefWidth="810.0">
          <children>
             <Label fx:id="labelTitle" stylesheets="@textColor.css" text="Title">
                <font>
-                  <Font size="20.0" />
+                  <Font size="32.0" />
                </font>
             </Label>
             <Label fx:id="labelSubTitle" stylesheets="@textColor.css" text="Subtitle">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>
@@ -30,7 +30,7 @@
       </VBox>
       <VBox alignment="CENTER" stylesheets="@textColor.css">
          <children>
-            <JFXButton maxHeight="30.0" minHeight="0.0" text="回测">
+            <JFXButton onAction="#onBackTestAction" maxHeight="30.0" minHeight="0.0" text="回测">
                <graphic>
                   <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLAY_BOX_OUTLINE" size="24" />
                </graphic>

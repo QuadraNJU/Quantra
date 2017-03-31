@@ -2,6 +2,7 @@ package nju.quadra.quantra.ui;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,12 +11,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.ui.chart.QuantraLineChart;
+import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 import nju.quadra.quantra.utils.PPAP;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -24,16 +28,23 @@ import java.util.ArrayList;
 public class BackTestVC extends Pane {
 
     @FXML
-    HBox running;
+    JFXDatePicker dateStart, dateEnd;
     @FXML
-    JFXProgressBar progress;
+    private HBox running;
     @FXML
-    Label labelProgress, labelAnnualized, labelBaseAnnualized, labelAlpha, labelBeta, labelSharp;
+    private JFXProgressBar progress;
     @FXML
-    BorderPane paneChart;
+    private Label labelProgress, labelAnnualized, labelBaseAnnualized, labelAlpha, labelBeta, labelSharp;
+    @FXML
+    private BorderPane paneChart;
 
-    public BackTestVC() throws IOException {
+    private AbstractStrategy strategy;
+
+    public BackTestVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/backTest.fxml"));
+        this.strategy = strategy;
+        dateStart.setValue(LocalDate.of(2013, 1, 1));
+        dateEnd.setValue(LocalDate.of(2013, 12, 31));
     }
 
     @FXML
@@ -43,8 +54,12 @@ public class BackTestVC extends Pane {
         running.setVisible(true);
         new Thread(() -> {
             try {
-                PPAP ppap = new PPAP("python engine.py", "python");
-                ppap.sendInput("{\"start_date\":\"1/4/13\",\"end_date\":\"12/31/13\",\"universe\":[300001],\"frequency\":10,\"strategy\":\"momentum\"}");
+                PPAP.extractEngine("data/python");
+                strategy.extract("data/python");
+                PPAP ppap = new PPAP("python engine.py", "data/python");
+                ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
+                        + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
+                        + "\",\"universe\":[300001],\"frequency\":" + strategy.freq + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();
@@ -73,6 +88,7 @@ public class BackTestVC extends Pane {
                         });
                     }
                 });
+                ppap.setErrorHandler(System.err::println);
                 ppap.waitEnd();
                 running.setVisible(false);
             } catch (Exception e) {
