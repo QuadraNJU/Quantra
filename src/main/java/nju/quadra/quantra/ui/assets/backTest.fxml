@@ -23,12 +23,12 @@
             <Font size="32.0" />
          </font>
       </Label>
-      <JFXButton layoutX="178.0" layoutY="14.0" onAction="#onRunAction" stylesheets="@textColor.css" text="运行">
+      <JFXButton layoutX="898.0" layoutY="13.0" onAction="#onRunAction" stylesheets="@textColor.css" text="运行">
          <graphic>
             <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLAY_BOX_OUTLINE" size="24" />
          </graphic>
          <font>
-            <Font size="14.0" />
+            <Font size="16.0" />
          </font>
       </JFXButton>
       <VBox layoutX="20.0" layoutY="62.0" prefWidth="960.0" spacing="10.0">
@@ -41,14 +41,15 @@
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label stylesheets="@textColor.css" text="日期选择" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label stylesheets="@textColor.css" text="日期选择" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <JFXDatePicker fx:id="dateStart" stylesheets="@pickers.css" />
                         <Label stylesheets="@textColor.css" text="-">
@@ -60,16 +61,26 @@
                         <HBox />
                      </children>
                   </HBox>
-                  <Label stylesheets="@textColor.css" text="股票池" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <Label stylesheets="@textColor.css" text="股票池" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <FlowPane prefWidth="881.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <FlowPane prefWidth="881.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
                         <JFXTextField />
                      </children>
                   </FlowPane>
+                  <Label stylesheets="@textColor.css" text="所选策略">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelStrategy" stylesheets="@textColor.css" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </GridPane>
             <HBox fx:id="running" alignment="CENTER_LEFT" spacing="10.0" visible="false">
@@ -155,5 +166,13 @@
             <BorderPane fx:id="paneChart" prefHeight="400.0" />
          </children>
       </VBox>
+      <JFXButton layoutX="752.0" layoutY="13.0" onAction="#onBackAction" stylesheets="@textColor.css" text="返回策略列表">
+         <graphic>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="ARROW_LEFT" size="24" />
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
    </children>
 </fx:root>

@@ -8,12 +8,11 @@ import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by MECHREVO on 2017/3/30.
  */
-public class StrategyListVC extends Pane{
+public class StrategyListVC extends Pane {
     @FXML
     private VBox vboxStrategy;
 
@@ -22,13 +21,18 @@ public class StrategyListVC extends Pane{
         updateStrategy();
     }
 
-    public void updateStrategy(){
-        for(AbstractStrategy strategy : StrategyData.getStrategyList()){
+    public void updateStrategy() {
+        for (AbstractStrategy strategy : StrategyData.getStrategyList()) {
             try {
                 vboxStrategy.getChildren().add(new StrategyItemVC(strategy));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    private void onAddAction() throws IOException {
+        UIContainer.loadContent(new StrategyEditVC(null));
     }
 }

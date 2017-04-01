@@ -31,6 +31,13 @@ public class PeriodStrategy extends AbstractStrategy{
 
     @Override
     public String getDescription() {
-        return null;
+        switch (type) {
+            case "momentum":
+                return "动量策略（持有期 " + freq + " 天，形成期 " + period + " 天）";
+            case "mean_reversion":
+                return "均值回归策略（持有期 " + freq + " 天，" + period + " 日均值）";
+            default:
+                return "假策略";
+        }
     }
 }

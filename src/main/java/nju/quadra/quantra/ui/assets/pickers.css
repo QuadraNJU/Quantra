@@ -1,8 +1,14 @@
 .jfx-date-picker {
-    -jfx-unfocus-color: lightgray;
+    -jfx-unfocus-color: gray;
     -jfx-default-color: #f2be45;
 }
 
-.jfx-text-field {
+.jfx-text-field, .jfx-combo-box, .jfx-combo-box .text-field {
+    -jfx-focus-color: whitesmoke;
+    -jfx-unfocus-color: gray;
+    -fx-text-fill: whitesmoke;
+}
+
+.jfx-radio-button {
     -fx-text-fill: whitesmoke;
 }

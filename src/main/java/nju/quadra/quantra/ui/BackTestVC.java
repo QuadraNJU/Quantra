@@ -34,7 +34,7 @@ public class BackTestVC extends Pane {
     @FXML
     private JFXProgressBar progress;
     @FXML
-    private Label labelProgress, labelAnnualized, labelBaseAnnualized, labelAlpha, labelBeta, labelSharp;
+    private Label labelStrategy, labelProgress, labelAnnualized, labelBaseAnnualized, labelAlpha, labelBeta, labelSharp;
     @FXML
     private BorderPane paneChart;
 
@@ -43,12 +43,18 @@ public class BackTestVC extends Pane {
     public BackTestVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/backTest.fxml"));
         this.strategy = strategy;
+        labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
         dateStart.setValue(LocalDate.of(2013, 1, 1));
         dateEnd.setValue(LocalDate.of(2013, 12, 31));
     }
 
     @FXML
-    public void onRunAction() {
+    private void onBackAction() throws IOException {
+        UIContainer.loadContent(new StrategyListVC());
+    }
+
+    @FXML
+    private void onRunAction() {
         labelProgress.setText("0%");
         progress.setProgress(0);
         running.setVisible(true);

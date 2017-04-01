@@ -1,9 +1,9 @@
 package nju.quadra.quantra.ui;
 
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -35,12 +35,6 @@ public class UIContainer extends Stage {
     private StackPane rootStack, contentPane;
     private static StackPane rootStackS, contentPaneS;
     @FXML
-    private JFXDialog dialog;
-    private static JFXDialog dialogS;
-    @FXML
-    private Text dialogTitle, dialogContent;
-    private static Text dialogTitleS, dialogContentS;
-    @FXML
     private Pane loadingPane, paneCompare, paneSearch;
     private static Pane loadingPaneS;
     @FXML
@@ -62,9 +56,6 @@ public class UIContainer extends Stage {
             contentPaneS = contentPane;
             loadingPaneS = loadingPane;
             paneCompareListS = paneCompareList;
-            dialogS = dialog;
-            dialogTitleS = dialogTitle;
-            dialogContentS = dialogContent;
 
             searchBox.textProperty().addListener((observable, oldValue, newValue) -> {
                 String text = newValue.trim().toLowerCase();
@@ -124,14 +115,30 @@ public class UIContainer extends Stage {
     }
 
     public static void alert(String title, String content) {
-        dialogTitleS.setText(title);
-        dialogContentS.setText(content);
-        dialogS.show(rootStackS);
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Text(title));
+        layout.setBody(new Text(content));
+        JFXButton button = new JFXButton("确定");
+        layout.setActions(button);
+        JFXDialog dialog = new JFXDialog(rootStackS, layout, JFXDialog.DialogTransition.CENTER);
+        button.setOnAction(t -> dialog.close());
+        dialog.show();
     }
 
-    @FXML
-    private void onDialogButtonAction() {
-        dialog.close();
+    public static void confirm(String title, String content, EventHandler<ActionEvent> onYes) {
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Text(title));
+        layout.setBody(new Text(content));
+        JFXButton yesButton = new JFXButton("确定");
+        JFXButton noButton = new JFXButton("取消");
+        layout.setActions(yesButton, noButton);
+        JFXDialog dialog = new JFXDialog(rootStackS, layout, JFXDialog.DialogTransition.CENTER);
+        yesButton.setOnAction(t -> {
+            onYes.handle(t);
+            dialog.close();
+        });
+        noButton.setOnAction(t -> dialog.close());
+        dialog.show();
     }
 
     @FXML

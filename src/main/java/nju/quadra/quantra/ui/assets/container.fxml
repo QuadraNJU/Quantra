@@ -48,7 +48,7 @@
                         </JFXButton>
                             </children>
                         </HBox>
-                        <JFXTextField fx:id="searchBox" focusColor="WHITE" layoutX="464.0" layoutY="36.0" onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…" stylesheets="@pickers.css">
+                        <JFXTextField fx:id="searchBox" layoutX="464.0" layoutY="36.0" onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…" stylesheets="@pickers.css">
                             <font>
                                 <Font size="16.0" />
                             </font>
@@ -107,18 +107,5 @@
             <JFXListView fx:id="searchList" layoutX="465.0" layoutY="70.0" onMouseClicked="#onSearchListClicked" prefWidth="220.0" />
          </children>
       </Pane>
-        <JFXDialog fx:id="dialog" overlayClose="false">
-            <JFXDialogLayout>
-                <heading>
-                    <Text fx:id="dialogTitle" />
-                </heading>
-                <body>
-                    <Text fx:id="dialogContent" />
-                </body>
-                <actions>
-                    <JFXButton onAction="#onDialogButtonAction">确定</JFXButton>
-                </actions>
-            </JFXDialogLayout>
-        </JFXDialog>
     </children>
 </StackPane>

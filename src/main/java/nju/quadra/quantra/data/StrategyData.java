@@ -20,12 +20,14 @@ public class StrategyData {
     }
 
     public static void addStrategy(AbstractStrategy strategy) {
+        loadFromFile();
         strategy.time = System.currentTimeMillis();
         strategyList.addFirst(strategy);
         saveToFile();
     }
 
     public static void removeStrategy(AbstractStrategy strategy) {
+        loadFromFile();
         ListIterator<AbstractStrategy> itr = strategyList.listIterator();
         while (itr.hasNext()) {
             if (itr.next().time == strategy.time) {
