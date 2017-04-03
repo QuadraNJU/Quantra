@@ -96,14 +96,15 @@ public class BackTestVC extends Pane {
             try {
                 PPAP.extractEngine("data/python");
                 strategy.extract("data/python");
-                System.out.println(JSON.toJSONString(pool.getStockPool()));
                 PPAP ppap = new PPAP("python engine.py", "data/python");
                 ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
                         + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
-                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool()) + ",\"frequency\":" + strategy.freq + "}");
+                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool())
+                        + ",\"frequency\":" + strategy.freq + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();
+                final boolean[] success = {false};
                 ppap.setOutputHandler(out -> {
                     JSONObject jsonObject = JSON.parseObject(out);
                     if (jsonObject.containsKey("success")) {
@@ -119,6 +120,7 @@ public class BackTestVC extends Pane {
                             labelBeta.setText(df.format(jsonObject.getFloat("beta")));
                             labelSharp.setText(df.format(jsonObject.getFloat("sharp")));
                         });
+                        success[0] = true;
                     } else {
                         Platform.runLater(() -> {
                             dates.add(jsonObject.getString("date"));
@@ -129,8 +131,12 @@ public class BackTestVC extends Pane {
                         });
                     }
                 });
-                ppap.setErrorHandler(System.err::println);
+                StringBuilder errMsg = new StringBuilder();
+                ppap.setErrorHandler(err -> errMsg.append(err).append("\n"));
                 ppap.waitEnd();
+                if (!success[0]) {
+                    Platform.runLater(() -> UIContainer.alert("Python 运行时错误", errMsg.toString()));
+                }
                 running.setVisible(false);
             } catch (Exception e) {
                 e.printStackTrace();
