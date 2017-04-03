@@ -6,11 +6,13 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import nju.quadra.quantra.pool.*;
 import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.ui.chart.QuantraLineChart;
 import nju.quadra.quantra.utils.DateUtil;
@@ -21,6 +23,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by adn55 on 2017/3/29.
@@ -37,8 +41,12 @@ public class BackTestVC extends Pane {
     private Label labelStrategy, labelProgress, labelAnnualized, labelBaseAnnualized, labelAlpha, labelBeta, labelSharp;
     @FXML
     private BorderPane paneChart;
+    @FXML
+    private ChoiceBox<String> choicePool;
 
     private AbstractStrategy strategy;
+    private AbstractPool pool;
+    private List<AbstractPool> pools = new ArrayList<>();
 
     public BackTestVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/backTest.fxml"));
@@ -46,6 +54,32 @@ public class BackTestVC extends Pane {
         labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
         dateStart.setValue(LocalDate.of(2013, 1, 1));
         dateEnd.setValue(LocalDate.of(2013, 12, 31));
+        loadPools();
+        choicePool.setValue("沪深300");
+        pool = new HS300Pool();
+    }
+
+    private void loadPools() {
+        choicePool.getItems().clear();
+        choicePool.getItems().addAll("沪深300", "中小板", "创业板");
+        pools.clear();
+        pools.addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
+        List<String> list = CustomPool.getCustomPoolList();
+        if (list != null) {
+            choicePool.getItems().addAll(list);
+            pools.addAll(CustomPool.createPoolListFromFileList(list));
+        }
+    }
+
+    @FXML
+    private void onChangePoolAction() {
+        for (AbstractPool p : pools) {
+            if (p.name.equals(choicePool.getValue())) {
+                pool = p;
+                break;
+            }
+        }
+        System.out.println(pool.name);
     }
 
     @FXML
@@ -62,10 +96,11 @@ public class BackTestVC extends Pane {
             try {
                 PPAP.extractEngine("data/python");
                 strategy.extract("data/python");
+                System.out.println(JSON.toJSONString(pool.getStockPool()));
                 PPAP ppap = new PPAP("python engine.py", "data/python");
                 ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
                         + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
-                        + "\",\"universe\":[300001],\"frequency\":" + strategy.freq + "}");
+                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool()) + ",\"frequency\":" + strategy.freq + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();
