@@ -16,7 +16,7 @@ public class CustomPool extends AbstractPool {
     public CustomPool(String name, List<Integer> list) {
         this.name = name;
         this.stockPool = new HashSet<>(list);
-        STOCK_POOL_NAME = "data/pools/" + Base64.getEncoder().encodeToString(this.name.getBytes(StandardCharsets.UTF_8)).replace('/', '~') + ".json";
+        STOCK_POOL_NAME = "data/pools/" + Base64.getEncoder().encodeToString(this.name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
         saveToFile();
     }
 
@@ -122,6 +122,27 @@ public class CustomPool extends AbstractPool {
             }
         }
         return null;
+    }
+
+    public static List<CustomPool> createPoolListFromFileList(List<String> names) {
+        List<CustomPool> pools = new ArrayList<>();
+        for (String name : names) {
+            pools.add(createPoolFromFile(name));
+        }
+        return pools;
+    }
+
+    public static List<String> getCustomPoolList() {
+        List<String> result = null;
+        try {
+            result = new ArrayList<>();
+            File poolDir = new File("data/pools");
+            for (File f : poolDir.listFiles()) {
+                String poolName = new String(Base64.getDecoder().decode(f.getName().replace('~', '/')), StandardCharsets.UTF_8);
+                result.add(poolName);
+            }
+        } catch (NullPointerException ignored) {}
+        return result;
     }
 
     @Override

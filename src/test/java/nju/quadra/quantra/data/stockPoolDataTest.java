@@ -14,18 +14,6 @@ import java.util.stream.Collectors;
  * Created by RaUkonn on 2017/4/2.
  */
 public class stockPoolDataTest {
-    @Test
-    public void stockPoolCustomTest() {
-        Set<Integer> pool = StockPoolData.getStockPool("custom_pool");
-        Assert.assertEquals(pool.size(), 0);
-        StockPoolData.addStock(1, "custom_pool");
-        StockPoolData.addStockList(new LinkedList<>(Arrays.asList(1, 1, 1, 10, 11, 12, 13, 14, 15)), "custom_pool");
-        pool = StockPoolData.getStockPool("custom_pool");
-        Assert.assertEquals(pool.size(), 7);
-        StockPoolData.removeStockList(new LinkedList<>(Arrays.asList(1, 1, 1, 10, 11, 12, 13, 14, 15)), "custom_pool");
-        pool = StockPoolData.getStockPool("custom_pool");
-        Assert.assertEquals(pool.size(), 0);
-    }
 
     @Test
     public void getHS300ListTest() {
@@ -59,7 +47,7 @@ public class stockPoolDataTest {
     @Test
     public void setMultiPools() {
         CustomPool cp1 = new CustomPool("自选板块1", Arrays.asList(1, 2, 3, 4, 5));
-        CustomPool cp2 = new CustomPool("自选板块2", Arrays.asList(6, 7, 8, 9, 10));
+        CustomPool cp2 = new CustomPool("自选板块2", Arrays.asList(100, 101, 102));
         CustomPool cp3 = new CustomPool("自选板块3", Arrays.asList(11, 12, 13, 14, 15));
 
         CustomPool cpC1 = CustomPool.createPoolFromFile("自选板块1");

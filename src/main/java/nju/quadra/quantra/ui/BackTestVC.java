@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import nju.quadra.quantra.data.StockPoolData;
 import nju.quadra.quantra.pool.*;
 import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.ui.chart.QuantraLineChart;
@@ -62,9 +61,14 @@ public class BackTestVC extends Pane {
 
     private void loadPools() {
         choicePool.getItems().clear();
-        choicePool.getItems().addAll("沪深300", "中小板", "创业板", "自选板块");
+        choicePool.getItems().addAll("沪深300", "中小板", "创业板");
         pools.clear();
-        pools.addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool(), CustomPool.createPoolFromFile("自选板块")));
+        pools.addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
+        List<String> list = CustomPool.getCustomPoolList();
+        if (list != null) {
+            choicePool.getItems().addAll(list);
+            pools.addAll(CustomPool.createPoolListFromFileList(list));
+        }
     }
 
     @FXML
