@@ -5,19 +5,24 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import nju.quadra.quantra.data.StrategyData;
 import nju.quadra.quantra.strategy.AbstractStrategy;
+import nju.quadra.quantra.strategy.CustomStrategy;
 import nju.quadra.quantra.strategy.PeriodStrategy;
 import nju.quadra.quantra.utils.FXUtil;
+import nju.quadra.quantra.utils.PythonHighlighter;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by adn55 on 2017/4/1.
  */
-public class StrategyEditVC extends Pane {
+public class StrategyEditVC extends BorderPane {
 
     @FXML
     private JFXTextField editName, editFreq;
@@ -29,12 +34,23 @@ public class StrategyEditVC extends Pane {
     private ToggleGroup typeGroup;
     @FXML
     private HBox boxPeriod;
+    @FXML
+    private CodeArea codeArea;
 
     private AbstractStrategy strategy;
 
     public StrategyEditVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/strategyEdit.fxml"));
-        typeGroup.selectedToggleProperty().addListener(o -> boxPeriod.setVisible(!radioCustom.isSelected()));
+        typeGroup.selectedToggleProperty().addListener(o -> {
+            boxPeriod.setVisible(!radioCustom.isSelected());
+            codeArea.setVisible(radioCustom.isSelected());
+        });
+        editPeriod.getItems().setAll("5", "10", "20");
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        codeArea.richChanges().subscribe(change -> {
+            codeArea.setStyleSpans(0, PythonHighlighter.compute(codeArea.getText()));
+        });
+        typeGroup.selectToggle(radioCustom);
 
         this.strategy = strategy;
         if (strategy != null) {
@@ -45,13 +61,25 @@ public class StrategyEditVC extends Pane {
             }
             switch (strategy.type) {
                 case "momentum":
-                    radioMomentum.fire();
+                    typeGroup.selectToggle(radioMomentum);
                     break;
                 case "mean_reversion":
-                    radioMeanReversion.fire();
+                    typeGroup.selectToggle(radioMeanReversion);
                     break;
                 case "custom":
-                    radioCustom.fire();
+                    typeGroup.selectToggle(radioCustom);
+                    codeArea.replaceText(strategy.getCode());
+            }
+        } else {
+            typeGroup.selectToggle(radioMomentum);
+            try {
+                InputStream is = getClass().getResourceAsStream("../python/template.py");
+                byte[] buf = new byte[is.available()];
+                is.read(buf);
+                is.close();
+                codeArea.replaceText(new String(buf, "UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -86,7 +114,7 @@ public class StrategyEditVC extends Pane {
                 case "mean_reversion":
                     StrategyData.addStrategy(new PeriodStrategy(name, type, freq, 0, period));
                 case "custom":
-                    // todo
+                    StrategyData.addStrategy(new CustomStrategy(name, freq, 0, codeArea.getText()));
             }
             onCancelAction();
         }

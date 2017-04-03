@@ -191,7 +191,6 @@ public class UIContainer extends Stage {
             try {
                 showLoading();
                 loadContent(new MarketVC());
-                searchBox.clear();
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -205,7 +204,6 @@ public class UIContainer extends Stage {
             try {
                 showLoading();
                 loadContent(new StockListVC());
-                searchBox.clear();
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -226,7 +224,6 @@ public class UIContainer extends Stage {
                 showLoading();
                 loadContent(new StockCompareVC());
                 paneCompare.setVisible(false);
-                searchBox.clear();
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -239,7 +236,6 @@ public class UIContainer extends Stage {
         new Thread(() -> {
             try {
                 showLoading();
-//                loadContent(new BackTestVC());
                 loadContent(new StrategyListVC());
                 hideLoading();
             } catch (IOException e) {

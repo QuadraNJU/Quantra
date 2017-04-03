@@ -9,6 +9,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -16,85 +17,98 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.fxmisc.richtext.CodeArea?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="策略修改">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Label>
-      <JFXButton layoutX="904.0" layoutY="13.0" onAction="#onCancelAction" stylesheets="@textColor.css" text="取消">
-         <graphic>
-            <MaterialDesignIconView fill="WHITESMOKE" glyphName="CLOSE_CIRCLE_OUTLINE" size="24" />
-         </graphic>
-         <font>
-            <Font size="16.0" />
-         </font>
-      </JFXButton>
-      <JFXButton layoutX="822.0" layoutY="13.0" onAction="#onSaveAction" stylesheets="@textColor.css" text="保存">
-         <graphic>
-            <MaterialDesignIconView fill="WHITESMOKE" glyphName="CHECKBOX_MARKED_CIRCLE_OUTLINE" size="24" />
-         </graphic>
-         <font>
-            <Font size="16.0" />
-         </font>
-      </JFXButton>
-      <GridPane layoutX="20.0" layoutY="62.0" prefWidth="960.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
-          <ColumnConstraints hgrow="ALWAYS" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints vgrow="SOMETIMES" />
-          <RowConstraints vgrow="SOMETIMES" />
-        </rowConstraints>
+
+<fx:root maxHeight="1.7976931348623157E308" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="策略名称" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label text="策略类型" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Label text="策略参数" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <JFXTextField fx:id="editName" maxWidth="400.0" GridPane.columnIndex="1" />
-            <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="策略修改">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="904.0" layoutY="13.0" onAction="#onCancelAction" stylesheets="@textColor.css" text="取消">
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="CLOSE_CIRCLE_OUTLINE" size="24" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="822.0" layoutY="13.0" onAction="#onSaveAction" stylesheets="@textColor.css" text="保存">
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="CHECKBOX_MARKED_CIRCLE_OUTLINE" size="24" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <GridPane layoutX="20.0" layoutY="62.0" prefWidth="960.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                <ColumnConstraints hgrow="ALWAYS" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <JFXRadioButton fx:id="radioMomentum" selected="true" text="动量策略">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="typeGroup" />
-                     </toggleGroup>
-                  </JFXRadioButton>
-                  <JFXRadioButton fx:id="radioMeanReversion" text="均值回归" toggleGroup="$typeGroup" />
-                  <JFXRadioButton fx:id="radioCustom" text="自定义策略" toggleGroup="$typeGroup" />
-               </children>
-               <padding>
-                  <Insets bottom="10.0" top="10.0" />
-               </padding>
-            </HBox>
-            <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label text="策略名称" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Label text="策略类型" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Label text="策略参数" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <JFXTextField fx:id="editName" maxWidth="400.0" GridPane.columnIndex="1" />
+                  <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label text="持有期" />
-                        <JFXTextField fx:id="editFreq" maxWidth="100.0" unFocusColor="GREY" />
-                        <Label text="天" />
-                        <HBox fx:id="boxPeriod" alignment="CENTER_LEFT" spacing="10.0">
+                        <JFXRadioButton fx:id="radioMomentum" selected="true" text="动量策略">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="typeGroup" />
+                           </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="radioMeanReversion" text="均值回归" toggleGroup="$typeGroup" />
+                        <JFXRadioButton fx:id="radioCustom" text="自定义策略" toggleGroup="$typeGroup" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <Label text="形成期" />
-                              <JFXComboBox fx:id="editPeriod" editable="true" maxWidth="100.0" />
+                              <Label text="持有期" />
+                              <JFXTextField fx:id="editFreq" maxWidth="100.0" unFocusColor="GREY" />
                               <Label text="天" />
+                              <HBox fx:id="boxPeriod" alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Label text="形成期" />
+                                    <JFXComboBox fx:id="editPeriod" editable="true" maxWidth="100.0" />
+                                    <Label text="天" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </HBox>
                            </children>
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
                         </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
-            </VBox>
+               <stylesheets>
+                  <URL value="@textColor.css" />
+                  <URL value="@pickers.css" />
+               </stylesheets>
+            </GridPane>
          </children>
-         <stylesheets>
-            <URL value="@textColor.css" />
-            <URL value="@pickers.css" />
-         </stylesheets>
-      </GridPane>
-   </children>
+      </Pane>
+   </top>
+   <center>
+      <CodeArea fx:id="codeArea" stylesheets="@python-keywords.css" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="30.0" right="30.0" top="15.0" />
+         </BorderPane.margin>
+      </CodeArea>
+   </center>
 </fx:root>

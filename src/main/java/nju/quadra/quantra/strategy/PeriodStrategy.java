@@ -26,7 +26,6 @@ public class PeriodStrategy extends AbstractStrategy{
             e.printStackTrace();
             return "";
         }
-
     }
 
     @Override

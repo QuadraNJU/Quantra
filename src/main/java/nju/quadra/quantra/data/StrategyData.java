@@ -61,7 +61,7 @@ public class StrategyData {
                         strategyList.addFirst(new StubStrategy(name));
                         break;
                     case "custom":
-                        //todo: custom strategy
+                        strategyList.addFirst(new CustomStrategy(name, freq, time, o.getString("code")));
                 }
             }
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class StrategyData {
                         o.put("period", ((PeriodStrategy) as).period);
                         break;
                     case "custom":
-                        //todo: custom strategy
+                        o.put("code", ((CustomStrategy) as).code);
                         break;
                 }
                 writer.writeObject(o);

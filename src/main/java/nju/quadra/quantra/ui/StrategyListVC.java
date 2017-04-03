@@ -33,6 +33,14 @@ public class StrategyListVC extends Pane {
 
     @FXML
     private void onAddAction() throws IOException {
-        UIContainer.loadContent(new StrategyEditVC(null));
+        new Thread(() -> {
+            try {
+                UIContainer.showLoading();
+                UIContainer.loadContent(new StrategyEditVC(null));
+                UIContainer.hideLoading();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
