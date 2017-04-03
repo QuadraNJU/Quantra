@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class ZxbPool extends AbstractPool {
     public ZxbPool() {
-        this.name = "ZXB";
+        this.name = "中小板";
         List<StockInfoPtr> list = StockData.getPtrList();
         this.stockPool = list.stream()
                 .mapToInt(i -> i.get().getCode())

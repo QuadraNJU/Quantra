@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class CybPool extends AbstractPool {
     public CybPool() {
-        this.name = "CYB";
+        this.name = "创业板";
         List<StockInfoPtr> list = StockData.getPtrList();
         this.stockPool = list.stream()
                 .mapToInt(i -> i.get().getCode())

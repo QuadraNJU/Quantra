@@ -1,5 +1,6 @@
 package nju.quadra.quantra.data;
 
+import nju.quadra.quantra.pool.CustomPool;
 import nju.quadra.quantra.pool.CybPool;
 import nju.quadra.quantra.pool.HS300Pool;
 import nju.quadra.quantra.pool.ZxbPool;
@@ -53,6 +54,16 @@ public class stockPoolDataTest {
                 list.stream().mapToInt(i -> i.get().getCode()).boxed().collect(Collectors.toSet()).size());
         System.out.println(System.currentTimeMillis() - start);
         System.out.println(hs300Pool.getStockPool().size() + zxbPool.getStockPool().size() + cybPool.getStockPool().size());
+    }
+
+    @Test
+    public void setMultiPools() {
+        CustomPool cp1 = new CustomPool("自选板块1", Arrays.asList(1, 2, 3, 4, 5));
+        CustomPool cp2 = new CustomPool("自选板块2", Arrays.asList(6, 7, 8, 9, 10));
+        CustomPool cp3 = new CustomPool("自选板块3", Arrays.asList(11, 12, 13, 14, 15));
+
+        CustomPool cpC1 = CustomPool.createPoolFromFile("自选板块1");
+        Assert.assertEquals(cp1.getStockPool().size(), 5);
 
     }
 }
