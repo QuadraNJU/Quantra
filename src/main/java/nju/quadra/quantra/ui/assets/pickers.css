@@ -3,10 +3,14 @@
     -jfx-default-color: #f2be45;
 }
 
-.jfx-text-field, .jfx-combo-box, .jfx-combo-box .text-field {
+.jfx-text-field, .jfx-combo-box .text-field {
     -jfx-focus-color: whitesmoke;
     -jfx-unfocus-color: gray;
     -fx-text-fill: whitesmoke;
+}
+
+.jfx-combo-box .label {
+    -fx-text-fill: black;
 }
 
 .jfx-radio-button {

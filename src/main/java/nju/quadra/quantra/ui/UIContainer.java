@@ -166,7 +166,8 @@ public class UIContainer extends Stage {
 
     @FXML
     private void onGlobalSearch(KeyEvent t) {
-        if (t.getCode().isLetterKey() || t.getCode().isDigitKey()) {
+        if ((!t.isControlDown() && !t.isMetaDown() && !t.isAltDown() && !t.isShiftDown() && !t.isShortcutDown())
+                && (t.getCode().isLetterKey() || t.getCode().isDigitKey())) {
             searchBox.appendText(t.getCharacter());
             searchBox.requestFocus();
             searchBox.positionCaret(searchBox.getLength());

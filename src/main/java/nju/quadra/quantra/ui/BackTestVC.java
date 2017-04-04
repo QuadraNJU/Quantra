@@ -155,8 +155,9 @@ public class BackTestVC extends Pane {
         int maxRate = Arrays.stream(roundRates).map(Math::abs).max().getAsInt();
         int[] positiveCount = new int[maxRate + 1];
         int[] negativeCount = new int[maxRate + 1];
-        for (int rate : roundRates) {
-            int absRate = Math.abs(rate);
+        for (int i = 0; i < roundRates.length; i++) {
+            float rate = rates.get(i).floatValue();
+            int absRate = Math.abs(roundRates[i]);
             if (rate > 0) {
                 positiveCount[absRate]++;
             } else if (rate < 0) {
@@ -193,7 +194,8 @@ public class BackTestVC extends Pane {
                 PPAP ppap = new PPAP("python engine.py", "data/python");
                 ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
                         + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
-                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool()) + ",\"frequency\":" + strategy.freq + "}");
+                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool())
+                        + ",\"frequency\":" + strategy.freq + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();

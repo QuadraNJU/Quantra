@@ -64,7 +64,5 @@ public class StockPoolDataTest {
         System.out.println(set.addAll(Arrays.asList(5, 5, 5, 5, 6)));
         System.out.println(set.addAll(Arrays.asList(2, 5)));
         System.out.println(set.addAll(Arrays.asList(10, 11, 12)));
-
-
     }
 }
