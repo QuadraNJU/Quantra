@@ -113,6 +113,7 @@ public class StrategyEditVC extends BorderPane {
                 case "momentum":
                 case "mean_reversion":
                     StrategyData.addStrategy(new PeriodStrategy(name, type, freq, 0, period));
+                    break;
                 case "custom":
                     StrategyData.addStrategy(new CustomStrategy(name, freq, 0, codeArea.getText()));
             }

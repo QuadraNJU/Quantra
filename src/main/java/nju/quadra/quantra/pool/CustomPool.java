@@ -17,7 +17,7 @@ public class CustomPool extends AbstractPool {
 
     private CustomPool(String name) {
         this.name = name;
-        STOCK_POOL_NAME = "data/pools/" + Base64.getEncoder().encodeToString(this.name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
+        STOCK_POOL_NAME = "data/pools/" + Base64.getEncoder().encodeToString(this.name.getBytes(StandardCharsets.UTF_8)).replace('/', '~').replace('=', '_');
     }
 
     public CustomPool(String name, List<Integer> list) {
@@ -124,7 +124,7 @@ public class CustomPool extends AbstractPool {
 
     public boolean removePool() {
         File poolDir = new File("data/pools");
-        String nameEncoded = Base64.getEncoder().encodeToString(name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
+        String nameEncoded = Base64.getEncoder().encodeToString(name.getBytes(StandardCharsets.UTF_8)).replace('/', '~').replace('=', '_');
         if (!poolDir.exists()) {
             poolDir.getParentFile().mkdirs();
             return false;
@@ -139,7 +139,7 @@ public class CustomPool extends AbstractPool {
 
     public static CustomPool createPoolFromFile(String name) {
         File poolDir = new File("data/pools");
-        String nameEncoded = Base64.getEncoder().encodeToString(name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
+        String nameEncoded = Base64.getEncoder().encodeToString(name.getBytes(StandardCharsets.UTF_8)).replace('/', '~').replace('=', '_');
         if (!poolDir.exists()) {
             poolDir.getParentFile().mkdirs();
             return null;
@@ -174,7 +174,7 @@ public class CustomPool extends AbstractPool {
             result = new ArrayList<>();
             File poolDir = new File("data/pools");
             for (File f : poolDir.listFiles()) {
-                String poolName = new String(Base64.getDecoder().decode(f.getName().replace('~', '/')), StandardCharsets.UTF_8);
+                String poolName = new String(Base64.getDecoder().decode(f.getName().replace('~', '/').replace('_', '=')), StandardCharsets.UTF_8);
                 result.add(createPoolFromFile(poolName));
             }
         } catch (NullPointerException ignored) {}
