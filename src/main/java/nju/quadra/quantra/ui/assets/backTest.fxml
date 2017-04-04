@@ -188,7 +188,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="choiceIndex" promptText="选择参考指数" />
+                        <JFXComboBox fx:id="choiceIndex" promptText="选择参考指数" stylesheets="@pickers.css" />
                      </children>
                   </VBox>
                </children>

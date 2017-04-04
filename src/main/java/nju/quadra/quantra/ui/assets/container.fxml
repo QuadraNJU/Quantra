@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<StackPane fx:id="rootStack" onKeyPressed="#onGlobalSearch" styleClass="root-stack" stylesheets="@container.css"
-           xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootStack" onKeyPressed="#onGlobalSearch" styleClass="root-stack" stylesheets="@container.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane minHeight="600.0" prefWidth="1000.0">
             <top>
-                <Pane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0"
-                      BorderPane.alignment="CENTER">
+                <Pane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox layoutX="724.0" layoutY="33.0">
+                        <HBox layoutX="636.0" layoutY="33.0">
                             <children>
                                 <JFXButton onAction="#onMarketPageAction" stylesheets="@textColor.css" text="市场">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton onAction="#onStockListAction" stylesheets="@textColor.css" text="股票列表">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton onAction="#onComparePageAction" stylesheets="@textColor.css" text="对比">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onAction="#onStockPoolAction" stylesheets="@textColor.css" text="股池管理">
+                                <JFXButton onAction="#onStockPoolAction" stylesheets="@textColor.css" text="股票池">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton onAction="#onBackTestPageAction" stylesheets="@textColor.css" text="回测">
                                     <font>
-                                        <Font size="18.0"/>
+                                        <Font size="18.0" />
                                     </font>
                                 </JFXButton>
                             </children>
                         </HBox>
-                        <JFXTextField fx:id="searchBox" layoutX="464.0" layoutY="36.0"
-                                      onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…"
-                                      stylesheets="@pickers.css">
+                        <JFXTextField fx:id="searchBox" layoutX="376.0" layoutY="36.0" onKeyPressed="#onSearchKeyPressed" prefWidth="250.0" promptText="股票代码/名称/拼音首字母…" stylesheets="@pickers.css">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                         </JFXTextField>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="29.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/logo.png"/>
+                                <Image url="@../images/logo.png" />
                             </image>
                         </ImageView>
                     </children>
@@ -63,12 +66,12 @@
             <center>
                 <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
                     <BorderPane.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </BorderPane.margin>
                     <content>
                         <StackPane alignment="TOP_CENTER">
                             <children>
-                                <StackPane fx:id="contentPane" alignment="TOP_CENTER" maxWidth="1000.0"/>
+                                <StackPane fx:id="contentPane" alignment="TOP_CENTER" maxWidth="1000.0" />
                             </children>
                         </StackPane>
                     </content>
@@ -78,35 +81,32 @@
 
         <Pane fx:id="loadingPane" maxWidth="1000.0" prefWidth="1000.0" visible="false">
             <children>
-                <JFXSpinner layoutX="446.0" layoutY="150.0" radius="50.0" startingAngle="0.0"/>
+                <JFXSpinner layoutX="446.0" layoutY="150.0" radius="50.0" startingAngle="0.0" />
             </children>
         </Pane>
 
         <Pane fx:id="paneCompare" maxWidth="1000.0" onMouseClicked="#clickToHide" prefWidth="1000.0" visible="false">
             <children>
-                <VBox layoutX="810.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                      minWidth="-Infinity" style="-fx-background-color: rgba(255, 255, 255, 0.7);">
+                <VBox layoutX="810.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: rgba(255, 255, 255, 0.7);">
                     <children>
-                        <VBox fx:id="paneCompareList"/>
+                        <VBox fx:id="paneCompareList" />
                         <HBox spacing="10.0">
                             <children>
-                                <JFXButton onAction="#onCompareAction" text="对比"/>
-                                <JFXButton onAction="#onCompareCleanAction" text="清空"/>
-                                <JFXButton onAction="#onCompareCancelAction" text="取消"/>
+                                <JFXButton onAction="#onCompareAction" text="对比" />
+                                <JFXButton onAction="#onCompareCleanAction" text="清空" />
+                                <JFXButton onAction="#onCompareCancelAction" text="取消" />
                             </children>
                         </HBox>
                     </children>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
                 </VBox>
             </children>
         </Pane>
-        <Pane fx:id="paneSearch" maxWidth="1000.0" onMouseClicked="#clickToHide" prefHeight="200.0" prefWidth="200.0"
-              visible="false">
+        <Pane fx:id="paneSearch" maxWidth="1000.0" onMouseClicked="#clickToHide" prefHeight="200.0" prefWidth="200.0" visible="false">
             <children>
-                <JFXListView fx:id="searchList" layoutX="465.0" layoutY="70.0" onMouseClicked="#onSearchListClicked"
-                             prefWidth="220.0"/>
+                <JFXListView fx:id="searchList" layoutX="375.0" layoutY="70.0" onMouseClicked="#onSearchListClicked" prefWidth="220.0" />
             </children>
         </Pane>
     </children>
