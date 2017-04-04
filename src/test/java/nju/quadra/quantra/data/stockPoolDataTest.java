@@ -54,4 +54,17 @@ public class stockPoolDataTest {
         Assert.assertEquals(cp1.getStockPool().size(), 5);
 
     }
+
+    @Test
+    public void setTest() {
+        Set<Integer> set = new HashSet<>();
+        set.add(1);
+        System.out.println(set.add(1));
+        System.out.println(set.addAll(Arrays.asList(1, 2, 3)));
+        System.out.println(set.addAll(Arrays.asList(5, 5, 5, 5, 6)));
+        System.out.println(set.addAll(Arrays.asList(2, 5)));
+        System.out.println(set.addAll(Arrays.asList(10, 11, 12)));
+
+
+    }
 }

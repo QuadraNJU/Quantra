@@ -1,8 +1,6 @@
 package nju.quadra.quantra.ui;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +12,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.ui.chart.QuantraKChart;
@@ -42,7 +41,7 @@ public class StockVC extends VBox {
     @FXML
     private BorderPane paneK, paneEx;
     @FXML
-    private MaterialDesignIconView iconStar, iconPlus;
+    private MaterialDesignIconView iconAddToPool, iconPlus;
     private static MaterialDesignIconView iconPlusS;
 
     private List<StockInfoPtr> infoList;
@@ -205,6 +204,12 @@ public class StockVC extends VBox {
             StockCompareVC.removeFromList(code);
         }
         tp.show(icon, t.getScreenX(), t.getScreenY());
+    }
+
+    @FXML
+    private void onAddToPoolAction() throws IOException {
+        int code = infoList.get(0).get().getCode();
+        UIContainer.addStockToPool(code);
     }
 
 }

@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.pool.CustomPool;
-import nju.quadra.quantra.pool.HS300Pool;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
@@ -140,6 +139,28 @@ public class UIContainer extends Stage {
             dialog.close();
         });
         noButton.setOnAction(t -> dialog.close());
+        dialog.show();
+    }
+
+    public static void addStockToPool(int code) {
+        VBox list = new VBox();
+        list.getChildren().addAll(CustomPool.createTotalCustomPoolList().stream()
+                .map(u -> {
+                    try {
+                        return new SmallPoolItemVC(u, code);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).collect(Collectors.toList()));
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Text("添加到股池"));
+        layout.setBody(list);
+        JFXButton noButton = new JFXButton("取消");
+        layout.setActions(noButton);
+        JFXDialog dialog = new JFXDialog(rootStackS, layout, JFXDialog.DialogTransition.CENTER);
+        noButton.setOnAction(t -> dialog.close());
+        list.getChildren().stream().map(u -> (SmallPoolItemVC) u).forEach(u -> u.setParent(dialog));
         dialog.show();
     }
 

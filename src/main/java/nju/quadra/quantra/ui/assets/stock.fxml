@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox spacing="20.0">
@@ -14,6 +22,12 @@
                <children>
                   <MaterialDesignIconView fx:id="iconPlus" fill="whitesmoke" glyphName="PLUS" onMouseClicked="#onPlusClickedAction" size="26" />
                   <Label stylesheets="@textColor.css" text="对比" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <MaterialDesignIconView fx:id="iconAddToPool" fill="whitesmoke" glyphName="BOOKMARK" onMouseClicked="#onAddToPoolAction" size="26" />
+                  <Label stylesheets="@textColor.css" text="添加到股池" />
                </children>
             </VBox>
             <Label fx:id="labelName" stylesheets="@textColor.css" text="深发展A">

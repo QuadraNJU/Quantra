@@ -101,16 +101,20 @@ public class CustomPool extends AbstractPool {
         saveToFile();
     }
 
-    public void addStock(int stock) {
+    public boolean addStock(int stock) {
+        boolean isSuccess;
         loadFromFile();
-        stockPool.add(stock);
+        isSuccess = stockPool.add(stock);
         saveToFile();
+        return isSuccess;
     }
 
-    public void addStockList(List<Integer> stockList) {
+    public boolean addStockList(List<Integer> stockList) {
+        boolean isSuccess;
         loadFromFile();
-        stockPool.addAll(stockList);
+        isSuccess = stockPool.addAll(stockList);
         saveToFile();
+        return isSuccess;
     }
 
     public void changeStockList(Set<Integer> stockList) {
