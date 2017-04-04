@@ -4,7 +4,9 @@ import com.jfoenix.controls.JFXDatePicker;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
@@ -38,6 +40,22 @@ public class StockListVC extends BorderPane {
         addColumn("最高", param -> new ReadOnlyObjectWrapper<>(param.getValue().get().getHigh()));
         addColumn("最低", param -> new ReadOnlyObjectWrapper<>(param.getValue().get().getLow()));
         addColumn("昨收", param -> new ReadOnlyObjectWrapper<>(param.getValue().prev() != null ? param.getValue().prev().get().getClose() : ""));
+        ((TableColumn<StockInfoPtr, Double>) table.getColumns().get(2)).setCellFactory(column -> new TableCell<StockInfoPtr, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                TableRow row = getTableRow();
+                if (!empty && item != null && row != null) {
+                    setText(String.valueOf(item));
+                    row.getStyleClass().removeAll("red", "green");
+                    if (item >= 0.01) {
+                        row.getStyleClass().add("red");
+                    } else if (item <= -0.01) {
+                        row.getStyleClass().add("green");
+                    }
+                }
+            }
+        });
 
         table.setOnMouseClicked(event -> {
             if (event.getClickCount() >= 2) {

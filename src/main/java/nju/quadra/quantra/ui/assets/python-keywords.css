@@ -1,5 +1,5 @@
 .text {
-    -fx-font-family: 'Consolas', 'Source Code Pro', monospace;
+    -fx-font-family: 'Consolas', 'Menlo', 'Monaco', 'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
 }
 
 .keyword {

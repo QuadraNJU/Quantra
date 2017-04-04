@@ -19,7 +19,7 @@
     -fx-background-color: rgba(0, 0, 140, .5);
     -fx-text-fill: whitesmoke;
 }
-.candlestick-bar, .chart-bar {
+.candlestick-bar {
     -fx-background-color: whitesmoke;
 }
 .candlestick-line {

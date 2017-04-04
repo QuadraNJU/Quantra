@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class QuantraLineChart extends LineChart<String, Number> {
 
-    private List<String> dates;
+    public List<String> dates;
     private List<List<Number>> dataList = new ArrayList<>();
     private Region plotBackground = (Region) lookup(".chart-plot-background");
     private Label toolTip = new Label();
@@ -51,13 +51,13 @@ public class QuantraLineChart extends LineChart<String, Number> {
                 for (String date : dates) {
                     i++;
                     if (date.equals(xValue)) {
-                        String tip = "";
+                        StringBuilder tip = new StringBuilder();
                         int j = -1;
                         for (Series<String, Number> series : getData()) {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
-                                tip += "\n" + series.getName() + ": " + yValue;
+                                tip.append("\n").append(series.getName()).append(": ").append(yValue);
                             }
                         }
                         toolTip.setText(xValue + tip);
@@ -106,6 +106,18 @@ public class QuantraLineChart extends LineChart<String, Number> {
             path.setStrokeWidth(2);
         }
         dataList.add(numbers);
+    }
+
+    public void removePath(String name) {
+        int i = -1;
+        for (Series<String, Number> series : getData()) {
+            i++;
+            if (series.getName().equals(name)) {
+                dataList.remove(i);
+                getData().remove(i);
+                break;
+            }
+        }
     }
 
     @Override
