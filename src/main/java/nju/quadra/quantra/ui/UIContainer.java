@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.pool.CustomPool;
+import nju.quadra.quantra.pool.HS300Pool;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
@@ -216,6 +218,21 @@ public class UIContainer extends Stage {
         loadCompareList();
         paneCompare.setVisible(true);
     }
+
+
+    @FXML
+    private void onStockPoolAction() {
+        new Thread(() -> {
+            try {
+                showLoading();
+                loadContent(new StockPoolListVC());
+                hideLoading();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 
     @FXML
     private void onCompareAction() {
