@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0"
+         type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="股池列表">
+            <font>
+                <Font size="32.0"/>
+            </font>
+        </Label>
+        <VBox fx:id="vboxPool" layoutX="20.0" layoutY="49.0" prefHeight="200.0" prefWidth="960.0"/>
+        <JFXButton layoutX="898.0" layoutY="13.0" onAction="#onAddAction" stylesheets="@textColor.css" text="添加">
+            <graphic>
+                <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLUS_CIRCLE_OUTLINE" size="24"/>
+            </graphic>
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </JFXButton>
+    </children>
+</fx:root>

@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by adn55 on 2017/3/29.
@@ -64,7 +65,7 @@ public class BackTestVC extends Pane {
         choicePool.getItems().addAll("沪深300", "中小板", "创业板");
         pools.clear();
         pools.addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
-        List<String> list = CustomPool.getCustomPoolList();
+        List<String> list = CustomPool.createTotalCustomPoolList().stream().map(u -> u.name).collect(Collectors.toList());
         if (list != null) {
             choicePool.getItems().addAll(list);
             pools.addAll(CustomPool.createPoolListFromFileList(list));
@@ -96,15 +97,14 @@ public class BackTestVC extends Pane {
             try {
                 PPAP.extractEngine("data/python");
                 strategy.extract("data/python");
+                System.out.println(JSON.toJSONString(pool.getStockPool()));
                 PPAP ppap = new PPAP("python engine.py", "data/python");
                 ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
                         + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
-                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool())
-                        + ",\"frequency\":" + strategy.freq + "}");
+                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool()) + ",\"frequency\":" + strategy.freq + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();
-                final boolean[] success = {false};
                 ppap.setOutputHandler(out -> {
                     JSONObject jsonObject = JSON.parseObject(out);
                     if (jsonObject.containsKey("success")) {
@@ -120,7 +120,6 @@ public class BackTestVC extends Pane {
                             labelBeta.setText(df.format(jsonObject.getFloat("beta")));
                             labelSharp.setText(df.format(jsonObject.getFloat("sharp")));
                         });
-                        success[0] = true;
                     } else {
                         Platform.runLater(() -> {
                             dates.add(jsonObject.getString("date"));
@@ -131,12 +130,8 @@ public class BackTestVC extends Pane {
                         });
                     }
                 });
-                StringBuilder errMsg = new StringBuilder();
-                ppap.setErrorHandler(err -> errMsg.append(err).append("\n"));
+                ppap.setErrorHandler(System.err::println);
                 ppap.waitEnd();
-                if (!success[0]) {
-                    Platform.runLater(() -> UIContainer.alert("Python 运行时错误", errMsg.toString()));
-                }
                 running.setVisible(false);
             } catch (Exception e) {
                 e.printStackTrace();

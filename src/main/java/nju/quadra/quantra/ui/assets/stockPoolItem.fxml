@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<fx:root alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+         prefWidth="960.0" type="HBox" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <MaterialDesignIconView fill="WHITESMOKE" glyphName="FILE_DOCUMENT" size="64"/>
+        <VBox alignment="CENTER_LEFT" prefHeight="102.0" prefWidth="810.0">
+            <children>
+                <Label fx:id="labelTitle" stylesheets="@textColor.css" text="Title">
+                    <font>
+                        <Font size="32.0"/>
+                    </font>
+                </Label>
+            </children>
+            <HBox.margin>
+                <Insets left="10.0"/>
+            </HBox.margin>
+        </VBox>
+        <VBox alignment="CENTER" stylesheets="@textColor.css">
+            <children>
+                <JFXButton maxHeight="30.0" minHeight="0.0" onAction="#onModifyAction" text="修改">
+                    <graphic>
+                        <MaterialDesignIconView fill="WHITESMOKE" glyphName="PENCIL_BOX_OUTLINE" size="24"/>
+                    </graphic>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </JFXButton>
+                <JFXButton maxHeight="30.0" minHeight="0.0" onAction="#onDeleteAction" text="删除">
+                    <graphic>
+                        <MaterialDesignIconView fill="WHITESMOKE" glyphName="CLOSE_BOX_OUTLINE" size="24"/>
+                    </graphic>
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </JFXButton>
+            </children>
+        </VBox>
+    </children>
+</fx:root>

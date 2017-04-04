@@ -3,6 +3,7 @@ package nju.quadra.quantra.pool;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONWriter;
+import nju.quadra.quantra.ui.UIContainer;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,10 +14,21 @@ import java.util.*;
  */
 public class CustomPool extends AbstractPool {
     private static String STOCK_POOL_NAME;
-    public CustomPool(String name, List<Integer> list) {
+
+    private CustomPool(String name) {
         this.name = name;
-        this.stockPool = new HashSet<>(list);
         STOCK_POOL_NAME = "data/pools/" + Base64.getEncoder().encodeToString(this.name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
+    }
+
+    public CustomPool(String name, List<Integer> list) {
+        this(name);
+        this.stockPool = new HashSet<>(list);
+        saveToFile();
+    }
+
+    public CustomPool(String name, Set<Integer> list) {
+        this(name);
+        this.stockPool = list;
         saveToFile();
     }
 
@@ -101,6 +113,26 @@ public class CustomPool extends AbstractPool {
         saveToFile();
     }
 
+    public void changeStockList(Set<Integer> stockList) {
+        stockPool = stockList;
+        saveToFile();
+    }
+
+    public boolean removePool() {
+        File poolDir = new File("data/pools");
+        String nameEncoded = Base64.getEncoder().encodeToString(name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
+        if (!poolDir.exists()) {
+            poolDir.getParentFile().mkdirs();
+            return false;
+        }
+        for (File f : poolDir.listFiles()) {
+            if (f.getName().equals(nameEncoded)) {
+                return f.delete();
+            }
+        }
+        return false;
+    }
+
     public static CustomPool createPoolFromFile(String name) {
         File poolDir = new File("data/pools");
         String nameEncoded = Base64.getEncoder().encodeToString(name.getBytes(StandardCharsets.UTF_8)).replace('/', '~');
@@ -132,14 +164,14 @@ public class CustomPool extends AbstractPool {
         return pools;
     }
 
-    public static List<String> getCustomPoolList() {
-        List<String> result = null;
+    public static List<CustomPool> createTotalCustomPoolList() {
+        List<CustomPool> result = null;
         try {
             result = new ArrayList<>();
             File poolDir = new File("data/pools");
             for (File f : poolDir.listFiles()) {
                 String poolName = new String(Base64.getDecoder().decode(f.getName().replace('~', '/')), StandardCharsets.UTF_8);
-                result.add(poolName);
+                result.add(createPoolFromFile(poolName));
             }
         } catch (NullPointerException ignored) {}
         return result;

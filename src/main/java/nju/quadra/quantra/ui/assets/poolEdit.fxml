@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" stylesheets="@stockList.css" type="BorderPane"
+         xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <TableView fx:id="table" maxHeight="1.7976931348623157E308">
+            <BorderPane.margin>
+                <Insets top="15.0"/>
+            </BorderPane.margin>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </center>
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <HBox>
+                    <children>
+                        <Label fx:id="labelTitle" stylesheets="@textColor.css" text="股池编辑">
+                            <font>
+                                <Font size="32.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <HBox spacing="10.0">
+                    <children>
+                        <Label stylesheets="@textColor.css" text="股池名称">
+                            <font>
+                                <Font size="16.0"/>
+                            </font>
+                        </Label>
+                        <JFXTextField fx:id="fieldName" stylesheets="@textColor.css"/>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="726.0" spacing="10.0">
+                            <children>
+                                <JFXButton onAction="#onRandomAction" stylesheets="@textColor.css" text="随机生成">
+                                    <font>
+                                        <Font size="16.0"/>
+                                    </font>
+                                </JFXButton>
+                                <JFXButton onAction="#onConfirmAction" stylesheets="@textColor.css" text="确认">
+                                    <font>
+                                        <Font size="16.0"/>
+                                    </font>
+                                </JFXButton>
+                                <JFXButton onAction="#onCancelAction" stylesheets="@textColor.css" text="取消">
+                                    <font>
+                                        <Font size="16.0"/>
+                                    </font>
+                                </JFXButton>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <padding>
+        <Insets left="10.0" right="10.0"/>
+    </padding>
+</fx:root>
