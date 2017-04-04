@@ -15,7 +15,7 @@
          <children>
             <Label fx:id="labelTitle" stylesheets="@textColor.css" text="Title">
                <font>
-                  <Font size="32.0" />
+                  <Font size="28.0" />
                </font>
             </Label>
             <Label fx:id="labelSubTitle" stylesheets="@textColor.css" text="Subtitle">

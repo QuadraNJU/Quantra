@@ -125,6 +125,7 @@ if __name__ == '__main__':
     account = Account(universe, capital)
     daily_earn_rate = []
     base_earn_rate = []
+    win_times = 0
     for i in range(start_date_index, end_date_index, -frequency):
         account.set_date_index(i)
         handler.handle(account)
@@ -141,18 +142,22 @@ if __name__ == '__main__':
             base_stock_price = numpy.mean(account.ref_price.values())
         today_base_earn_rate = (numpy.mean(account.close_price.values()) - base_stock_price) / base_stock_price
         base_earn_rate.append(today_base_earn_rate)
+        # update win times
+        if earn_rate > today_base_earn_rate:
+            win_times += 1
         # update progress
         progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
-        info = {'progress': progress, 'date': trade_days[i], 'earn_rate': earn_rate,
-                'base_earn_rate': today_base_earn_rate}
+        info = {'progress': progress, 'date': trade_days[i], 'cash': account.cash,
+                'earn_rate': earn_rate, 'base_earn_rate': today_base_earn_rate}
         print info
         sys.stdout.flush()
 
     annualized = daily_earn_rate[-1] / (start_date_index - end_date_index + 1) * 250
     base_annualized = base_earn_rate[-1] / (start_date_index - end_date_index + 1) * 250
+    win_rate = win_times * 1.0 / len(daily_earn_rate)
     sharp = (annualized - 0.0175) / numpy.std(daily_earn_rate)
     beta = beta(daily_earn_rate, base_earn_rate)
     alpha = alpha(annualized, base_earn_rate, beta)
 
     print json.dumps({'success': True, 'progress': 100, 'annualized': annualized, 'base_annualized': base_annualized,
-                      'sharp': sharp, 'beta': beta, 'alpha': alpha})
+                      'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha})

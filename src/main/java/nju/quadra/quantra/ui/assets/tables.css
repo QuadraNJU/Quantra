@@ -7,6 +7,22 @@
     -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
+.table-view .column-header .label {
+    -fx-alignment: center-left;
+}
+
+.table-view .column-header .arrow {
+    -fx-background-color: whitesmoke;
+}
+
 .table-view * {
     -fx-text-fill: whitesmoke;
+}
+
+.table-view .red * {
+    -fx-text-fill: lightpink;
+}
+
+.table-view .green * {
+    -fx-text-fill: lightgreen;
 }

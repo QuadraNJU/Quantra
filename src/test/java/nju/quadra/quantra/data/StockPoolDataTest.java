@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by RaUkonn on 2017/4/2.
  */
-public class stockPoolDataTest {
+public class StockPoolDataTest {
 
     @Test
     public void getHS300ListTest() {
