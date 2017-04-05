@@ -11,4 +11,9 @@ public abstract class AbstractPool {
     public Set<Integer> stockPool;
 
     public abstract List<Integer> getStockPool();
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

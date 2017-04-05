@@ -41,7 +41,7 @@ public class BackTestVC extends Pane {
     @FXML
     JFXDatePicker dateStart, dateEnd;
     @FXML
-    private ChoiceBox<String> choicePool;
+    private JFXComboBox<AbstractPool> choicePool;
     @FXML
     private JFXComboBox<BaseIndex> choiceIndex;
     @FXML
@@ -58,7 +58,6 @@ public class BackTestVC extends Pane {
     private QuantraLineChart lineChart;
     private AbstractStrategy strategy;
     private AbstractPool pool;
-    private List<AbstractPool> pools = new ArrayList<>();
 
     public BackTestVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/backTest.fxml"));
@@ -68,8 +67,9 @@ public class BackTestVC extends Pane {
         dateEnd.setValue(LocalDate.of(2013, 12, 31));
 
         loadPools();
-        choicePool.setValue("沪深300");
-        pool = new HS300Pool();
+        pool = choicePool.getItems().get(0);
+        choicePool.setValue(pool);
+
 
         choiceIndex.getItems().addAll(BaseIndex.values());
         choiceIndex.getSelectionModel().selectedItemProperty().addListener(observable -> updateIndex());
@@ -98,20 +98,15 @@ public class BackTestVC extends Pane {
 
     private void loadPools() {
         choicePool.getItems().clear();
-        choicePool.getItems().addAll("沪深300", "中小板", "创业板");
-        pools.clear();
-        pools.addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
-        List<String> list = CustomPool.createTotalCustomPoolList().stream().map(u -> u.name).collect(Collectors.toList());
-        if (list != null) {
-            choicePool.getItems().addAll(list);
-            pools.addAll(CustomPool.createPoolListFromFileList(list));
-        }
+        choicePool.getItems().addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
+        List<CustomPool> list = new ArrayList<>(CustomPool.createTotalCustomPoolList());
+        choicePool.getItems().addAll(list);
     }
 
     @FXML
     private void onChangePoolAction() {
-        for (AbstractPool p : pools) {
-            if (p.name.equals(choicePool.getValue())) {
+        for (AbstractPool p : choicePool.getItems()) {
+            if (p.name.equals(choicePool.getValue().name)) {
                 pool = p;
                 break;
             }

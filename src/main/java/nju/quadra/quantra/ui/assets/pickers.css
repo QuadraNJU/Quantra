@@ -13,6 +13,10 @@
     -fx-text-fill: black;
 }
 
+.jfx-combo-box .list-cell {
+    -fx-text-fill: whitesmoke;
+}
+
 .jfx-radio-button {
     -fx-text-fill: whitesmoke;
 }
