@@ -1,6 +1,6 @@
 package nju.quadra.quantra.pool;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -10,7 +10,13 @@ public abstract class AbstractPool {
     public String name;
     public Set<Integer> stockPool;
 
-    public abstract List<Integer> getStockPool();
+    public AbstractPool(String name) {
+        this.name = name;
+    }
+
+    public Set<Integer> getStockPool() {
+        return Collections.unmodifiableSet(stockPool);
+    }
 
     @Override
     public String toString() {

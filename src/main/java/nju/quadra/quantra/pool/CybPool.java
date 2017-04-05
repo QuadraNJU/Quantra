@@ -12,16 +12,12 @@ import java.util.stream.Collectors;
  */
 public class CybPool extends AbstractPool {
     public CybPool() {
-        this.name = "创业板";
+        super("创业板");
         List<StockInfoPtr> list = StockData.getPtrList();
         this.stockPool = list.stream()
                 .mapToInt(i -> i.get().getCode())
                 .filter(i -> (300000 <= i && i < 301000))
-                .boxed().collect(Collectors.toSet());
-    }
-
-    @Override
-    public List<Integer> getStockPool() {
-        return new ArrayList<>(stockPool);
+                .boxed()
+                .collect(Collectors.toSet());
     }
 }

@@ -2,16 +2,14 @@ package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.JFXDialog;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+import nju.quadra.quantra.data.StockPoolData;
 import nju.quadra.quantra.pool.CustomPool;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 
 /**
@@ -47,7 +45,11 @@ public class SmallPoolItemVC extends HBox {
 
     @FXML
     private void onMouseClickedAction() {
-        if (pool.addStock(code)) {
+        HashSet<Integer> set = new HashSet<>(pool.getStockPool());
+        if (set.add(code)) {
+            CustomPool newPool = new CustomPool(pool.name, set);
+            StockPoolData.removePool(pool);
+            StockPoolData.addPool(newPool);
             UIContainer.alert("提示", "股票添加成功");
             parent.close();
         } else {

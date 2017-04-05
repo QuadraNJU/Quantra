@@ -13,16 +13,12 @@ import java.util.stream.Collectors;
  */
 public class HS300Pool extends AbstractPool {
     public HS300Pool() {
-        this.name = "沪深300";
+        super("沪深300");
         List<StockInfoPtr> list = StockData.getPtrList();
         this.stockPool = list.stream()
                 .mapToInt(i -> i.get().getCode())
                 .filter(i -> (0 <= i && i < 2000) || (600000 <= i && i < 602000))
-                .boxed().collect(Collectors.toSet());
-    }
-
-    @Override
-    public List<Integer> getStockPool() {
-        return new ArrayList<>(stockPool);
+                .boxed()
+                .collect(Collectors.toSet());
     }
 }

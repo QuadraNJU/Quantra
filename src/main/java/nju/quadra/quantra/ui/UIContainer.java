@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
-import nju.quadra.quantra.pool.CustomPool;
+import nju.quadra.quantra.data.StockPoolData;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
@@ -144,7 +144,7 @@ public class UIContainer extends Stage {
 
     public static void addStockToPool(int code) {
         VBox list = new VBox();
-        list.getChildren().addAll(CustomPool.createTotalCustomPoolList().stream()
+        list.getChildren().addAll(StockPoolData.getPoolMap().values().stream()
                 .map(u -> {
                     try {
                         return new SmallPoolItemVC(u, code);

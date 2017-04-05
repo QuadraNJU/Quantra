@@ -17,7 +17,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import nju.quadra.quantra.pool.*;
+import nju.quadra.quantra.data.StockPoolData;
+import nju.quadra.quantra.pool.AbstractPool;
+import nju.quadra.quantra.pool.CybPool;
+import nju.quadra.quantra.pool.HS300Pool;
+import nju.quadra.quantra.pool.ZxbPool;
 import nju.quadra.quantra.pool.index.BaseIndex;
 import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.ui.chart.QuantraLineChart;
@@ -31,7 +35,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by adn55 on 2017/3/29.
@@ -98,9 +101,8 @@ public class BackTestVC extends Pane {
 
     private void loadPools() {
         choicePool.getItems().clear();
-        choicePool.getItems().addAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
-        List<CustomPool> list = new ArrayList<>(CustomPool.createTotalCustomPoolList());
-        choicePool.getItems().addAll(list);
+        choicePool.getItems().addAll(new HS300Pool(), new ZxbPool(), new CybPool());
+        choicePool.getItems().addAll(StockPoolData.getPoolMap().values());
     }
 
     @FXML

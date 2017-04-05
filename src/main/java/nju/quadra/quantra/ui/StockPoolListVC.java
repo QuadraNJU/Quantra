@@ -3,6 +3,7 @@ package nju.quadra.quantra.ui;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import nju.quadra.quantra.data.StockPoolData;
 import nju.quadra.quantra.pool.CustomPool;
 import nju.quadra.quantra.utils.FXUtil;
 
@@ -17,11 +18,11 @@ public class StockPoolListVC extends Pane {
 
     public StockPoolListVC() throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/stockPoolList.fxml"));
-        updateStrategy();
+        updatePoolList();
     }
 
-    public void updateStrategy() {
-        for (CustomPool pool : CustomPool.createTotalCustomPoolList()) {
+    public void updatePoolList() {
+        for (CustomPool pool : StockPoolData.getPoolMap().values()) {
             try {
                 vboxPool.getChildren().add(new StockPoolItemVC(pool));
             } catch (IOException e) {

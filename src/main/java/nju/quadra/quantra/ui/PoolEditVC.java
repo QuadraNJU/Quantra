@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
+import nju.quadra.quantra.data.StockPoolData;
 import nju.quadra.quantra.pool.AbstractPool;
 import nju.quadra.quantra.pool.CustomPool;
 import nju.quadra.quantra.utils.FXUtil;
@@ -28,15 +29,16 @@ import java.util.stream.Collectors;
  * Created by RaUkonn on 2017/4/4.
  */
 public class PoolEditVC extends BorderPane {
-    private static final int MIN_SIZE = 100;
+
     @FXML
     private TableView<SimpleStockInfo> table;
     @FXML
     private Label labelTitle;
     @FXML
     private JFXTextField fieldName;
-    private CustomPool pool;
 
+    private static final int MIN_SIZE = 100;
+    private CustomPool pool;
 
     public PoolEditVC(Node parent) throws IOException {
         pool = null;
@@ -51,7 +53,6 @@ public class PoolEditVC extends BorderPane {
         FXUtil.loadFXML(this, getClass().getResource("assets/poolEdit.fxml"));
         labelTitle.setText("修改股池");
         fieldName.setText(pool.name);
-        fieldName.setDisable(true);
         addColumns();
         loadPool(pool);
     }
@@ -94,7 +95,6 @@ public class PoolEditVC extends BorderPane {
             table.getItems().get(i).isSelected = Math.random() < remainRatio;
             if (table.getItems().get(i).isSelected) count++;
         }
-
         table.refresh();
     }
 
@@ -103,19 +103,19 @@ public class PoolEditVC extends BorderPane {
         Set<Integer> set = table.getItems().stream()
                 .filter(u -> u.isSelected).mapToInt(u -> u.code).boxed().collect(Collectors.toSet());
         if (set.size() < MIN_SIZE) {
-            UIContainer.alert("错误", "自定义股池的最小股票数目为100支，您当前的股票数为" + set.size());
-        } else if (pool == null) {
+            UIContainer.alert("错误", "自定义股池的最小股票数为 " + MIN_SIZE + "，已选的股票数为 " + set.size());
+        } else {
             if (fieldName.getText().trim().equals("")) {
-                UIContainer.alert("错误", "未输入股池名称");
+                UIContainer.alert("错误", "请输入股池名称");
             } else {
+                if (pool != null) {
+                    StockPoolData.removePool(pool);
+                }
                 pool = new CustomPool(fieldName.getText(), set);
+                StockPoolData.addPool(pool);
                 onCancelAction();
             }
-        } else {
-            pool.changeStockList(set);
-            onCancelAction();
         }
-
     }
 
     @FXML
