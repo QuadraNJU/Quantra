@@ -5,6 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -22,7 +25,6 @@ import nju.quadra.quantra.utils.FXUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -35,9 +37,11 @@ public class PoolEditVC extends BorderPane {
     @FXML
     private Label labelTitle;
     @FXML
-    private JFXTextField fieldName;
+    private JFXTextField fieldName, searchBox;
 
     private static final int MIN_SIZE = 100;
+    private ObservableList<SimpleStockInfo> infos = FXCollections.observableArrayList();
+    private FilteredList<SimpleStockInfo> filteredInfos = new FilteredList<>(infos);
     private CustomPool pool;
 
     public PoolEditVC(Node parent) throws IOException {
@@ -70,16 +74,30 @@ public class PoolEditVC extends BorderPane {
     }
 
     private void loadPool() {
-        Set<SimpleStockInfo> set = new TreeSet<>();
-        for (StockInfoPtr ptr : StockData.getPtrList()) {
-            set.add(new SimpleStockInfo(ptr));
-        }
-        table.getItems().addAll(set);
+        infos.setAll(StockData.getIndex().stream().map(SimpleStockInfo::new).collect(Collectors.toList()));
+        table.setItems(filteredInfos);
+        searchBox.textProperty().addListener(o -> filteredInfos.setPredicate(ssi -> {
+            String cond = searchBox.getText().trim().toLowerCase();
+            if (cond.isEmpty()) {
+                return true;
+            }
+            char first = cond.charAt(0);
+            if (first >= '0' && first <= '9') {
+                int input = Integer.parseInt(cond);
+                int lower = (int) (input * Math.pow(10, 6 - cond.length()));
+                int upper = (int) ((input + 1) * Math.pow(10, 6 - cond.length()) - 1);
+                return ssi.code >= lower && ssi.code <= upper;
+            } else if (first >= 'a' && first <= 'z') {
+                return ssi.pinyin.startsWith(cond);
+            } else {
+                return ssi.name.contains(cond);
+            }
+        }));
     }
 
     private void loadPool(AbstractPool pool) {
         loadPool();
-        for (SimpleStockInfo ssi : table.getItems()) {
+        for (SimpleStockInfo ssi : infos) {
             if (pool.getStockPool().contains(ssi.code)) {
                 ssi.isSelected = true;
             }
@@ -100,12 +118,12 @@ public class PoolEditVC extends BorderPane {
 
     @FXML
     private void onConfirmAction() {
-        Set<Integer> set = table.getItems().stream()
+        Set<Integer> set = infos.stream()
                 .filter(u -> u.isSelected).mapToInt(u -> u.code).boxed().collect(Collectors.toSet());
         if (set.size() < MIN_SIZE) {
             UIContainer.alert("错误", "自定义股池的最小股票数为 " + MIN_SIZE + "，已选的股票数为 " + set.size());
         } else {
-            if (fieldName.getText().trim().equals("")) {
+            if (fieldName.getText().trim().isEmpty()) {
                 UIContainer.alert("错误", "请输入股池名称");
             } else {
                 if (pool != null) {
@@ -123,7 +141,7 @@ public class PoolEditVC extends BorderPane {
         new Thread(() -> {
             try {
                 UIContainer.showLoading();
-                UIContainer.loadContent(new StockPoolListVC());
+                UIContainer.loadContent(new PoolListVC());
                 UIContainer.hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -135,12 +153,14 @@ public class PoolEditVC extends BorderPane {
         private String name;
         private int code;
         private String market;
+        private String pinyin;
         private Boolean isSelected;
 
         private SimpleStockInfo(StockInfoPtr ptr, Boolean isSelected) {
             this.name = ptr.get().getName();
             this.code = ptr.get().getCode();
             this.market = ptr.get().getMarket();
+            this.pinyin = ptr.get().getPinyin();
             this.isSelected = isSelected;
         }
 
@@ -150,15 +170,11 @@ public class PoolEditVC extends BorderPane {
 
         @Override
         public int compareTo(SimpleStockInfo o) {
-            if (name.equals(o.name) && code == o.code && market.equals(o.market) && isSelected == o.isSelected) {
-                return 0;
-            } else {
-                return code - o.code;
-            }
+            return code - o.code;
         }
     }
 
-    public class StockSelectedValueFactory implements Callback<TableColumn.CellDataFeatures<SimpleStockInfo, JFXCheckBox>, ObservableValue<JFXCheckBox>> {
+    class StockSelectedValueFactory implements Callback<TableColumn.CellDataFeatures<SimpleStockInfo, JFXCheckBox>, ObservableValue<JFXCheckBox>> {
         @Override
         public ObservableValue<JFXCheckBox> call(TableColumn.CellDataFeatures<SimpleStockInfo, JFXCheckBox> param) {
             SimpleStockInfo stock = param.getValue();

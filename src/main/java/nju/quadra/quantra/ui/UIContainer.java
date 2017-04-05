@@ -1,6 +1,8 @@
 package nju.quadra.quantra.ui;
 
 import com.jfoenix.controls.*;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,10 +22,12 @@ import javafx.stage.Stage;
 import nju.quadra.quantra.data.StockData;
 import nju.quadra.quantra.data.StockInfoPtr;
 import nju.quadra.quantra.data.StockPoolData;
+import nju.quadra.quantra.pool.CustomPool;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -143,24 +147,36 @@ public class UIContainer extends Stage {
     }
 
     public static void addStockToPool(int code) {
-        VBox list = new VBox();
-        list.getChildren().addAll(StockPoolData.getPoolMap().values().stream()
-                .map(u -> {
-                    try {
-                        return new SmallPoolItemVC(u, code);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }).collect(Collectors.toList()));
         JFXDialogLayout layout = new JFXDialogLayout();
-        layout.setHeading(new Text("添加到股池"));
+        layout.setHeading(new Text("请选择目标股票池 :"));
+        JFXListView<Node> list = new JFXListView();
         layout.setBody(list);
         JFXButton noButton = new JFXButton("取消");
         layout.setActions(noButton);
         JFXDialog dialog = new JFXDialog(rootStackS, layout, JFXDialog.DialogTransition.CENTER);
         noButton.setOnAction(t -> dialog.close());
-        list.getChildren().stream().map(u -> (SmallPoolItemVC) u).forEach(u -> u.setParent(dialog));
+        list.getItems().addAll(StockPoolData.getPoolMap().values().stream()
+                .map(pool -> {
+                    Label label = new Label(pool.name);
+                    MaterialDesignIconView icon = new MaterialDesignIconView(MaterialDesignIcon.FORMAT_LIST_BULLETED);
+                    icon.setSize("20px");
+                    label.setGraphic(icon);
+                    label.setUserData(pool);
+                    return label;
+                }).collect(Collectors.toList()));
+        list.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            CustomPool pool = (CustomPool) newValue.getUserData();
+            HashSet<Integer> set = new HashSet<>(pool.getStockPool());
+            if (set.add(code)) {
+                CustomPool newPool = new CustomPool(pool.name, set);
+                StockPoolData.removePool(pool);
+                StockPoolData.addPool(newPool);
+                UIContainer.alert("提示", "股票添加成功");
+            } else {
+                UIContainer.alert("提示", "该股票已在所选股池中");
+            }
+            dialog.close();
+        });
         dialog.show();
     }
 
@@ -247,7 +263,7 @@ public class UIContainer extends Stage {
         new Thread(() -> {
             try {
                 showLoading();
-                loadContent(new StockPoolListVC());
+                loadContent(new PoolListVC());
                 hideLoading();
             } catch (IOException e) {
                 e.printStackTrace();
