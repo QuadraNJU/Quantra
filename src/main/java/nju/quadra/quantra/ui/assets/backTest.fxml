@@ -5,7 +5,6 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-: ;" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="策略回测">
          <font>
@@ -86,7 +85,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="choicePool" onAction="#onChangePoolAction" GridPane.columnIndex="1" GridPane.rowIndex="2" stylesheets="@pickers.css"/>
+                  <JFXComboBox fx:id="choicePool" onAction="#onChangePoolAction" stylesheets="@pickers.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <HBox fx:id="running" alignment="CENTER_LEFT" spacing="10.0" visible="false">
@@ -175,6 +174,20 @@
                            </font>
                         </Label>
                         <Label fx:id="labelSharp" textFill="WHITESMOKE">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Label text="最大回撤" textFill="WHITESMOKE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelMaxDrawdown" textFill="WHITESMOKE">
                            <font>
                               <Font size="28.0" />
                            </font>

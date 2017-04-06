@@ -125,12 +125,16 @@ if __name__ == '__main__':
     account = Account(universe, capital)
     daily_earn_rate = []
     base_earn_rate = []
+    drawdown = []
     win_times = 0
+    history_max_value = 0
     for i in range(start_date_index, end_date_index, -frequency):
         account.set_date_index(i)
         handler.handle(account)
         # portofolio
         new_portfolio = account.cash
+        if history_max_value < account.portfolio:
+            history_max_value = account.portfolio
         for stk in account.sec_pos:
             new_portfolio += account.sec_pos[stk] * account.close_price[stk]
         account.portfolio = new_portfolio
@@ -145,6 +149,8 @@ if __name__ == '__main__':
         # update win times
         if earn_rate > today_base_earn_rate:
             win_times += 1
+        # Max Drawdown
+        drawdown.append(1 - new_portfolio / history_max_value)
         # update progress
         progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
         info = {'progress': progress, 'date': trade_days[i], 'cash': account.cash,
@@ -158,6 +164,7 @@ if __name__ == '__main__':
     sharp = (annualized - 0.0175) / numpy.std(daily_earn_rate)
     beta = beta(daily_earn_rate, base_earn_rate)
     alpha = alpha(annualized, base_earn_rate, beta)
+    max_drawdown = max(drawdown)
 
     print json.dumps({'success': True, 'progress': 100, 'annualized': annualized, 'base_annualized': base_annualized,
-                      'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha})
+                      'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha, 'max_drawdown': max_drawdown})

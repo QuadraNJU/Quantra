@@ -52,7 +52,8 @@ public class BackTestVC extends Pane {
     @FXML
     private JFXProgressBar progress;
     @FXML
-    private Label labelStrategy, labelProgress, labelAnnualized, labelBaseAnnualized, labelWinRate, labelAlpha, labelBeta, labelSharp;
+    private Label labelStrategy, labelProgress, labelAnnualized, labelBaseAnnualized, labelWinRate, labelAlpha,
+            labelBeta, labelSharp, labelMaxDrawdown;
     @FXML
     private BorderPane paneChart, paneHist;
     @FXML
@@ -213,6 +214,7 @@ public class BackTestVC extends Pane {
                             labelAlpha.setText(df.format(jsonObject.getFloat("alpha")));
                             labelBeta.setText(df.format(jsonObject.getFloat("beta")));
                             labelSharp.setText(df.format(jsonObject.getFloat("sharp")));
+                            labelMaxDrawdown.setText(df.format(jsonObject.getFloat("max_drawdown")));
                         });
                     } else {
                         Platform.runLater(() -> {
