@@ -3,6 +3,8 @@ package nju.quadra.quantra.strategy;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Created by MECHREVO on 2017/3/30.
@@ -21,6 +23,10 @@ public abstract class AbstractStrategy {
     }
 
     public abstract String getCode();
+
+    public Map<String, Object> getParams() {
+        return Collections.emptyMap();
+    }
 
     public abstract String getDescription();
 

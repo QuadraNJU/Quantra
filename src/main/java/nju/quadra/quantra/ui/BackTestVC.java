@@ -193,7 +193,9 @@ public class BackTestVC extends Pane {
                 ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
                         + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
                         + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool())
-                        + ",\"frequency\":" + strategy.freq + "}");
+                        + ",\"frequency\":" + strategy.freq
+                        + ",\"params\":" + JSON.toJSONString(strategy.getParams())
+                        + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();

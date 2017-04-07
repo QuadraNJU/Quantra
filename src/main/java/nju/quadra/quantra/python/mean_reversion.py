@@ -4,7 +4,7 @@ import numpy as np
 
 
 def handle(account):
-    hist = account.get_history('adjclose', __PERIOD__)
+    hist = account.get_history('adjclose', account.params['period'])
     lis = {'symbol': [], 'bias': []}
     for stk in hist:
         # 计算股票过去20天收盘平均值

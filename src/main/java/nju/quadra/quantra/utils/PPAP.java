@@ -18,17 +18,21 @@ public class PPAP {
     private Process process;
     private OutputHandler outputHandler, errorHandler;
 
-    public static void extractEngine(String path) throws IOException {
+    public static void extractEngine(String engine, String path) throws IOException {
         File filePath = new File(path);
         filePath.mkdirs();
-        InputStream is = PPAP.class.getResourceAsStream("../python/engine.py");
-        FileOutputStream os = new FileOutputStream(path + "/engine.py");
+        InputStream is = PPAP.class.getResourceAsStream("../python/" + engine + ".py");
+        FileOutputStream os = new FileOutputStream(path + "/" + engine + ".py");
         byte[] buf = new byte[is.available()];
         is.read(buf);
         os.write(buf);
         os.flush();
         is.close();
         os.close();
+    }
+
+    public static void extractEngine(String path) throws IOException {
+        extractEngine("engine", path);
     }
 
     public PPAP(String cmd, String path) throws IOException {

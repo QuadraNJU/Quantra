@@ -3,7 +3,7 @@ import pandas
 
 
 def handle(account):
-    history = account.get_history('adjclose', __PERIOD__)
+    history = account.get_history('adjclose', account.params['period'])
     momentum = {'symbol': [], 'c_ret': []}
     for stk in history:
         momentum['symbol'].append(stk)

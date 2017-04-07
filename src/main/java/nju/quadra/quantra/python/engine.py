@@ -1,20 +1,20 @@
 # coding=utf-8
-import imp
 import json
-import sys
-import time
 
+import imp
 import numpy
 import os
 import pandas
+import sys
+import time
 
 
-def alpha(_annualized_earn_rate, _base_earn_rate, _beta, _risk_free_interest_rate=0.0175):
+def calc_alpha(_annualized_earn_rate, _base_earn_rate, _beta, _risk_free_interest_rate=0.0175):
     return (_annualized_earn_rate - _risk_free_interest_rate) \
            - _beta * numpy.floor(numpy.mean(_base_earn_rate) - _risk_free_interest_rate)
 
 
-def beta(_daily_earn_rate, _base_earn_rate):
+def calc_beta(_daily_earn_rate, _base_earn_rate):
     n = len(_base_earn_rate)
     if n == 1:
         return 0
@@ -48,7 +48,8 @@ def get_universe(prefix):
 
 
 class Account:
-    def __init__(self, universe, capital):
+    def __init__(self, params, universe, capital):
+        self.params = params
         self.universe = universe
         self.cash = capital
         self.portfolio = capital
@@ -100,18 +101,20 @@ class Account:
             self.trade(stock, 0)
 
 
-if __name__ == '__main__':
-    args = raw_input()
-    args = json.loads(args)
+def init():
+    os.chdir(os.getcwd())
+    global stock_data
+    stock_data = pandas.read_csv('../../stock_data.json', sep=',', header=None)
+    global trade_days
+    trade_days = stock_data[1].drop_duplicates()
+
+
+def run(args):
     start_date = get_date(args['start_date'])
     end_date = get_date(args['end_date'])
     universe = args['universe']
     frequency = args['frequency']
     capital = 100000000
-
-    os.chdir(os.getcwd())
-    stock_data = pandas.read_csv('../../stock_data.json', sep=',', header=None)
-    trade_days = stock_data[1].drop_duplicates()
 
     # main logic
     start_date_index = -1
@@ -122,7 +125,7 @@ if __name__ == '__main__':
         if start_date_index == -1 and get_date(trade_days[i]) <= start_date:
             start_date_index = i
     handler = imp.load_source('strategy', 'strategy.py')
-    account = Account(universe, capital)
+    account = Account(args['params'], universe, capital)
     daily_earn_rate = []
     base_earn_rate = []
     drawdown = []
@@ -162,9 +165,19 @@ if __name__ == '__main__':
     base_annualized = base_earn_rate[-1] / (start_date_index - end_date_index + 1) * 250
     win_rate = win_times * 1.0 / len(daily_earn_rate)
     sharp = (annualized - 0.0175) / numpy.std(daily_earn_rate)
-    beta = beta(daily_earn_rate, base_earn_rate)
-    alpha = alpha(annualized, base_earn_rate, beta)
+    beta = calc_beta(daily_earn_rate, base_earn_rate)
+    alpha = calc_alpha(annualized, base_earn_rate, beta)
     max_drawdown = max(drawdown)
+    abnormal_return = annualized - base_annualized
 
-    print json.dumps({'success': True, 'progress': 100, 'annualized': annualized, 'base_annualized': base_annualized,
-                      'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha, 'max_drawdown': max_drawdown})
+    result = {'success': True, 'progress': 100, 'annualized': annualized, 'base_annualized': base_annualized,
+              'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha, 'max_drawdown': max_drawdown,
+              'abnormal_return': abnormal_return}
+    print json.dumps(result)
+    return result
+
+
+if __name__ == '__main__':
+    args = json.loads(raw_input())
+    init()
+    run(args)

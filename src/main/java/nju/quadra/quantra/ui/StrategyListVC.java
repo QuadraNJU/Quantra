@@ -46,6 +46,19 @@ public class StrategyListVC extends Pane {
         }).start();
     }
 
+    @FXML
+    private void onArenaAction() {
+        new Thread(() -> {
+            try {
+                UIContainer.showLoading();
+                UIContainer.loadContent(new StrategyArenaVC());
+                UIContainer.hideLoading();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     class StrategyItemVC extends HBox {
         @FXML
         private Label labelTitle;
@@ -82,5 +95,7 @@ public class StrategyListVC extends Pane {
                 }
             });
         }
+
+
     }
 }

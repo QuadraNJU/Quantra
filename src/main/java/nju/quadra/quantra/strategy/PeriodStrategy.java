@@ -2,6 +2,9 @@ package nju.quadra.quantra.strategy;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by RaUkonn on 2017/3/31.
@@ -21,11 +24,18 @@ public class PeriodStrategy extends AbstractStrategy{
             byte[] buf = new byte[is.available()];
             is.read(buf);
             is.close();
-            return new String(buf, "UTF-8").replace("__PERIOD__", String.valueOf(period));
+            return new String(buf, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
             return "";
         }
+    }
+
+    @Override
+    public Map<String, Object> getParams() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("period", period);
+        return map;
     }
 
     @Override

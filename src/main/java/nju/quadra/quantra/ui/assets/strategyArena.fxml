@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.ToggleGroup?>
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="策略角斗场">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="898.0" layoutY="13.0" onAction="#onRunAction" stylesheets="@textColor.css" text="运行">
+         <graphic>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLAY_BOX_OUTLINE" size="24" />
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <VBox layoutX="20.0" layoutY="62.0" prefWidth="960.0" spacing="10.0">
+         <children>
+            <GridPane hgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label stylesheets="@textColor.css" text="所选策略">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                     <children>
+                        <fx:define>
+                           <ToggleGroup fx:id="group" />
+                        </fx:define>
+                        <JFXRadioButton fx:id="radioMean" stylesheets="@pickers.css" text="均值回归" toggleGroup="$group">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXRadioButton>
+                        <JFXRadioButton fx:id="radioMom" stylesheets="@pickers.css" text="动量策略" toggleGroup="$group">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </JFXRadioButton>
+                     </children>
+                  </HBox>
+                  <JFXComboBox fx:id="comboPeriod" stylesheets="@pickers.css" GridPane.rowIndex="1" />
+                  <JFXTextField fx:id="textPeriod" maxWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" stylesheets="@textColor.css" />
+                  <Label stylesheets="@textColor.css" text="日期选择" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <JFXDatePicker fx:id="dateStart" stylesheets="@pickers.css" />
+                        <Label stylesheets="@textColor.css" text="-">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <JFXDatePicker fx:id="dateEnd" stylesheets="@pickers.css" />
+                        <HBox />
+                     </children>
+                  </HBox>
+                  <Label stylesheets="@textColor.css" text="股票池" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox fx:id="comboPool" stylesheets="@pickers.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <HBox fx:id="running" alignment="CENTER_LEFT" spacing="10.0" visible="false">
+               <children>
+                  <JFXProgressBar fx:id="progress" prefHeight="10.0" prefWidth="920.0" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="labelProgress" text="0%" textFill="WHITESMOKE" />
+               </children>
+            </HBox>
+            <Label stylesheets="@textColor.css" text="超额收益率">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="CHART_LINE" size="32" />
+               </graphic>
+            </Label>
+            <BorderPane fx:id="paneAbnormalReturn" prefHeight="400.0" />
+            <Label stylesheets="@textColor.css" text="策略胜率">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="CHART_HISTOGRAM" size="32" />
+               </graphic>
+            </Label>
+            <BorderPane fx:id="paneWinningRate" prefHeight="300.0" />
+         </children>
+      </VBox>
+   </children>
+</fx:root>
