@@ -19,7 +19,7 @@ public class CustomStrategy extends AbstractStrategy {
 
     @Override
     public String getDescription() {
-        return "自定义策略";
+        return "自定义策略（持有期 " + freq + " 天）";
     }
 
 }

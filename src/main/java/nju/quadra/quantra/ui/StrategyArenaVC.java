@@ -1,9 +1,9 @@
 package nju.quadra.quantra.ui;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfoenix.controls.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -21,13 +21,10 @@ import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
 import nju.quadra.quantra.utils.PPAP;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -52,14 +49,11 @@ public class StrategyArenaVC extends Pane {
     private Label labelProgress;
     @FXML
     private BorderPane paneAbnormalReturn, paneWinningRate;
-    private PeriodStrategy strategy;
-    private QuantraLineChart abnormalReturnChart;
-    private QuantraLineChart strategyWinRateChart;
 
     public StrategyArenaVC() throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/strategyArena.fxml"));
-        radioMean.setSelected(true);
-        comboPeriod.getItems().setAll("形成期", "持有期");
+        radioMom.setSelected(true);
+        comboPeriod.getItems().setAll("指定形成期", "指定持有期");
         comboPeriod.setValue(comboPeriod.getItems().get(0));
         dateStart.setValue(LocalDate.of(2013, 1, 1));
         dateEnd.setValue(LocalDate.of(2013, 12, 31));
@@ -68,97 +62,98 @@ public class StrategyArenaVC extends Pane {
         comboPool.setValue(comboPool.getItems().get(0));
     }
 
-    private String getStrategyString(boolean isFreq, int timeSpan) {
-        if (isFreq)
-            return "{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue()) + "\"," +
-                    "\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue()) + "\"," +
-                    "\"universe\":" + JSON.toJSONString(comboPool.getValue().getStockPool()) + "," +
-                    "\"frequency\":" + strategy.freq + "," +
-                    "\"strategy\":\"" + strategy.type + "\"," +
-                    "\"params\":{\"period\":" + timeSpan + "}}";
-        else
-            return "{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue()) + "\"," +
-                    "\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue()) + "\"," +
-                    "\"universe\":" + JSON.toJSONString(comboPool.getValue().getStockPool()) + "," +
-                    "\"frequency\":" + timeSpan + "," +
-                    "\"strategy\":\"" + strategy.type + "\"," +
-                    "\"params\":{\"period\":" + strategy.period + "}}";
+    private String getArgs(int freq, int period) {
+        return "{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue()) + "\"," +
+                "\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue()) + "\"," +
+                "\"universe\":" + JSON.toJSONString(comboPool.getValue().getStockPool()) + "," +
+                "\"frequency\":" + freq + "," +
+                "\"params\":{\"period\":" + period + "}}";
     }
 
     @FXML
     private void onRunAction() {
-        boolean isFreq = comboPeriod.getValue().equals("持有期");
-        int timeSpan;
+        int staticTime;
+        PeriodStrategy strategy;
         try {
-            if ((timeSpan = Integer.parseInt(textPeriod.getText())) < 0) {
-                UIContainer.alert("警告", comboPeriod.getValue() + "需为正整数，请重新输入！");
-                return;
+            staticTime = Integer.parseInt(textPeriod.getText());
+            if (staticTime <= 0) {
+                throw new Exception();
             }
         } catch (Exception e) {
-            UIContainer.alert("警告", "请输入正整数");
-            textPeriod.clear();
+            UIContainer.alert("提示", comboPeriod.getValue() + "需为正整数，请重新输入！");
             return;
         }
-
         if (radioMean.isSelected()) {
-            strategy = new PeriodStrategy("mean_reversion", "mean_reversion", isFreq ? timeSpan : 0, 0, isFreq ? 0 : timeSpan);
+            strategy = new PeriodStrategy("", "mean_reversion", 0, 0, 0);
         } else {
-            strategy = new PeriodStrategy("momentum", "momentum", isFreq ? timeSpan : 0, 0, isFreq ? 0 : timeSpan);
+            strategy = new PeriodStrategy("", "momentum", 0, 0, 0);
         }
 
-        List<Number> abnormalReturnList = new ArrayList<>();
-        List<Number> winRateList = new ArrayList<>();
-        List<Number> timeSpans = new ArrayList<>();
-        ArrayList<String> strategies = new ArrayList<>();
-
-        try {
-            for (int period = 5; period <= 50; period += 5) {
-                timeSpans.add(period);
-                strategies.add(getStrategyString(isFreq, period));
+        ArrayList<Number> abnormalReturnList = new ArrayList<>();
+        ArrayList<Number> winRateList = new ArrayList<>();
+        ArrayList<String> timeSpans = new ArrayList<>();
+        ArrayList<String> argsList = new ArrayList<>();
+        boolean dynFreq = comboPeriod.getSelectionModel().getSelectedIndex() == 0;
+        for (int span = 5; span <= 30; span += 5) {
+            timeSpans.add(String.valueOf(span));
+            if (dynFreq) {
+                argsList.add(getArgs(span, staticTime));
+            } else {
+                argsList.add(getArgs(staticTime, span));
             }
-            PPAP.extractEngine("data/python");
-            PPAP.extractEngine("engine_for_arena", "data/python");
-            strategy.extract("data/python");
-            PPAP ppap = new PPAP("python engine_for_arena.py", "data/python");
-
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < strategies.size(); i++) {
-                if (i < strategies.size() - 1) {
-                    if (i == 0)
-                        sb.append("[");
-                    sb.append(strategies.get(i) + ",");
-                } else
-                    sb.append(strategies.get(i) + "]");
-            }
-
-            ppap.sendInput(sb.toString());
-            ppap.setErrorHandler(System.err::println);
-            ppap.waitEnd();
-
-            InputStream is = new FileInputStream("data/result.json");
-            byte[] buf = new byte[is.available()];
-            is.read(buf);
-            is.close();
-            JSONArray jsonArray = JSON.parseArray(new String(buf, "UTF-8"));
-            for (int i = jsonArray.size() - 1; i >= 0; i--) {
-                JSONObject o = jsonArray.getJSONObject(i);
-                Float abnormalReturn = o.getFloat("abnormal_return");
-                Float winRate = o.getFloat("win_rate");
-                abnormalReturnList.add(abnormalReturn);
-                winRateList.add(winRate);
-            }
-            abnormalReturnChart = QuantraLineChart.createFromDates(timeSpans.stream()
-                    .map(Number::toString).collect(Collectors.toList()));
-            abnormalReturnChart.addPath("超额收益率", Color.YELLOW, abnormalReturnList);
-            strategyWinRateChart = QuantraLineChart.createFromDates(timeSpans.stream()
-                    .map(Number::toString).collect(Collectors.toList()));
-            strategyWinRateChart.addPath("策略胜率", Color.LIGHTPINK, winRateList);
-            paneAbnormalReturn.setCenter(abnormalReturnChart);
-            paneWinningRate.setCenter(strategyWinRateChart);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
+        labelProgress.setText("0%");
+        progress.setProgress(0);
+        running.setVisible(true);
+        new Thread(() -> {
+            try {
+                PPAP.extractEngine("data/python");
+                PPAP.extractEngine("arena", "data/python");
+                strategy.extract("data/python");
+                PPAP ppap = new PPAP("python arena.py", "data/python");
+                int[] progressArray = new int[argsList.size()];
+                JSONObject[] resultArray = new JSONObject[argsList.size()];
+                ppap.setOutputHandler(out -> {
+                    JSONObject jsonObject = JSON.parseObject(out);
+                    int thread = jsonObject.getInteger("thread");
+                    if (jsonObject.containsKey("success")) {
+                        resultArray[thread] = jsonObject;
+                    } else {
+                        progressArray[thread] = jsonObject.getInteger("progress");
+                        Platform.runLater(() -> {
+                            int avgProgress = (int) Arrays.stream(progressArray).average().getAsDouble();
+                            progress.setProgress(avgProgress / 100.0);
+                            labelProgress.setText(avgProgress + "%");
+                        });
+                    }
+                });
+                ppap.setErrorHandler(System.err::println);
+                ppap.sendInput("[" + String.join(",", argsList) + "]");
+                ppap.waitEnd();
+
+                for (JSONObject o : resultArray) {
+                    float abnormalReturn = o.getFloat("annualized") - o.getFloat("base_annualized");
+                    float winRate = o.getFloat("win_rate");
+                    abnormalReturnList.add(abnormalReturn);
+                    winRateList.add(winRate);
+                }
+                Platform.runLater(() -> {
+                    QuantraLineChart abnormalReturnChart = QuantraLineChart.createFromDates(timeSpans.stream()
+                            .map(String::valueOf).collect(Collectors.toList()));
+                    abnormalReturnChart.addPath("超额收益率", Color.YELLOW, abnormalReturnList);
+                    QuantraLineChart strategyWinRateChart = QuantraLineChart.createFromDates(timeSpans.stream()
+                            .map(String::valueOf).collect(Collectors.toList()));
+                    strategyWinRateChart.addPath("策略胜率", Color.LIGHTPINK, winRateList);
+                    paneAbnormalReturn.setCenter(abnormalReturnChart);
+                    paneWinningRate.setCenter(strategyWinRateChart);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                running.setVisible(false);
+            }
+        }).start();
     }
 
 }

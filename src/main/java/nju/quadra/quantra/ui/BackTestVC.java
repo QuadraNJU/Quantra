@@ -188,17 +188,11 @@ public class BackTestVC extends Pane {
             try {
                 PPAP.extractEngine("data/python");
                 strategy.extract("data/python");
-                System.out.println(JSON.toJSONString(pool.getStockPool()));
                 PPAP ppap = new PPAP("python engine.py", "data/python");
-                ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
-                        + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
-                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool())
-                        + ",\"frequency\":" + strategy.freq
-                        + ",\"params\":" + JSON.toJSONString(strategy.getParams())
-                        + "}");
                 ArrayList<String> dates = new ArrayList<>();
                 ArrayList<Number> earnRates = new ArrayList<>();
                 ArrayList<Number> baseEarnRates = new ArrayList<>();
+                final boolean[] success = {false};
                 ppap.setOutputHandler(out -> {
                     JSONObject jsonObject = JSON.parseObject(out);
                     if (jsonObject.containsKey("success")) {
@@ -218,6 +212,7 @@ public class BackTestVC extends Pane {
                             labelSharp.setText(df.format(jsonObject.getFloat("sharp")));
                             labelMaxDrawdown.setText(df.format(jsonObject.getFloat("max_drawdown")));
                         });
+                        success[0] = true;
                     } else {
                         Platform.runLater(() -> {
                             String date = jsonObject.getString("date");
@@ -233,11 +228,22 @@ public class BackTestVC extends Pane {
                         });
                     }
                 });
-                ppap.setErrorHandler(System.err::println);
+                StringBuilder errMsg = new StringBuilder();
+                ppap.setErrorHandler(err -> errMsg.append(err).append("\n"));
+                ppap.sendInput("{\"start_date\":\"" + DateUtil.localDateToString(dateStart.getValue())
+                        + "\",\"end_date\":\"" + DateUtil.localDateToString(dateEnd.getValue())
+                        + "\",\"universe\":" + JSON.toJSONString(pool.getStockPool())
+                        + ",\"frequency\":" + strategy.freq
+                        + ",\"params\":" + JSON.toJSONString(strategy.getParams())
+                        + "}");
                 ppap.waitEnd();
-                running.setVisible(false);
+                if (!success[0]) {
+                    Platform.runLater(() -> UIContainer.alert("Python 运行时错误", errMsg.toString()));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                running.setVisible(false);
             }
         }).start();
     }

@@ -1,12 +1,12 @@
 # coding=utf-8
-import json
-
 import imp
+import json
+import sys
+import time
+
 import numpy
 import os
 import pandas
-import sys
-import time
 
 
 def calc_alpha(_annualized_earn_rate, _base_earn_rate, _beta, _risk_free_interest_rate=0.0175):
@@ -109,7 +109,7 @@ def init():
     trade_days = stock_data[1].drop_duplicates()
 
 
-def run(args):
+def run(args, thread_id=0):
     start_date = get_date(args['start_date'])
     end_date = get_date(args['end_date'])
     universe = args['universe']
@@ -156,9 +156,9 @@ def run(args):
         drawdown.append(1 - new_portfolio / history_max_value)
         # update progress
         progress = int((start_date_index - i) * 100.0 / (start_date_index - end_date_index))
-        info = {'progress': progress, 'date': trade_days[i], 'cash': account.cash,
+        info = {'thread': thread_id, 'progress': progress, 'date': trade_days[i], 'cash': account.cash,
                 'earn_rate': earn_rate, 'base_earn_rate': today_base_earn_rate}
-        print info
+        sys.stdout.write(json.dumps(info) + '\n')
         sys.stdout.flush()
 
     annualized = daily_earn_rate[-1] / (start_date_index - end_date_index + 1) * 250
@@ -168,13 +168,12 @@ def run(args):
     beta = calc_beta(daily_earn_rate, base_earn_rate)
     alpha = calc_alpha(annualized, base_earn_rate, beta)
     max_drawdown = max(drawdown)
-    abnormal_return = annualized - base_annualized
 
-    result = {'success': True, 'progress': 100, 'annualized': annualized, 'base_annualized': base_annualized,
-              'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha, 'max_drawdown': max_drawdown,
-              'abnormal_return': abnormal_return}
-    print json.dumps(result)
-    return result
+    result = {'thread': thread_id, 'success': True, 'progress': 100, 'annualized': annualized,
+              'base_annualized': base_annualized, 'win_rate': win_rate, 'sharp': sharp, 'beta': beta, 'alpha': alpha,
+              'max_drawdown': max_drawdown}
+    sys.stdout.write(json.dumps(result) + '\n')
+    sys.stdout.flush()
 
 
 if __name__ == '__main__':

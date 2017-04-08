@@ -15,10 +15,13 @@
          </font>
       </Label>
       <VBox fx:id="vboxStrategy" layoutX="20.0" layoutY="49.0" prefHeight="200.0" prefWidth="960.0" />
-      <JFXButton layoutX="796.0" layoutY="15.0" onAction="#onArenaAction" stylesheets="@textColor.css" text="策略角斗场">
+      <JFXButton layoutX="768.0" layoutY="13.0" onAction="#onArenaAction" stylesheets="@textColor.css" text="策略角斗场">
          <font>
             <Font size="16.0" />
          </font>
+         <graphic>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="SHUFFLE_VARIANT" size="24" />
+         </graphic>
       </JFXButton>
       <JFXButton layoutX="898.0" layoutY="13.0" onAction="#onAddAction" stylesheets="@textColor.css" text="添加">
          <graphic>
