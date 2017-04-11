@@ -1,5 +1,6 @@
 .root-stack {
-    -fx-background-color: #2e4e7e;
+    -fx-background-image: url('../images/bg.jpg');
+    -fx-background-size: cover;
 }
 
 .scroll-pane, .scroll-pane .viewport {
