@@ -27,8 +27,8 @@
     -fx-stroke: whitesmoke;
 }
 .close-above-open {
-    -fx-background-color: #990e0e;
-    -fx-stroke: #990e0e;
+    -fx-background-color: #ff3232;
+    -fx-stroke: #ff3232;
 }
 .open-above-close {
     -fx-background-color: #19b34c;

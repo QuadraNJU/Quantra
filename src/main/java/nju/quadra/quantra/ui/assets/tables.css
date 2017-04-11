@@ -17,12 +17,13 @@
 
 .table-view * {
     -fx-text-fill: whitesmoke;
+    -fx-font-size: 13px;
 }
 
 .table-view .red * {
-    -fx-text-fill: lightpink;
+    -fx-text-fill: #ff3232;
 }
 
 .table-view .green * {
-    -fx-text-fill: lightgreen;
+    -fx-text-fill: #19b34c;
 }
