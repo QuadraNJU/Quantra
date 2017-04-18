@@ -50,10 +50,9 @@ def get_universe(prefix):
 class Account:
     def __init__(self, params, universe, capital):
         self.params = params
-        self.universe = universe
-        self.cash = capital
-        self.portfolio = capital
+        self.cash = self.portfolio = capital
         self.date_index = 0
+        self.universe_data = stock_data[stock_data[get_column_index('code')].isin(universe)]
         self.stocks = {}
         self.sec_pos = {}
         self.ref_price = {}
@@ -62,8 +61,7 @@ class Account:
     def set_date_index(self, date_index):
         self.date_index = date_index
         code_index = get_column_index('code')
-        self.stocks = stock_data[stock_data[code_index].isin(self.universe)
-                                 & (stock_data[get_column_index('date')] == trade_days[self.date_index])]
+        self.stocks = self.universe_data[self.universe_data[get_column_index('date')] == trade_days[self.date_index]]
         for index, info in self.stocks.iterrows():
             self.ref_price[info[code_index]] = info[get_column_index('open')]  # 今日开盘价
             self.close_price[info[code_index]] = info[get_column_index('close')]  # 今日收盘价
@@ -80,6 +78,8 @@ class Account:
         for index, _info in self.stocks.iterrows():
             if stock_data.loc[index + days - 1][code_column] == _info[code_column]:
                 result[_info[code_column]] = stock_data[column][index:index + days].tolist()
+            else:
+                result[_info[code_column]] = []
         return result
 
     def trade(self, stock, target):
@@ -96,10 +96,6 @@ class Account:
         self.cash = new_cash
         self.sec_pos[stock] = target
 
-    def sell_all(self):
-        for stock in self.sec_pos:
-            self.trade(stock, 0)
-
 
 def init():
     os.chdir(os.getcwd())
@@ -110,20 +106,22 @@ def init():
 
 
 def run(args, thread_id=0):
+    # load args
     start_date = get_date(args['start_date'])
     end_date = get_date(args['end_date'])
     universe = args['universe']
     frequency = args['frequency']
     capital = 100000000
 
-    # main logic
-    start_date_index = -1
-    end_date_index = -1
+    # load dates
+    start_date_index = end_date_index = -1
     for i in range(0, len(trade_days)):
         if end_date_index == -1 and get_date(trade_days[i]) <= end_date:
             end_date_index = i
         if start_date_index == -1 and get_date(trade_days[i]) <= start_date:
             start_date_index = i
+
+    # init strategy and account
     handler = imp.load_source('strategy', 'strategy.py')
     account = Account(args['params'], universe, capital)
     daily_earn_rate = []

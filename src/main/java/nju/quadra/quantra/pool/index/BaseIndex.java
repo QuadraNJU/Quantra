@@ -17,6 +17,8 @@ public enum BaseIndex {
 
     public String name, dataFile;
 
+    private JSONObject jsonObject = new JSONObject();
+
     BaseIndex(String name, String dataFile) {
         this.name = name;
         this.dataFile = dataFile;
@@ -28,16 +30,15 @@ public enum BaseIndex {
     }
 
     public JSONObject getDataObject() {
-        if (!dataFile.isEmpty()) {
+        if (jsonObject.isEmpty() && !dataFile.isEmpty()) {
             try {
                 JSONReader reader = new JSONReader(new InputStreamReader(getClass().getResourceAsStream(dataFile), "UTF-8"));
-                JSONObject object = reader.readObject(JSONObject.class);
+                jsonObject = reader.readObject(JSONObject.class);
                 reader.close();
-                return object;
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
-        return new JSONObject();
+        return jsonObject;
     }
 }

@@ -7,7 +7,6 @@ import numpy as np
 def handle(account):
     """
     account 相关 API 参考：
-        account.universe     回测股票池中所有股票代码的 List
         account.cash         账户内的现金
         account.sec_pos      持仓的股票 Dict, key 为股票代码, value 为持有股数
         account.ref_price    当天所有股票的交易价格 Dict, key 为股票代码, value 为交易价格

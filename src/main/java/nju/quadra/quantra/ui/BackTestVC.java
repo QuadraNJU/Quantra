@@ -74,7 +74,6 @@ public class BackTestVC extends Pane {
         pool = choicePool.getItems().get(0);
         choicePool.setValue(pool);
 
-
         choiceIndex.getItems().addAll(BaseIndex.values());
         choiceIndex.getSelectionModel().selectedItemProperty().addListener(observable -> updateIndex());
 
@@ -214,14 +213,14 @@ public class BackTestVC extends Pane {
                         });
                         success[0] = true;
                     } else {
+                        String date = jsonObject.getString("date");
+                        Float cash = jsonObject.getFloat("cash");
+                        Float earnRate = jsonObject.getFloat("earn_rate");
+                        Float baseEarnRate = jsonObject.getFloat("base_earn_rate");
+                        dates.add(date);
+                        earnRates.add(earnRate);
+                        baseEarnRates.add(baseEarnRate);
                         Platform.runLater(() -> {
-                            String date = jsonObject.getString("date");
-                            Float cash = jsonObject.getFloat("cash");
-                            Float earnRate = jsonObject.getFloat("earn_rate");
-                            Float baseEarnRate = jsonObject.getFloat("base_earn_rate");
-                            dates.add(date);
-                            earnRates.add(earnRate);
-                            baseEarnRates.add(baseEarnRate);
                             progress.setProgress(jsonObject.getInteger("progress") / 100.0);
                             labelProgress.setText(jsonObject.getInteger("progress") + "%");
                             tableDetails.getItems().add(new DailyDetail(date, cash, earnRate, baseEarnRate));

@@ -1,0 +1,9 @@
+.jfx-list-view, .jfx-list-view * {
+    -fx-background-color: transparent;
+    -fx-text-fill: whitesmoke;
+    -fx-padding: 0;
+}
+
+.jfx-list-view .label {
+    -fx-padding: 5px;
+}

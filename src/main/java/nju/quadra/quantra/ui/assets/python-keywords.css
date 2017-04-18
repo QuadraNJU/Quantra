@@ -1,5 +1,6 @@
 .text {
     -fx-font-family: 'Consolas', 'Menlo', 'Monaco', 'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
+    -fx-font-size: 1.2em;
 }
 
 .keyword {

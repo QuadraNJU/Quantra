@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -44,21 +43,18 @@ public class PoolEditVC extends BorderPane {
     private FilteredList<SimpleStockInfo> filteredInfos = new FilteredList<>(infos);
     private CustomPool pool;
 
-    public PoolEditVC(Node parent) throws IOException {
-        pool = null;
-        FXUtil.loadFXML(this, getClass().getResource("assets/poolEdit.fxml"));
-        labelTitle.setText("新建股池");
-        addColumns();
-        loadPool();
-    }
-
-    public PoolEditVC(Node parent, CustomPool pool) throws IOException {
+    public PoolEditVC(CustomPool pool) throws IOException {
         this.pool = pool;
         FXUtil.loadFXML(this, getClass().getResource("assets/poolEdit.fxml"));
-        labelTitle.setText("修改股池");
-        fieldName.setText(pool.name);
         addColumns();
-        loadPool(pool);
+        if (pool != null) {
+            labelTitle.setText("修改股票池");
+            fieldName.setText(pool.name);
+            loadPool(pool);
+        } else {
+            labelTitle.setText("新增股票池");
+            loadStocks();
+        }
     }
 
     private void addColumns() {
@@ -73,7 +69,7 @@ public class PoolEditVC extends BorderPane {
         columnMarket.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().market));
     }
 
-    private void loadPool() {
+    private void loadStocks() {
         infos.setAll(StockData.getIndex().stream().map(SimpleStockInfo::new).collect(Collectors.toList()));
         table.setItems(filteredInfos);
         searchBox.textProperty().addListener(o -> filteredInfos.setPredicate(ssi -> {
@@ -96,7 +92,7 @@ public class PoolEditVC extends BorderPane {
     }
 
     private void loadPool(AbstractPool pool) {
-        loadPool();
+        loadStocks();
         for (SimpleStockInfo ssi : infos) {
             if (pool.getStockPool().contains(ssi.code)) {
                 ssi.isSelected = true;

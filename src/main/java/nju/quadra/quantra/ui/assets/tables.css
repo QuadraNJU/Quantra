@@ -17,11 +17,11 @@
 
 .table-view * {
     -fx-text-fill: whitesmoke;
-    -fx-font-size: 13px;
+    -fx-font-size: 1.02em;
 }
 
 .table-view .red * {
-    -fx-text-fill: #ff3232;
+    -fx-text-fill: #ff6464;
 }
 
 .table-view .green * {
