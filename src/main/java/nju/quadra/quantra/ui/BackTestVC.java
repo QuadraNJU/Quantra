@@ -17,7 +17,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import nju.quadra.quantra.data.BackTestHistory;
+import nju.quadra.quantra.data.BackTestHistoryData;
 import nju.quadra.quantra.data.StockPoolData;
+import nju.quadra.quantra.data.StrategyData;
 import nju.quadra.quantra.pool.AbstractPool;
 import nju.quadra.quantra.pool.CybPool;
 import nju.quadra.quantra.pool.HS300Pool;
@@ -35,6 +38,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by adn55 on 2017/3/29.
@@ -63,10 +68,18 @@ public class BackTestVC extends Pane {
     private AbstractStrategy strategy;
     private AbstractPool pool;
 
+    private ArrayList<String> dates = new ArrayList<>();
+    private ArrayList<Number> cashs = new ArrayList<>();
+    private ArrayList<Number> earnRates = new ArrayList<>();
+    private ArrayList<Number> baseEarnRates = new ArrayList<>();
+    private JSONObject resultObject = new JSONObject();
+
     public BackTestVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/backTest.fxml"));
-        this.strategy = strategy;
-        labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
+        if (strategy != null) {
+            this.strategy = strategy;
+            labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
+        }
         dateStart.setValue(LocalDate.of(2013, 1, 1));
         dateEnd.setValue(LocalDate.of(2013, 12, 31));
 
@@ -99,6 +112,38 @@ public class BackTestVC extends Pane {
         });
     }
 
+    public BackTestVC(BackTestHistory history) throws IOException {
+        this((AbstractStrategy) null);
+        AbstractStrategy usedStrategy = null;
+        for (AbstractStrategy strategy : StrategyData.getStrategyList()) {
+            if (strategy.time == history.strategyKey) {
+                usedStrategy = strategy;
+                break;
+            }
+        }
+        if (usedStrategy != null) {
+            this.strategy = usedStrategy;
+            labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
+        }
+
+        dateStart.setValue(history.dateStart);
+        dateEnd.setValue(history.dateEnd);
+        for (AbstractPool pool : choicePool.getItems()) {
+            if (pool.name.equals(history.poolName)) {
+                choicePool.setValue(pool);
+                onChangePoolAction();
+                break;
+            }
+        }
+
+        resultObject = history.resultObject;
+        dates = history.dates;
+        cashs = history.cashs;
+        earnRates = history.earnRates;
+        baseEarnRates = history.baseEarnRates;
+        loadResults();
+    }
+
     private void loadPools() {
         choicePool.getItems().clear();
         choicePool.getItems().addAll(new HS300Pool(), new ZxbPool(), new CybPool());
@@ -113,7 +158,6 @@ public class BackTestVC extends Pane {
                 break;
             }
         }
-        System.out.println(pool.name);
     }
 
     private void updateIndex() {
@@ -172,6 +216,30 @@ public class BackTestVC extends Pane {
         return barChart;
     }
 
+    private void loadResults() {
+        lineChart = QuantraLineChart.createFromDates(dates);
+        lineChart.addPath("策略收益率", Color.LIGHTPINK, earnRates);
+        lineChart.addPath("基准收益率", Color.WHITESMOKE, baseEarnRates);
+        updateIndex();
+
+        paneChart.setCenter(lineChart);
+        paneHist.setCenter(createHistogram(dates, earnRates));
+        DecimalFormat df = new DecimalFormat("#.##");
+        labelAnnualized.setText(df.format(resultObject.getFloat("annualized") * 100) + "%");
+        labelBaseAnnualized.setText(df.format(resultObject.getFloat("base_annualized") * 100) + "%");
+        labelWinRate.setText(df.format(resultObject.getFloat("win_rate") * 100) + "%");
+        labelAlpha.setText(df.format(resultObject.getFloat("alpha")));
+        labelBeta.setText(df.format(resultObject.getFloat("beta")));
+        labelSharp.setText(df.format(resultObject.getFloat("sharp")));
+        labelMaxDrawdown.setText(df.format(resultObject.getFloat("max_drawdown")));
+
+        tableDetails.getItems().addAll(
+                IntStream.range(0, dates.size())
+                        .mapToObj(i -> new DailyDetail(dates.get(i), cashs.get(i).floatValue(), earnRates.get(i).floatValue(), baseEarnRates.get(i).floatValue()))
+                        .collect(Collectors.toList())
+        );
+    }
+
     @FXML
     private void onBackAction() throws IOException {
         UIContainer.loadContent(new StrategyListVC());
@@ -188,42 +256,38 @@ public class BackTestVC extends Pane {
                 PPAP.extractEngine("data/python");
                 strategy.extract("data/python");
                 PPAP ppap = new PPAP("python engine.py", "data/python");
-                ArrayList<String> dates = new ArrayList<>();
-                ArrayList<Number> earnRates = new ArrayList<>();
-                ArrayList<Number> baseEarnRates = new ArrayList<>();
+                dates.clear();
+                cashs.clear();
+                earnRates.clear();
+                baseEarnRates.clear();
                 final boolean[] success = {false};
                 ppap.setOutputHandler(out -> {
                     JSONObject jsonObject = JSON.parseObject(out);
                     if (jsonObject.containsKey("success")) {
-                        lineChart = QuantraLineChart.createFromDates(dates);
-                        lineChart.addPath("策略收益率", Color.LIGHTPINK, earnRates);
-                        lineChart.addPath("基准收益率", Color.WHITESMOKE, baseEarnRates);
-                        updateIndex();
-                        Platform.runLater(() -> {
-                            paneChart.setCenter(lineChart);
-                            paneHist.setCenter(createHistogram(dates, earnRates));
-                            DecimalFormat df = new DecimalFormat("#.##");
-                            labelAnnualized.setText(df.format(jsonObject.getFloat("annualized") * 100) + "%");
-                            labelBaseAnnualized.setText(df.format(jsonObject.getFloat("base_annualized") * 100) + "%");
-                            labelWinRate.setText(df.format(jsonObject.getFloat("win_rate") * 100) + "%");
-                            labelAlpha.setText(df.format(jsonObject.getFloat("alpha")));
-                            labelBeta.setText(df.format(jsonObject.getFloat("beta")));
-                            labelSharp.setText(df.format(jsonObject.getFloat("sharp")));
-                            labelMaxDrawdown.setText(df.format(jsonObject.getFloat("max_drawdown")));
-                        });
                         success[0] = true;
+                        resultObject = jsonObject;
+                        Platform.runLater(this::loadResults);
+                        BackTestHistoryData.pushBackTestInfo(new BackTestHistory(
+                                System.currentTimeMillis(),
+                                strategy.time,
+                                labelStrategy.getText(),
+                                pool.name,
+                                dateStart.getValue(),
+                                dateEnd.getValue(),
+                                resultObject,
+                                dates,
+                                cashs,
+                                earnRates,
+                                baseEarnRates
+                        ));
                     } else {
-                        String date = jsonObject.getString("date");
-                        Float cash = jsonObject.getFloat("cash");
-                        Float earnRate = jsonObject.getFloat("earn_rate");
-                        Float baseEarnRate = jsonObject.getFloat("base_earn_rate");
-                        dates.add(date);
-                        earnRates.add(earnRate);
-                        baseEarnRates.add(baseEarnRate);
+                        dates.add(jsonObject.getString("date"));
+                        cashs.add(jsonObject.getFloat("cash"));
+                        earnRates.add(jsonObject.getFloat("earn_rate"));
+                        baseEarnRates.add(jsonObject.getFloat("base_earn_rate"));
                         Platform.runLater(() -> {
                             progress.setProgress(jsonObject.getInteger("progress") / 100.0);
                             labelProgress.setText(jsonObject.getInteger("progress") + "%");
-                            tableDetails.getItems().add(new DailyDetail(date, cash, earnRate, baseEarnRate));
                         });
                     }
                 });

@@ -2,4 +2,4 @@
 target
 *.iml
 stock_data.*
-data/
+/data/

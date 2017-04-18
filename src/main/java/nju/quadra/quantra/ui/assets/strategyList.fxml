@@ -2,19 +2,44 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="策略列表">
+      <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="我的策略">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <VBox fx:id="vboxStrategy" layoutX="20.0" layoutY="49.0" prefHeight="200.0" prefWidth="960.0" />
+      <VBox layoutX="20.0" layoutY="59.0" maxHeight="1.7976931348623157E308" spacing="10.0">
+         <children>
+            <VBox fx:id="vboxStrategy" prefHeight="200.0" prefWidth="960.0" />
+            <Label stylesheets="@textColor.css" text="最近 20 条回测历史">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="HISTORY" size="24.0" />
+               </graphic>
+            </Label>
+             <TableView fx:id="tableBackTestHistory" maxHeight="1.7976931348623157E308" stylesheets="@tables.css">
+                 <columns>
+                     <TableColumn prefWidth="200.0" sortable="false" text="回测时间" />
+                     <TableColumn prefWidth="580.0" sortable="false" text="策略名称" />
+                     <TableColumn prefWidth="150.0" sortable="false" text="股票池" />
+                 </columns>
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+             </TableView>
+         </children>
+      </VBox>
       <JFXButton layoutX="768.0" layoutY="13.0" onAction="#onArenaAction" stylesheets="@textColor.css" text="策略角斗场">
          <font>
             <Font size="16.0" />
