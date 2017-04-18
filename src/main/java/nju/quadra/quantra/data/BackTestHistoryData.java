@@ -13,7 +13,7 @@ public class BackTestHistoryData {
     private static final String HISTORY_FILE = "data/backtest_history.json";
     private static List<BackTestHistory> backTestHistories = new ArrayList<>();
 
-    public static List getBackTestHistories() {
+    public static List<BackTestHistory> getBackTestHistories() {
         loadFromFile();
         return Collections.unmodifiableList(backTestHistories);
     }
@@ -37,7 +37,7 @@ public class BackTestHistoryData {
         }
     }
 
-    public static void saveToFile() {
+    private static void saveToFile() {
         try {
             JSONWriter writer = new JSONWriter(new FileWriter(HISTORY_FILE));
             writer.writeObject(backTestHistories);

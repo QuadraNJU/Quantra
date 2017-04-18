@@ -23,7 +23,15 @@
             <JFXListView fx:id="listSystem" />
             <Label text="自选股票池" textFill="LIGHTGRAY" />
             <JFXListView fx:id="listUser" />
+            <JFXButton onAction="#onAddAction" stylesheets="@textColor.css" text="添加股票池">
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLUS_CIRCLE" size="20.0" />
+               </graphic>
+            </JFXButton>
          </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
       </VBox>
    </left>
    <center>
@@ -57,11 +65,6 @@
                         <JFXButton fx:id="btnDelete" onAction="#onDeleteAction" text="删除" visible="false">
                            <graphic>
                               <MaterialDesignIconView fill="WHITESMOKE" glyphName="DELETE" size="20.0" />
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton onAction="#onAddAction" text="添加">
-                           <graphic>
-                              <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLUS_CIRCLE" size="20.0" />
                            </graphic>
                         </JFXButton>
                      </children>

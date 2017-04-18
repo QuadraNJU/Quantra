@@ -48,7 +48,7 @@ public class UIContainer extends Stage {
     private JFXListView<Label> searchList;
     @FXML
     private VBox paneCompareList;
-    public static VBox paneCompareListS;
+    private static VBox paneCompareListS;
     private static int loadingCount = 0;
 
     public UIContainer() {

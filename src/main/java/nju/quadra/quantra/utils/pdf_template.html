@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            font-family: 'Source Han Sans SC', 'Microsoft Yahei', 'PingFang SC', 'Heiti SC', sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: dimgray solid .5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Quantra 回测报告</h1>
+<p>报告生成时间: __now__</p>
+<h2>回测参数</h2>
+<p>
+    <strong>所选策略: </strong>__strategy__<br/>
+    <strong>日期区间: </strong>__date_range__<br/>
+    <strong>股票池: </strong>__pool__<br/>
+</p>
+<h2>回测结果</h2>
+<table>
+    <tbody>
+    <tr>
+        <th>年化收益率</th>
+        <th>基准年化收益率</th>
+        <th>策略胜率</th>
+        <th>阿尔法</th>
+        <th>贝塔</th>
+        <th>夏普比率</th>
+        <th>最大回撤</th>
+    </tr>
+    <tr>
+        <td>__annual__</td>
+        <td>__base_annual__</td>
+        <td>__win_rate__</td>
+        <td>__alpha__</td>
+        <td>__beta__</td>
+        <td>__sharp__</td>
+        <td>__max_drawdown__</td>
+    </tr>
+    </tbody>
+</table>
+<h2>策略收益率比较</h2>
+<p>
+    <img src="data/chart1.png"/>
+</p>
+<h2>收益率分布</h2>
+<p>
+    <img src="data/chart2.png"/>
+</p>
+<h2>每周期收益详情</h2>
+<table>
+    <tbody>
+    <tr>
+        <th>调仓日期</th>
+        <th>现金</th>
+        <th>基准收益率</th>
+        <th>策略收益率</th>
+    </tr>
+    __details__
+    </tbody>
+</table>
+</body>
+</html>

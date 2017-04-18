@@ -1,7 +1,7 @@
 package nju.quadra.quantra.data;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONCreator;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,17 +42,23 @@ public class BackTestHistory {
         this.baseEarnRates = baseEarnRates;
     }
 
-    public String getTime() {
-        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        return sdf.format(timestamp);
-    }
-
     public String getStrategyDescription() {
         return strategyDescription;
     }
 
     public String getPoolName() {
         return poolName;
+    }
+
+    @JSONField(serialize = false)
+    public String getTime() {
+        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        return sdf.format(timestamp);
+    }
+
+    @JSONField(serialize = false)
+    public float getRelativeRate() {
+        return (resultObject.getFloat("annualized") - resultObject.getFloat("base_annualized")) * 100;
     }
 
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView fx:id="tableBackTestHistory" maxHeight="1.7976931348623157E308" stylesheets="@tables.css">
+         <columns>
+            <TableColumn prefWidth="200.0" sortable="false" text="回测时间" />
+            <TableColumn prefWidth="430.0" sortable="false" text="策略描述" />
+            <TableColumn prefWidth="150.0" sortable="false" text="股票池" />
+            <TableColumn prefWidth="150.0" sortable="false" text="超额收益率(%)" />
+         </columns>
+         <BorderPane.margin>
+            <Insets bottom="15.0" top="10.0" />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <top>
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="labelDate" stylesheets="@textColor.css" text="回测历史记录（最近 20 条）">
+               <font>
+                  <Font size="32.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="HISTORY" size="40" />
+               </graphic>
+            </Label>
+            <JFXButton layoutX="878.0" layoutY="3.0" onAction="#onBackAction" stylesheets="@textColor.css" text="返回">
+               <graphic>
+                  <MaterialDesignIconView fill="WHITESMOKE" glyphName="ARROW_LEFT" size="24" />
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </Pane>
+   </top>
+   <padding>
+      <Insets left="20.0" right="20.0" />
+   </padding>
+</fx:root>

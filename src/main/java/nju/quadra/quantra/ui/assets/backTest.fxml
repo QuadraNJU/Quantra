@@ -17,14 +17,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" style="-: ;" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" type="Pane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="labelDate" layoutX="20.0" layoutY="10.0" stylesheets="@textColor.css" text="策略回测">
          <font>
             <Font size="32.0" />
          </font>
       </Label>
-      <JFXButton layoutX="752.0" layoutY="13.0" onAction="#onBackAction" stylesheets="@textColor.css" text="返回策略列表">
+      <JFXButton layoutX="769.0" layoutY="13.0" onAction="#onPDFAction" stylesheets="@textColor.css" text="导出为PDF">
+         <graphic>
+            <MaterialDesignIconView fill="WHITESMOKE" glyphName="FILE_PDF" size="24" />
+         </graphic>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="623.0" layoutY="13.0" onAction="#onBackAction" stylesheets="@textColor.css" text="返回策略列表">
          <graphic>
             <MaterialDesignIconView fill="WHITESMOKE" glyphName="ARROW_LEFT" size="24" />
          </graphic>

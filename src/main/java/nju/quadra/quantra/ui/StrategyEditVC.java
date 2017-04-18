@@ -100,8 +100,7 @@ public class StrategyEditVC extends BorderPane {
         try {
             freq = Integer.parseInt(editFreq.getText());
             period = Integer.parseInt(editPeriod.getValue());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         if (name.isEmpty() || type.isEmpty() || freq <= 0 || (!type.equals("custom") && period <= 0)) {
             UIContainer.alert("错误", "策略信息不完整或有错误，请检查");

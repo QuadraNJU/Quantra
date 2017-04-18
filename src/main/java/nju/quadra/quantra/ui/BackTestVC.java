@@ -6,7 +6,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -17,6 +19,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import nju.quadra.quantra.data.BackTestHistory;
 import nju.quadra.quantra.data.BackTestHistoryData;
 import nju.quadra.quantra.data.StockPoolData;
@@ -30,8 +34,11 @@ import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.ui.chart.QuantraLineChart;
 import nju.quadra.quantra.utils.DateUtil;
 import nju.quadra.quantra.utils.FXUtil;
+import nju.quadra.quantra.utils.PDFUtil;
 import nju.quadra.quantra.utils.PPAP;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -73,6 +80,7 @@ public class BackTestVC extends Pane {
     private ArrayList<Number> earnRates = new ArrayList<>();
     private ArrayList<Number> baseEarnRates = new ArrayList<>();
     private JSONObject resultObject = new JSONObject();
+    private BackTestHistory history;
 
     public BackTestVC(AbstractStrategy strategy) throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/backTest.fxml"));
@@ -124,6 +132,8 @@ public class BackTestVC extends Pane {
         if (usedStrategy != null) {
             this.strategy = usedStrategy;
             labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
+        } else {
+            labelStrategy.setText(history.strategyDescription);
         }
 
         dateStart.setValue(history.dateStart);
@@ -136,6 +146,7 @@ public class BackTestVC extends Pane {
             }
         }
 
+        this.history = history;
         resultObject = history.resultObject;
         dates = history.dates;
         cashs = history.cashs;
@@ -220,6 +231,11 @@ public class BackTestVC extends Pane {
         lineChart = QuantraLineChart.createFromDates(dates);
         lineChart.addPath("策略收益率", Color.LIGHTPINK, earnRates);
         lineChart.addPath("基准收益率", Color.WHITESMOKE, baseEarnRates);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(paneChart.snapshot(new SnapshotParameters(), null), null), "png", new File("data/1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         updateIndex();
 
         paneChart.setCenter(lineChart);
@@ -247,6 +263,10 @@ public class BackTestVC extends Pane {
 
     @FXML
     private void onRunAction() {
+        if (strategy == null) {
+            UIContainer.alert("提示", "此策略已被修改或删除，请返回重新选择策略");
+            return;
+        }
         labelProgress.setText("0%");
         progress.setProgress(0);
         running.setVisible(true);
@@ -267,19 +287,13 @@ public class BackTestVC extends Pane {
                         success[0] = true;
                         resultObject = jsonObject;
                         Platform.runLater(this::loadResults);
-                        BackTestHistoryData.pushBackTestInfo(new BackTestHistory(
+                        history = new BackTestHistory(
                                 System.currentTimeMillis(),
-                                strategy.time,
-                                labelStrategy.getText(),
-                                pool.name,
-                                dateStart.getValue(),
-                                dateEnd.getValue(),
-                                resultObject,
-                                dates,
-                                cashs,
-                                earnRates,
-                                baseEarnRates
-                        ));
+                                strategy.time, labelStrategy.getText(), pool.name,
+                                dateStart.getValue(), dateEnd.getValue(),
+                                resultObject, dates, cashs, earnRates, baseEarnRates
+                        );
+                        BackTestHistoryData.pushBackTestInfo(history);
                     } else {
                         dates.add(jsonObject.getString("date"));
                         cashs.add(jsonObject.getFloat("cash"));
@@ -309,6 +323,35 @@ public class BackTestVC extends Pane {
                 running.setVisible(false);
             }
         }).start();
+    }
+
+    @FXML
+    private void onPDFAction() throws IOException {
+        if (history != null) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName("Quantra回测报告-" + strategy.name + "-" + pool.name + "-" + System.currentTimeMillis() + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF", "*.pdf"));
+            File file = fileChooser.showSaveDialog(new Stage());
+            if (file != null) {
+                SnapshotParameters param = new SnapshotParameters();
+                param.setFill(Color.BLACK);
+                ImageIO.write(SwingFXUtils.fromFXImage(paneChart.snapshot(param, null), null), "png", new File("data/chart1.png"));
+                ImageIO.write(SwingFXUtils.fromFXImage(paneHist.snapshot(param, null), null), "png", new File("data/chart2.png"));
+                new Thread(() -> {
+                    try {
+                        UIContainer.showLoading();
+                        PDFUtil.createPDF(history, file);
+                        Platform.runLater(() -> UIContainer.alert("提示", "PDF导出成功"));
+                        UIContainer.hideLoading();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Platform.runLater(() -> UIContainer.alert("错误", "PDF导出失败，请尝试重新运行回测"));
+                    }
+                }).start();
+            }
+        } else {
+            UIContainer.alert("提示", "请先运行回测");
+        }
     }
 
     public class DailyDetail {

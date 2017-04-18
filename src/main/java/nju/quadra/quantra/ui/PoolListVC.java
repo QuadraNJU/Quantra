@@ -85,6 +85,7 @@ public class PoolListVC extends BorderPane {
 
         updatePoolList();
         table.setItems(filteredInfos);
+        loadPool(new HS300Pool());
     }
 
     private void updatePoolList() {
