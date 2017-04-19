@@ -22,7 +22,6 @@ import nju.quadra.quantra.utils.FXUtil;
 import nju.quadra.quantra.utils.PPAP;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -55,8 +54,8 @@ public class StrategyArenaVC extends Pane {
         radioMom.setSelected(true);
         comboPeriod.getItems().setAll("指定形成期", "指定持有期");
         comboPeriod.setValue(comboPeriod.getItems().get(0));
-        dateStart.setValue(LocalDate.of(2013, 1, 1));
-        dateEnd.setValue(LocalDate.of(2013, 12, 31));
+        dateEnd.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
+        dateStart.setValue(dateEnd.getValue().minusMonths(6));
         comboPool.getItems().setAll(Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool()));
         comboPool.getItems().addAll(StockPoolData.getPoolMap().values());
         comboPool.setValue(comboPool.getItems().get(0));

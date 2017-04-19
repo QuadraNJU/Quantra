@@ -78,8 +78,6 @@ class Account:
         for index, _info in self.stocks.iterrows():
             if stock_data.loc[index + days - 1][code_column] == _info[code_column]:
                 result[_info[code_column]] = stock_data[column][index:index + days].tolist()
-            else:
-                result[_info[code_column]] = []
         return result
 
     def trade(self, stock, target):
@@ -102,7 +100,7 @@ def init():
     global stock_data
     stock_data = pandas.read_csv('../../stock_data.json', sep=',', header=None)
     global trade_days
-    trade_days = stock_data[1].drop_duplicates()
+    trade_days = stock_data[1].drop_duplicates().tolist()
 
 
 def run(args, thread_id=0):
@@ -120,6 +118,13 @@ def run(args, thread_id=0):
             end_date_index = i
         if start_date_index == -1 and get_date(trade_days[i]) <= start_date:
             start_date_index = i
+    if start_date_index == -1:
+        start_date_index = len(trade_days) - 1
+    if end_date_index == -1:
+        end_date_index = 0
+    if start_date_index <= end_date_index:
+        print >> sys.stderr, "选中日期范围内不包含交易日，请重新选择"
+        exit(1)
 
     # init strategy and account
     handler = imp.load_source('strategy', 'strategy.py')

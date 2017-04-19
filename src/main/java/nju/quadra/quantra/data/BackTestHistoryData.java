@@ -29,7 +29,7 @@ public class BackTestHistoryData {
 
     private static void loadFromFile() {
         try {
-            JSONReader reader = new JSONReader(new FileReader(HISTORY_FILE));
+            JSONReader reader = new JSONReader(new InputStreamReader(new FileInputStream(HISTORY_FILE), "UTF-8"));
             backTestHistories = reader.readObject(new TypeReference<List<BackTestHistory>>() {});
             reader.close();
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class BackTestHistoryData {
 
     private static void saveToFile() {
         try {
-            JSONWriter writer = new JSONWriter(new FileWriter(HISTORY_FILE));
+            JSONWriter writer = new JSONWriter(new OutputStreamWriter(new FileOutputStream(HISTORY_FILE), "UTF-8"));
             writer.writeObject(backTestHistories);
             writer.close();
         } catch (Exception e) {

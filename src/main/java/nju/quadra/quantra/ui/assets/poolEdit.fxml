@@ -13,7 +13,7 @@
 
 <fx:root maxHeight="1.7976931348623157E308" prefWidth="1000.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <TableView fx:id="table" maxHeight="1.7976931348623157E308">
+        <TableView fx:id="table" maxHeight="1.7976931348623157E308" stylesheets="@tables.css">
             <BorderPane.margin>
                 <Insets bottom="15.0" top="10.0" />
             </BorderPane.margin>

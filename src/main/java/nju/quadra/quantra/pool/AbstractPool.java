@@ -1,8 +1,8 @@
 package nju.quadra.quantra.pool;
 
+import nju.quadra.quantra.data.StockPoolData;
+
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,17 +10,16 @@ import java.util.Set;
  */
 public abstract class AbstractPool {
     public String name;
-    private static Map<String, Set<Integer>> stockPoolMap = new HashMap<>();
 
     public AbstractPool(String name) {
         this.name = name;
     }
 
     public Set<Integer> getStockPool() {
-        if (!stockPoolMap.containsKey(name)) {
-            stockPoolMap.put(name, loadStockPool());
+        if (!StockPoolData.getCache().containsKey(name)) {
+            StockPoolData.getCache().put(name, loadStockPool());
         }
-        return Collections.unmodifiableSet(stockPoolMap.get(name));
+        return Collections.unmodifiableSet(StockPoolData.getCache().get(name));
     }
 
     protected abstract Set<Integer> loadStockPool();

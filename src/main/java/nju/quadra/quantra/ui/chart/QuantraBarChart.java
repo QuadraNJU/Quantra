@@ -11,6 +11,7 @@ import javafx.scene.layout.Region;
 import nju.quadra.quantra.data.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -40,10 +41,11 @@ public class QuantraBarChart extends BarChart<String, Number> {
             String xValue = xAxis.getValueForDisplay(xPos);
             if (xValue != null) {
                 int size = getData().get(0).getData().size();
+                DecimalFormat df = new DecimalFormat("#.######");
                 for (int i = 0; i < size; i++) {
                     StockInfo info = (StockInfo) getData().get(0).getData().get(i).getExtraValue();
                     if (info != null && info.getDate().equals(xValue)) {
-                        toolTip.setText(xValue + "\n" + name + ": " + getData().get(0).getData().get(i).getYValue());
+                        toolTip.setText(xValue + "\n" + name + ": " + df.format(getData().get(0).getData().get(i).getYValue()));
                         if (xPos + 10 + toolTip.getWidth() > plotBackground.getWidth()) {
                             xPos -= toolTip.getWidth() + 20;
                         }

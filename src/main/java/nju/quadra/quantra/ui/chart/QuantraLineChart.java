@@ -53,14 +53,15 @@ public class QuantraLineChart extends LineChart<String, Number> {
                     if (date.equals(xValue)) {
                         StringBuilder tip = new StringBuilder();
                         int j = -1;
+                        DecimalFormat df = new DecimalFormat("#.######");
                         for (Series<String, Number> series : getData()) {
                             j++;
                             double yValue = dataList.get(j).get(i).doubleValue();
                             if (!Double.isNaN(yValue)) {
-                                tip.append("\n").append(series.getName()).append(": ").append(yValue);
+                                tip.append("\n").append(series.getName()).append(": ").append(df.format(yValue));
                             }
                         }
-                        toolTip.setText(xValue + tip);
+                        toolTip.setText(xValue + tip.toString());
                         if (xPos + 10 + toolTip.getWidth() > plotBackground.getWidth()) {
                             xPos -= toolTip.getWidth() + 20;
                         }

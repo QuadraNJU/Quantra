@@ -1,7 +1,8 @@
-package nju.quadra.quantra.ui;
+package nju.quadra.quantra;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import nju.quadra.quantra.ui.SplashVC;
 
 /**
  * Created by adn55 on 2017/3/7.

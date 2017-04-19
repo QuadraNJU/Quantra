@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import nju.quadra.quantra.data.StockData;
@@ -30,7 +31,7 @@ import static nju.quadra.quantra.utils.StockTableUtil.*;
  */
 public class PoolListVC extends BorderPane {
     @FXML
-    private JFXListView<Label> listSystem, listUser;
+    private JFXListView<Label> listSystem, listIndustries, listUser;
     @FXML
     private Label labelName;
     @FXML
@@ -46,18 +47,7 @@ public class PoolListVC extends BorderPane {
 
     public PoolListVC() throws IOException {
         FXUtil.loadFXML(this, getClass().getResource("assets/poolList.fxml"));
-        listSystem.setOnMouseClicked(event -> {
-            Label label = listSystem.getSelectionModel().getSelectedItem();
-            if (label != null) {
-                loadPool((AbstractPool) label.getUserData());
-            }
-        });
-        listUser.setOnMouseClicked(event -> {
-            Label label = listUser.getSelectionModel().getSelectedItem();
-            if (label != null) {
-                loadPool((AbstractPool) label.getUserData());
-            }
-        });
+        setListViewOnClick(listSystem, listIndustries, listUser);
 
         addColumn(table, "代码", param -> new ReadOnlyObjectWrapper<>(String.format("%06d", param.getValue().get().getCode())));
         addColumn(table, "名称", param -> new ReadOnlyObjectWrapper<>(param.getValue().get().getName()));
@@ -83,17 +73,36 @@ public class PoolListVC extends BorderPane {
         datePicker.setDayCellFactory(DateUtil.dayCellFactory);
         datePicker.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
 
-        updatePoolList();
+        loadSystemPoolList();
+        loadUserPoolList();
         table.setItems(filteredInfos);
         loadPool(new HS300Pool());
     }
 
-    private void updatePoolList() {
+    private void setListViewOnClick(ListView<Label>... lists) {
+        for (ListView<Label> list : lists) {
+            list.setOnMouseClicked(event -> {
+                Label label = list.getSelectionModel().getSelectedItem();
+                if (label != null) {
+                    loadPool((AbstractPool) label.getUserData());
+                }
+            });
+        }
+    }
+
+    private void loadSystemPoolList() {
         listSystem.getItems().clear();
-        listUser.getItems().clear();
+        listIndustries.getItems().clear();
         for (AbstractPool pool : Arrays.asList(new HS300Pool(), new ZxbPool(), new CybPool())) {
             addToListView(listSystem, pool);
         }
+        for (AbstractPool pool : IndustryPool.getPools()) {
+            addToListView(listIndustries, pool);
+        }
+    }
+
+    private void loadUserPoolList() {
+        listUser.getItems().clear();
         for (AbstractPool pool : StockPoolData.getPoolMap().values()) {
             addToListView(listUser, pool);
         }
@@ -135,7 +144,7 @@ public class PoolListVC extends BorderPane {
     private void onDeleteAction() {
         UIContainer.confirm("确认", "真的要删除这个股票池吗？", event -> {
             StockPoolData.removePool(selectedPool);
-            updatePoolList();
+            loadUserPoolList();
             loadPool(new HS300Pool());
         });
     }

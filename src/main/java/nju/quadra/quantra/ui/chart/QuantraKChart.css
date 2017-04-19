@@ -7,6 +7,12 @@
 .chart-plot-background {
     -fx-background-color: transparent;
 }
+.chart-legend {
+    -fx-background-color: transparent;
+}
+.chart-legend .label {
+    -fx-text-fill: whitesmoke;
+}
 .axis {
     -fx-tick-label-fill: whitesmoke;
 }

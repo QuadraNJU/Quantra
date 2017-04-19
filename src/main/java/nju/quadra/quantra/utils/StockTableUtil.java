@@ -37,6 +37,9 @@ public class StockTableUtil {
                     } else if (item <= -0.01) {
                         row.getStyleClass().add("green");
                     }
+                } else {
+                    setText(null);
+                    setGraphic(null);
                 }
             }
         });

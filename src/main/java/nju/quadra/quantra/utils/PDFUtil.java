@@ -40,9 +40,11 @@ public class PDFUtil {
         setArg("sharp", df.format(resultObject.getFloat("sharp")));
         setArg("max_drawdown", df.format(resultObject.getFloat("max_drawdown")));
 
+        DecimalFormat df2 = new DecimalFormat("#.######");
         setArg("details", IntStream.range(0, history.dates.size())
-                .mapToObj(i -> "<tr><td>" + history.dates.get(i) + "</td><td>" + history.cashs.get(i)+ "</td><td>"
-                        + history.earnRates.get(i) + "</td><td>" + history.baseEarnRates.get(i) + "</td></tr>")
+                .mapToObj(i -> "<tr><td>" + history.dates.get(i) + "</td><td>" + df2.format(history.cashs.get(i)) + "</td><td>"
+                        + df2.format(history.earnRates.get(i).floatValue() * 100) + "%</td><td>"
+                        + df2.format(history.baseEarnRates.get(i).floatValue() * 100) + "%</td></tr>")
                 .collect(Collectors.joining())
         );
 

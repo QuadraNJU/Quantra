@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -18,10 +19,15 @@ public class StockPoolData {
 
     private static final String POOL_FILE = "data/pool.json";
     private static HashMap<String, CustomPool> poolMap = new HashMap<>();
+    private static HashMap<String, Set<Integer>> poolCache = new HashMap<>();
 
     public static Map<String, CustomPool> getPoolMap() {
         loadFromFile();
         return Collections.unmodifiableMap(poolMap);
+    }
+
+    public static Map<String, Set<Integer>> getCache() {
+        return poolCache;
     }
 
     public static void addPool(CustomPool pool) {
@@ -36,6 +42,7 @@ public class StockPoolData {
     public static void removePool(CustomPool pool) {
         loadFromFile();
         poolMap.remove(pool.name);
+        poolCache.remove(pool.name);
         saveToFile();
     }
 

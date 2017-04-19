@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import nju.quadra.quantra.AppRunner;
 import nju.quadra.quantra.data.StrategyData;
 import nju.quadra.quantra.strategy.AbstractStrategy;
 import nju.quadra.quantra.strategy.CustomStrategy;
@@ -73,7 +74,7 @@ public class StrategyEditVC extends BorderPane {
         } else {
             typeGroup.selectToggle(radioMomentum);
             try {
-                InputStream is = getClass().getResourceAsStream("../python/template.py");
+                InputStream is = AppRunner.class.getResourceAsStream("python/template.py");
                 byte[] buf = new byte[is.available()];
                 is.read(buf);
                 is.close();

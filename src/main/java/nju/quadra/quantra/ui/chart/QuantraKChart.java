@@ -19,6 +19,7 @@ import javafx.scene.shape.Path;
 import nju.quadra.quantra.data.StockInfo;
 import nju.quadra.quantra.data.StockInfoPtr;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -80,13 +81,14 @@ public class QuantraKChart extends XYChart<String, Number> {
                             yPos -= toolTip.getHeight() + 20;
                         }
                         toolTip.relocate(xPos + 10, yPos + 10);
-                        String tip = xValue + "\n开: " + info.getOpen() + " 收: " + info.getClose() + "\n高: " + info.getHigh() + " 低: " + info.getLow();
+                        StringBuilder tip = new StringBuilder(xValue + "\n开: " + info.getOpen() + " 收: " + info.getClose() + "\n高: " + info.getHigh() + " 低: " + info.getLow());
+                        DecimalFormat df = new DecimalFormat("#.######");
                         for (Series<String, Number> series : getData()) {
                             if (series.getNode() != null) {
-                                tip += "\n" + series.getName() + ": " + series.getData().get(i).getYValue();
+                                tip.append("\n").append(series.getName()).append(": ").append(df.format(series.getData().get(i).getYValue()));
                             }
                         }
-                        toolTip.setText(tip);
+                        toolTip.setText(tip.toString());
                         toolTip.setVisible(true);
                         break;
                     }

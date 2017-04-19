@@ -17,34 +17,6 @@
             </font>
          </Label>
         </HBox>
-      <!--<HBox alignment="CENTER">-->
-         <!--<children>-->
-            <!--<Label alignment="CENTER" text="最高值：" stylesheets="@textColor.css">-->
-               <!--<font>-->
-                  <!--<Font size="20.0" />-->
-               <!--</font>-->
-            <!--</Label>-->
-            <!--<Label fx:id="labelMax" text="10%" stylesheets="@textColor.css">-->
-               <!--<font>-->
-                  <!--<Font size="20.0" />-->
-               <!--</font>-->
-            <!--</Label>-->
-         <!--</children>-->
-      <!--</HBox>-->
-      <!--<HBox alignment="CENTER">-->
-         <!--<children>-->
-            <!--<Label alignment="CENTER" text="最低值：" stylesheets="@textColor.css">-->
-               <!--<font>-->
-                  <!--<Font size="20.0" />-->
-               <!--</font>-->
-            <!--</Label>-->
-            <!--<Label fx:id="labelMin" text="10%" stylesheets="@textColor.css">-->
-               <!--<font>-->
-                  <!--<Font size="20.0" />-->
-               <!--</font>-->
-            <!--</Label>-->
-         <!--</children>-->
-      <!--</HBox>-->
       <HBox alignment="CENTER">
          <children>
             <Label alignment="CENTER" stylesheets="@textColor.css" text="对数收益率方差：">

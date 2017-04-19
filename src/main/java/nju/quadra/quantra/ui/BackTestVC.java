@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.print.PrinterJob;
@@ -21,7 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.BackTestHistory;
 import nju.quadra.quantra.data.BackTestHistoryData;
@@ -43,7 +43,6 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -90,8 +89,8 @@ public class BackTestVC extends Pane {
             this.strategy = strategy;
             labelStrategy.setText(strategy.name + " [ " + strategy.getDescription() + " ]");
         }
-        dateStart.setValue(LocalDate.of(2013, 1, 1));
-        dateEnd.setValue(LocalDate.of(2013, 12, 31));
+        dateEnd.setValue(DateUtil.parseLocalDate(DateUtil.currentDate));
+        dateStart.setValue(dateEnd.getValue().minusYears(1));
 
         loadPools();
         pool = choicePool.getItems().get(0);
@@ -100,21 +99,23 @@ public class BackTestVC extends Pane {
         choiceIndex.getItems().addAll(BaseIndex.values());
         choiceIndex.getSelectionModel().selectedItemProperty().addListener(observable -> updateIndex());
 
+        DecimalFormat df = new DecimalFormat("#.######");
         tableDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("date"));
-        tableDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("cash"));
-        tableDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("baseEarnRate"));
-        tableDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("earnRate"));
-        ((TableColumn<DailyDetail, Float>) tableDetails.getColumns().get(3)).setCellFactory(column -> new TableCell<DailyDetail, Float>() {
+        ((TableColumn<DailyDetail, String>) tableDetails.getColumns().get(1)).setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(df.format(d.getValue().cash)));
+        ((TableColumn<DailyDetail, String>) tableDetails.getColumns().get(2)).setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(df.format(d.getValue().baseEarnRate * 100)));
+        ((TableColumn<DailyDetail, String>) tableDetails.getColumns().get(3)).setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(df.format(d.getValue().earnRate * 100)));
+        ((TableColumn<DailyDetail, String>) tableDetails.getColumns().get(3)).setCellFactory(column -> new TableCell<DailyDetail, String>() {
             @Override
-            protected void updateItem(Float item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 TableRow row = getTableRow();
                 if (!empty && item != null && row != null) {
                     setText(String.valueOf(item));
                     row.getStyleClass().removeAll("red", "green");
-                    if (item > 0) {
+                    Float value = Float.parseFloat(item);
+                    if (value > 0) {
                         row.getStyleClass().add("red");
-                    } else if (item < 0) {
+                    } else if (value < 0) {
                         row.getStyleClass().add("green");
                     }
                 }
@@ -223,7 +224,7 @@ public class BackTestVC extends Pane {
             negative.getData().add(new XYChart.Data<>(i + "%", negativeCount[i]));
         }
         barChart.getData().addAll(positive, negative);
-        barChart.getStylesheets().add(getClass().getResource("chart/QuantraKChart.css").toString());
+        barChart.getStylesheets().addAll(getClass().getResource("chart/QuantraKChart.css").toString(), getClass().getResource("chart/histogram.css").toString());
         barChart.setBarGap(0);
         barChart.setCategoryGap(1);
         return barChart;
@@ -233,11 +234,8 @@ public class BackTestVC extends Pane {
         lineChart = QuantraLineChart.createFromDates(dates);
         lineChart.addPath("策略收益率", Color.LIGHTPINK, earnRates);
         lineChart.addPath("基准收益率", Color.WHITESMOKE, baseEarnRates);
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(paneChart.snapshot(new SnapshotParameters(), null), null), "png", new File("data/1.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        lineChart.setLegendVisible(true);
+        lineChart.getStylesheets().add(getClass().getResource("chart/backTestChart.css").toString());
         updateIndex();
 
         paneChart.setCenter(lineChart);
@@ -344,6 +342,7 @@ public class BackTestVC extends Pane {
             webView.getEngine().load(new File(xmlFile).toURI().toString());
             PrinterJob job = PrinterJob.createPrinterJob();
             if (job != null && job.showPrintDialog(new Stage())) {
+                job.getJobSettings().setJobName("Quantra回测报告-" + strategy.name + "-" + pool.name + "-" + System.currentTimeMillis());
                 webView.getEngine().print(job);
                 job.endJob();
             }

@@ -58,7 +58,6 @@
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Label stylesheets="@textColor.css" text="所选策略">
@@ -86,14 +85,14 @@
                         </Label>
                         <JFXDatePicker fx:id="dateEnd" stylesheets="@pickers.css" />
                         <HBox />
+                        <Label stylesheets="@textColor.css" text="股票池">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <JFXComboBox fx:id="choicePool" onAction="#onChangePoolAction" stylesheets="@pickers.css" />
                      </children>
                   </HBox>
-                  <Label stylesheets="@textColor.css" text="股票池" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <JFXComboBox fx:id="choicePool" onAction="#onChangePoolAction" stylesheets="@pickers.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <HBox fx:id="running" alignment="CENTER_LEFT" spacing="10.0" visible="false">
@@ -223,7 +222,7 @@
                </graphic>
             </Label>
             <BorderPane fx:id="paneChart" prefHeight="400.0" />
-            <Label stylesheets="@textColor.css" text="收益率分布">
+            <Label stylesheets="@textColor.css" text="收益率分布直方图">
                <font>
                   <Font size="24.0" />
                </font>
@@ -247,8 +246,8 @@
                <columns>
                   <TableColumn prefWidth="75.0" sortable="false" text="调仓日期" />
                   <TableColumn prefWidth="75.0" sortable="false" text="现金" />
-                  <TableColumn prefWidth="75.0" sortable="false" text="基准收益率" />
-                  <TableColumn prefWidth="75.0" sortable="false" text="策略收益率" />
+                  <TableColumn prefWidth="75.0" sortable="false" text="基准收益率(%)" />
+                  <TableColumn prefWidth="75.0" sortable="false" text="策略收益率(%)" />
                </columns>
             </TableView>
          </children>

@@ -19,10 +19,12 @@
    <left>
       <VBox alignment="TOP_CENTER" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="系统股票池" textFill="LIGHTGRAY" />
-            <JFXListView fx:id="listSystem" />
+            <Label text="基本板块" textFill="LIGHTGRAY" />
+            <JFXListView fx:id="listSystem" VBox.vgrow="NEVER" />
+            <Label text="行业板块" textFill="LIGHTGRAY" />
+            <JFXListView fx:id="listIndustries" VBox.vgrow="ALWAYS" />
             <Label text="自选股票池" textFill="LIGHTGRAY" />
-            <JFXListView fx:id="listUser" />
+            <JFXListView fx:id="listUser" VBox.vgrow="ALWAYS" />
             <JFXButton onAction="#onAddAction" stylesheets="@textColor.css" text="添加股票池">
                <graphic>
                   <MaterialDesignIconView fill="WHITESMOKE" glyphName="PLUS_CIRCLE" size="20.0" />

@@ -1,5 +1,7 @@
 package nju.quadra.quantra.utils;
 
+import nju.quadra.quantra.AppRunner;
+
 import java.io.*;
 
 /**
@@ -21,7 +23,7 @@ public class PPAP {
     public static void extractEngine(String engine, String path) throws IOException {
         File filePath = new File(path);
         filePath.mkdirs();
-        InputStream is = PPAP.class.getResourceAsStream("../python/" + engine + ".py");
+        InputStream is = AppRunner.class.getResourceAsStream("python/" + engine + ".py");
         FileOutputStream os = new FileOutputStream(path + "/" + engine + ".py");
         byte[] buf = new byte[is.available()];
         is.read(buf);

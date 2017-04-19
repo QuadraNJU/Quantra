@@ -1,8 +1,9 @@
 package nju.quadra.quantra.strategy;
 
+import nju.quadra.quantra.AppRunner;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class PeriodStrategy extends AbstractStrategy{
     @Override
     public String getCode() {
         try {
-            InputStream is = getClass().getResourceAsStream("../python/" + type + ".py");
+            InputStream is = AppRunner.class.getResourceAsStream("python/" + type + ".py");
             byte[] buf = new byte[is.available()];
             is.read(buf);
             is.close();
