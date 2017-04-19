@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <style type="text/css">
         body {
             font-family: 'Source Han Sans SC', 'Microsoft Yahei', 'PingFang SC', 'Heiti SC', sans-serif;
@@ -8,12 +9,6 @@
 
         table {
             width: 100%;
-            border-collapse: collapse;
-        }
-
-        table, th, td {
-            border: dimgray solid .5px;
-            padding: 5px;
         }
     </style>
 </head>
@@ -22,9 +17,9 @@
 <p>报告生成时间: __now__</p>
 <h2>回测参数</h2>
 <p>
-    <strong>所选策略: </strong>__strategy__<br/>
-    <strong>日期区间: </strong>__date_range__<br/>
-    <strong>股票池: </strong>__pool__<br/>
+    <strong>所选策略: </strong>__strategy__<br>
+    <strong>日期区间: </strong>__date_range__<br>
+    <strong>股票池: </strong>__pool__<br>
 </p>
 <h2>回测结果</h2>
 <table>
@@ -51,11 +46,11 @@
 </table>
 <h2>策略收益率比较</h2>
 <p>
-    <img src="data/chart1.png"/>
+    <img src="chart1.png">
 </p>
 <h2>收益率分布</h2>
 <p>
-    <img src="data/chart2.png"/>
+    <img src="chart2.png">
 </p>
 <h2>每周期收益详情</h2>
 <table>

@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXProgressBar;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -19,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nju.quadra.quantra.data.BackTestHistory;
@@ -326,28 +328,24 @@ public class BackTestVC extends Pane {
     }
 
     @FXML
-    private void onPDFAction() throws IOException {
+    private void onPDFAction() throws Exception {
         if (history != null) {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName("Quantra回测报告-" + strategy.name + "-" + pool.name + "-" + System.currentTimeMillis() + ".pdf");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF", "*.pdf"));
-            File file = fileChooser.showSaveDialog(new Stage());
-            if (file != null) {
-                SnapshotParameters param = new SnapshotParameters();
-                param.setFill(Color.BLACK);
-                ImageIO.write(SwingFXUtils.fromFXImage(paneChart.snapshot(param, null), null), "png", new File("data/chart1.png"));
-                ImageIO.write(SwingFXUtils.fromFXImage(paneHist.snapshot(param, null), null), "png", new File("data/chart2.png"));
-                new Thread(() -> {
-                    try {
-                        UIContainer.showLoading();
-                        PDFUtil.createPDF(history, file);
-                        Platform.runLater(() -> UIContainer.alert("提示", "PDF导出成功"));
-                        UIContainer.hideLoading();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Platform.runLater(() -> UIContainer.alert("错误", "PDF导出失败，请尝试重新运行回测"));
-                    }
-                }).start();
+            SnapshotParameters param = new SnapshotParameters();
+            param.setFill(Color.BLACK);
+            paneChart.setStyle("-fx-background-color: black");
+            paneHist.setStyle("-fx-background-color: black");
+            ImageIO.write(SwingFXUtils.fromFXImage(paneChart.snapshot(param, null), null), "png", new File("data/chart1.png"));
+            ImageIO.write(SwingFXUtils.fromFXImage(paneHist.snapshot(param, null), null), "png", new File("data/chart2.png"));
+            paneChart.setStyle("");
+            paneHist.setStyle("");
+            String xmlFile = "data/report.html";
+            PDFUtil.createPage(history, xmlFile);
+            WebView webView = new WebView();
+            webView.getEngine().load(new File(xmlFile).toURI().toString());
+            PrinterJob job = PrinterJob.createPrinterJob();
+            if (job != null && job.showPrintDialog(new Stage())) {
+                webView.getEngine().print(job);
+                job.endJob();
             }
         } else {
             UIContainer.alert("提示", "请先运行回测");

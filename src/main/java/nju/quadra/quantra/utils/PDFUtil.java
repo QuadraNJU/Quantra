@@ -1,13 +1,8 @@
 package nju.quadra.quantra.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
 import nju.quadra.quantra.data.BackTestHistory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -23,7 +18,7 @@ public class PDFUtil {
 
     private static String template = "";
 
-    public static void createPDF(BackTestHistory history, File outFile) throws Exception {
+    public static void createPage(BackTestHistory history, String xmlFile) throws Exception {
         InputStream is = PDFUtil.class.getResourceAsStream("pdf_template.html");
         byte[] buf = new byte[is.available()];
         is.read(buf);
@@ -51,16 +46,9 @@ public class PDFUtil {
                 .collect(Collectors.joining())
         );
 
-        String xmlFile = "data/report.html";
         FileOutputStream os = new FileOutputStream(xmlFile);
         os.write(template.getBytes("UTF-8"));
         os.close();
-
-        Document doc = new Document();
-        PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(outFile));
-        doc.open();
-        XMLWorkerHelper.getInstance().parseXHtml(writer, doc, new FileInputStream(xmlFile));
-        doc.close();
     }
 
     private static void setArg(String name, String value) {
